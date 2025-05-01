@@ -1,6 +1,6 @@
 FROM node:22
 
-WORKDIR /app
+WORKDIR /chime_front
 
 # Install app dependencies
 COPY package*.json .
