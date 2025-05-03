@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+
+
+:root {
+    --primary-btn-background-color: #1B84FC;
+    --secondary-btn-background-color: #df007e;
+    --primary-btn-background-hover-color: #1e7fef;
+    --primary-background-color: #191833;
+    --secondary-text-color: #dae9f0;
+    --primary-text-color: white;
+    --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+body {
+    background-color: var(--primary-background-color);
+    color: var(--primary-text-color);
+    font-family: 'Nunito', sans-serif;
+
+
+}
+
+
+.chime-btn-primary {
+    background-color: var(--primary-btn-background-color);
+    padding: 0.4rem;
+    width: 5rem;
+    text-align: center;
+    border-radius: 0.2rem;
+    box-shadow: var(--box-shadow-for-btn);
+}
+
+.chime-btn-primary:hover {
+    background-color: var(--primary-btn-background-hover-color);
+}
+
+.chime-btn-ternary {
+    /* background-color: var(--secondary-btn-background-color); */
+    outline: 2px solid white;
+    padding: 0.4rem;
+    width: 7rem;
+    text-align: center;
+    border-radius: 0.2rem;
+    box-shadow: var(--box-shadow-for-btn)
+}
+
+.active {
+    color: var(--secondary-text-color);
+}

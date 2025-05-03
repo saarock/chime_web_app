@@ -1,0 +1,50 @@
+
+
+.chime-header {
+    padding: 1rem;
+}
+
+.chime-header-navbar {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.chime-header-navbar-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.chime-header-navbar-logos::after {
+    content: "Chime";
+    position: absolute;
+    right: -3.5rem;
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+}
+
+
+.chime-header-navbar-logo-image {
+    height: 5rem;
+    border-radius: 50%;
+    filter: brightness(300%);
+}
+
+.chime-header-navbar-navs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.9rem;
+    font-weight: 500;
+    position: relative;
+}
+.chime-header-navbar-navs-nav-link {
+    width: 100%;
+    height: 100%;
+    padding: 0.1rem;
+}
+.chime-header-navbar-navs-nav:hover {
+    transition: 1s;
+    transform: scale(110%);
+}
+

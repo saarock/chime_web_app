@@ -1,0 +1,8 @@
+.chime-login-with-google-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.chime-login-with-google-child-container {
+    width: 23rem;
+}

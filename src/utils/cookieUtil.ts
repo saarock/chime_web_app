@@ -1,0 +1,5 @@
+// cookieUtils.ts
+
+class CookieUtils {
+    
+}
