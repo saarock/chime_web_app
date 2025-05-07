@@ -1,30 +1,33 @@
+// Import all the necessary dependencies here
+import { AxiosError } from "axios";
+
 /**
- * 
- * @param error - error can be any thing
- * @param type - string that indicating the which type is running like login type , register type 
- * @throws An error accordingly
+ * Error handler method to handle all types of errors
+ * @param error 
  */
-const errorHandler = (error: any, type: string): never => {
-    // Check if the error is from the server response
+const errorhandler = (error: AxiosError): never => {
     if (error.response) {
-        const status = error.response.status; // HTTP status code
-        const data = error.response.data; // Response data (e.g., error message)
-
-        // If the error is Unauthorized (401), handle it specifically
-        if (status === 401) {
-            // Throw a specific error message for bad credentials
-            throw new Error(data?.error || "Unauthorized: Invalid credentials");
+        const data = error.response?.data;
+        if (typeof data === 'string') {
+            console.error(data);
+            throw new Error(data);
+        } else if (data && typeof data === 'object' && 'message' in data) {
+            const message = (data as { message: string }).message;
+            console.error(message);
+            throw new Error(message);
+        } else {
+            console.error(error.message);
+            throw new Error(error.message);
         }
-
-        // If it's not a 401 error, throw a general error based on the response data
-        throw new Error(typeof data === 'string' ? data : JSON.stringify(data));
     } else if (error.request) {
-        // If no response was received (e.g., no internet connection), throw this error
-        throw new Error(`No response received during ${type}`);
+        console.error(error.message);
+        throw new Error(error.message);
     } else {
-        // If the error is unexpected, throw a generic error with the message
-        throw new Error(error.message || `Something went wrong while ${type}`);
+        const fallback = error.message || "Please refresh your page because some internal errors occurred.";
+        console.error(fallback);
+        throw new Error(fallback);
     }
 };
 
-export default errorHandler;
+// Exports
+export default errorhandler;

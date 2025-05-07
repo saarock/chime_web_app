@@ -7,6 +7,7 @@
     --secondary-btn-background-color: #df007e;
     --primary-btn-background-hover-color: #1e7fef;
     --primary-background-color: #191833;
+    --secondary-background-color: #212137;
     --secondary-text-color: #dae9f0;
     --primary-text-color: white;
     --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -20,13 +21,12 @@ body {
 
 }
 
-
 .chime-btn-primary {
     background-color: var(--primary-btn-background-color);
     padding: 0.4rem;
     width: 5rem;
     text-align: center;
-    border-radius: 0.2rem;
+    border-radius: 0.6rem;
     box-shadow: var(--box-shadow-for-btn);
 }
 
@@ -40,10 +40,21 @@ body {
     padding: 0.4rem;
     width: 7rem;
     text-align: center;
-    border-radius: 0.2rem;
+    border-radius: 0.6rem;
     box-shadow: var(--box-shadow-for-btn)
 }
 
 .active {
     color: var(--secondary-text-color);
+}
+
+.chime-input {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-radius: 1rem;
+}
+
+.chime-input:focus {
+    outline: 2px solid #51516a;
 }

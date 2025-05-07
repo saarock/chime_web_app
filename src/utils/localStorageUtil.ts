@@ -1,5 +1,7 @@
 // LocalStorage.ts
 
+
+
 class LocalStorageUtil<T> {
 
     /**
@@ -25,11 +27,26 @@ class LocalStorageUtil<T> {
     getItems<T>(key: string): T | null {
         try {
             const data = localStorage.getItem(key);
-            return data ? (JSON.parse(data)) : null;
+            return data && JSON.parse(data) ? (JSON.parse(data)) : null;
         } catch (error) {
             console.error(error);
             return null;
 
+        }
+    }
+
+    /**
+     * 
+     * @param key Key can be any thing it should be string
+     * @returns Returns the boolean value [true or false]
+     */
+    checkItem(key: string): boolean {
+        try {
+            const data = localStorage.getItem(key);
+            // If there is data return true otherwise return false
+            return data && JSON.parse(data)? true : false;
+        } catch (error) {
+            return false;
         }
     }
 
@@ -61,4 +78,7 @@ class LocalStorageUtil<T> {
 }
 
 
-export default LocalStorageUtil;
+const localStorageUtil = new LocalStorageUtil();
+export default localStorageUtil;
+
+

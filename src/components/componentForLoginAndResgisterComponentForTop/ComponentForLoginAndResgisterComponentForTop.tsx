@@ -3,6 +3,7 @@ import { ComponentForLoginAndResgisterComponentForTopProps } from "../../types"
 import { NavLink } from "react-router"
 import logo from "../../assets/images/logo.png";
 import "../../styles";
+import LoginWithGoogleComponent from "../loginWithGoogleComponent/LoginWithGoogleComponent";
 
 
 /**
@@ -30,6 +31,7 @@ const ComponentForLoginAndResgisterComponentForTop: React.FC<ComponentForLoginAn
                         <span> <NavLink to={path} className={`chime-link`}>{name}</NavLink></span>
                 }</span>
             </div>
+            <LoginWithGoogleComponent />
         </div>
     )
 }

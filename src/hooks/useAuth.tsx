@@ -1,6 +1,5 @@
 // Import all the necessary dependencies
-
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RootState, User } from '../types';
 import { useSelector } from 'react-redux';
 
@@ -15,29 +14,18 @@ const useAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
 
-
     /**
-     * This function check that the current user is authenticated or not 
-     * @returns Boolean
+     * This hook check that the current user is authenticated or not 
      */
-    const checkTheUserIsLoginOrNot = useCallback(() => {
-        // if auth.isAuthenticated is true means user have login and return true if not then return false
-        return auth.isAuthenticated;
-    }, [auth]);
-
-
     useEffect(() => {
-        const isUserAuthenticated = checkTheUserIsLoginOrNot();
-        if (isUserAuthenticated) {
+        if (auth.isAuthenticated) {
             setIsAuthenticated(true);
             setUser(auth.user);
         } else {
-            console.log("user is not authenticated");
-            setIsAuthenticated(false)
+            setIsAuthenticated(false);
+            setUser(null); // reset user when logged out
         }
-
-    }, [auth]);
-
+    }, [auth.isAuthenticated, auth.user]);
 
     return { isAuthenticated, user }
 }

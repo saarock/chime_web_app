@@ -1,46 +1,89 @@
-// Import all the necessary dependencies
+// Import dependencies
 import AuthEndPoint from "../apis";
-import { UserLoginWithDetils } from "../types";
-import { errorHandler, responseHandler } from "../utils";
+import { AuthResponseData, UserLoginWithGoogleDetils } from "../types";
+import { AuthHelper } from "../helper";
+import { useClientLogout } from "../hooks";
 
+/**
+ * AuthService handles all authentication-related operations such as 
+ * login, token verification, and token refreshing.
+ */
 class AuthService {
 
     /**
-     * 
-     * @returns userData
+     * Logs in a user using Google credentials.
      */
-    static async verifyTokenOnEveryPageAndGetUserData() {
+    static async loginWithGoogle(userDetails: UserLoginWithGoogleDetils): Promise<AuthResponseData> {
         try {
-            const response = await AuthEndPoint.verifyTokenAndGetUserData();
-            const data = responseHandler(response, "get");
+            const response = await AuthEndPoint.login(userDetails);
+
+            if (!response?.data) {
+                console.error("Unexpected login with google response:", response);
+                useClientLogout();
+                throw new Error("No data returned from login with google API");
+            }
+
+            const data = response.data;
+
+            if (data.statusCode >= 400) {
+                throw new Error(data.message);
+            }
+
             return data;
-        } catch (error: any) {
-            errorHandler(error, "verifyToken and get user data");
+        } catch (error) {
+            AuthHelper.handleApiError(error);
         }
     }
 
+    /**
+     * Verifies the user's token on every page load and fetches user data.
+     */
+    static async verifyTokenOnEveryPageAndGetUserData(): Promise<AuthResponseData> {
+        try {
+            const response = await AuthEndPoint.verifyTokenAndGetUserData();
+            if (!response?.data) {
+                console.error("Unexpected verify token response:", response);
+                useClientLogout();
+                throw new Error("No data returned from verify user API");
 
-
+            }
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     /**
-     * 
-     * @param userDetails - The login data [email, password]
-     * @returns Axios API response
+     * Refreshes the access and refresh tokens using the stored refresh token.
      */
-    static async login(userDetails: UserLoginWithDetils) {
+    static async refreshTokens(): Promise<AuthResponseData> {
         try {
-            const response = await AuthEndPoint.login(userDetails);
-            const data = responseHandler(response, "post");
-            return data;
-        } catch (error: any) {
-            /** Call the function or util that can handel any type of the Errors and takes two 
-             *  argument one is error that can be any type and another one takes the types which means 
-             * at which api error occurs
-            **/
-            errorHandler(error, "login");
+            // Retrive the token from the cookie by using the helper
+            const refreshToken = AuthHelper.getRefreshToken();
+
+            if (!refreshToken) {
+                // If refreshTokne on the cookie is not available then immediately logout  
+                useClientLogout();
+                // And throw the new Eror
+                throw new Error("No refresh token found");
+            }
+
+
+            const response = await AuthEndPoint.refreshTokens(refreshToken);
+            if (!response?.data) {
+                console.error("Unexpected refresh token response:", response);
+                useClientLogout();
+                throw new Error("No data returned from refresh token API");
+            }
+
+            const axiosResponseData = response.data;
+            return axiosResponseData;
+
+
+        } catch (error) {
+            AuthHelper.handleApiError(error);
         }
     }
 }
-
 
 export default AuthService;

@@ -1,7 +1,7 @@
 
 //Import all the necessaray dependencies
 import { axiosClient } from "../../config";
-import { UserLoginWithDetils } from "../../types";
+import {  UserLoginWithGoogleDetils } from "../../types";
 
 
 
@@ -14,17 +14,22 @@ class AuthEndPoint {
      * @returns Axios Response
      */
     static async verifyTokenAndGetUserData() {
-        const response = await axiosClient.get("/user-uid");
+        const response = await axiosClient.get("/verify-user");
         return response;
     }
 
     /**
      * 
-     * @param userData - UserData includes user informations for login such as email or userName and password 
+     * @param googleData - includes [credentials, apiKey]
      * @returns Axios Response 
      */
-    static async login(userData: UserLoginWithDetils) {
-        const response = await axiosClient.post("/login", userData);
+    static async login(googleData: UserLoginWithGoogleDetils) {
+        const response = await axiosClient.post("/login-with-google", googleData);
+        return response;
+    }
+
+    static async refreshTokens(refreshToken:string) {
+        const response = await axiosClient.post("/refresh-tokens", {refreshToken}, {   timeout: 10000});
         return response;
     }
 }

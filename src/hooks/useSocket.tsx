@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+
+// Import all the necessary dependencies here 
+import { useCallback, useEffect, useState } from 'react'
 import { RootState } from '../types';
 import { useSelector } from 'react-redux';
 import { Socket } from 'socket.io-client';
@@ -12,7 +14,6 @@ const useSocket = () => {
     const [isSocketConnected, setIsSocketConnected] = useState(false);
     const [socket, setSocket] = useState<Socket | null>(null);
 
-
     /**
      * This function checks that socket is connected or not to the backend
      * If the socket is connected to the backend then change the socketConnected state and setThe socket
@@ -25,13 +26,13 @@ const useSocket = () => {
             setIsSocketConnected(false)
             setSocket(null);
         }
-    }, [socket]);
+    }, [reduxSocket]);
 
     useEffect(() => {
         checkThatTheSocketIsAlreadyConnectedOrNot();
-    }, [socket]);
+    }, [reduxSocket]);
 
-    return { isSocketConnected }
+    return { isSocketConnected, socket }
 }
 
 export default useSocket

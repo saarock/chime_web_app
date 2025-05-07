@@ -1,8 +1,6 @@
 // Import All the necessary dependencies here
 
 import ComponentForLoginAndResgisterComponentForTop from "../componentForLoginAndResgisterComponentForTop/componentForLoginAndResgisterComponentForTop"
-import LoginWithGoogleComponent from "../loginWithGoogleComponent/LoginWithGoogleComponent"
-
 
 
 /**
@@ -12,8 +10,7 @@ import LoginWithGoogleComponent from "../loginWithGoogleComponent/LoginWithGoogl
 const LoginComponent = () => {
   return (
     <div className="chime-login-container">
-      <ComponentForLoginAndResgisterComponentForTop title="Sign In To Your Account" secondTitle="Don't have Account?   " path="/register" name="register"/>
-        <LoginWithGoogleComponent />
+      <ComponentForLoginAndResgisterComponentForTop title="Sign In To Your Account" secondTitle="Don't have Account?   " path="/register" name="register" />
     </div>
   )
 }

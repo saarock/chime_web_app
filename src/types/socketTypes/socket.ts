@@ -1,5 +1,8 @@
-// Create the socket types interface for the reducer 
-export interface Socket {
-    isConnected: boolean,
-    socket: any
+import { Socket } from "socket.io-client";
+
+
+// Define the context with the socket type
+export interface SocketContextType {
+    socket: Socket;
 }
+

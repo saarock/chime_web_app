@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { serverLoginWithGoogle } from "../../apps";
 import { AppDispatch } from "../../apps/store";
 import "../../styles";
+import { useNavigate } from "react-router";
 
 
 
@@ -14,6 +15,8 @@ import "../../styles";
  * @returns Google Login button with response
  */
 const LoginWithGoogleComponent = () => {
+  const navigate = useNavigate();
+
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -31,6 +34,10 @@ const LoginWithGoogleComponent = () => {
         credentials: credentialsResponse.credential,
         clientId: credentialsResponse.clientId
       }));
+
+      // if user login successfully navigate to the chats
+      navigate("/chats")
+      
 
 
     } catch (error) {
