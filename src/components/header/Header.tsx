@@ -5,10 +5,9 @@ import "../../styles";
 import logo from "../../assets/images/logo.png";
 import { localStorageUtil } from '../../utils';
 import { LOCAL_STORAGE_USER_DATA_KEY } from '../../constant';
-
-// Import icons from react-icons
 import { FaHome, FaPhoneAlt, FaSignInAlt, FaUserPlus, FaComments, FaVideo } from 'react-icons/fa';
 import SearchComponent from '../searchComponent/searchComponent';
+import { CiSearch } from "react-icons/ci";
 
 const Header = () => {
 
@@ -70,8 +69,9 @@ const Header = () => {
         </ul>
 
         {
-          (isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY) )&& <div className='chime-header-nav-search-bar'>
+          (isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY)) && <div className='chime-header-nav-search-bar'>
             <SearchComponent />
+            <span className="chime-header-nav-search-bar-icon">{<CiSearch />}</span>
           </div>
         }
         <ul className='chime-header-navbar-navs'>

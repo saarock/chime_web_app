@@ -11,6 +11,7 @@
     --secondary-text-color: #dae9f0;
     --primary-text-color: white;
     --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    --little-color: #51516a;
 }
 
 body {
@@ -51,10 +52,11 @@ body {
 .chime-input {
     width: 100%;
     height: 100%;
-    text-align: center;
+    text-align:start;
+    padding-left: 1.2rem;
     border-radius: 1rem;
 }
 
 .chime-input:focus {
-    outline: 2px solid #51516a;
+    outline: 2px solid var(--little-color);
 }

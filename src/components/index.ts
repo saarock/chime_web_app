@@ -12,7 +12,7 @@ import ComponentForLoginAndResgisterComponentForTop from "./componentForLoginAnd
 import RegisterComponent from "./registerComponent/RegisterComponent";
 import SplashScreen from "./splashScreen/SplashScreen";
 import NonProtectedPageProtector from "./notProtectedComponentWrapper/NonProtectedPageProtector";
-import SearchComponent from "./searchComponent/searchComponent";
+
 export {
     Header,
     Footer,
@@ -26,5 +26,4 @@ export {
     RegisterComponent,
     SplashScreen,
     NonProtectedPageProtector,
-    SearchComponent,
 };
