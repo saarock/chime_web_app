@@ -1,5 +1,5 @@
 // Import All the necessary dependencies here
-
+import "../../styles/index";
 import ComponentForLoginAndResgisterComponentForTop from "../componentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop"
 
 

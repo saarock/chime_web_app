@@ -1,11 +1,14 @@
 
-import { LoginComponent } from '../../../components'
-
+import { ChimeRegisterLoginPageWrapper, LoginComponent } from '../../../components'
+import "../../../styles/index"
 const LoginPage = () => {
 
   return (
+    <ChimeRegisterLoginPageWrapper>
+      <LoginComponent />
+    </ChimeRegisterLoginPageWrapper>
 
-  <LoginComponent />
+
   )
 }
 

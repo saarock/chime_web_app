@@ -36,14 +36,14 @@ const Header = () => {
       name: "Login",
       icon: <FaSignInAlt />,
       isProtected: !isAuthenticated && !localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-      className: "chime-btn-primary",
+      className: "chime-btn chime-btn-primary",
     },
     {
       path: "/register",
       name: "Register",
       icon: <FaUserPlus />,
       isProtected: !isAuthenticated && !localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-      className: "chime-btn-ternary",
+      className: "chime-btn chime-btn-ternary",
     },
     {
       path: "/chats",
@@ -71,11 +71,11 @@ const Header = () => {
         </ul>
 
         {
-          (isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY)) ? <div className='chime-header-nav-search-bar'>
+          (isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY)) && <div className='chime-header-nav-search-bar'>
             <SearchComponent />
             <span className="chime-header-nav-search-bar-icon">{<CiSearch />}</span>
           </div>
-            : <LoadingComponent />
+         
         }
         <ul className='chime-header-navbar-navs'>
           {navs.map((currentNav) =>

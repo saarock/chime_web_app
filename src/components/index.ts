@@ -14,6 +14,7 @@ import SplashScreen from "./splashScreen/SplashScreen";
 import NonProtectedPageProtector from "./notProtectedComponentWrapper/NonProtectedPageProtector";
 import SearchComponent from "./searchComponent/SearchComponent";
 import LoadingComponent from "./loadingComponent/LoadingComponent";
+import ChimeRegisterLoginPageWrapper from "./chimeRegisterLoginPageWrapper/ChimeRegisterLoginPageWrapper";
 
 export {
     Header,
@@ -29,5 +30,6 @@ export {
     SplashScreen,
     NonProtectedPageProtector,
     SearchComponent,
-    LoadingComponent
+    LoadingComponent,
+    ChimeRegisterLoginPageWrapper
 };
