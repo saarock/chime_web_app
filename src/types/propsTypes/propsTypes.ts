@@ -23,7 +23,7 @@ export interface PageWrapperProps {
 
 // Button props
 export enum Variant {
-  primary = "priamry",
+  primary = "primary",
   secondary = "secondary",
   danger = "danger",
   ternary = "ternary"
@@ -43,10 +43,10 @@ export interface ButtonProps {
 
 export interface InputProps {
   placeHolder: React.InputHTMLAttributes<HTMLInputElement>["placeholder"],
-  type: React.InputHTMLAttributes<HTMLInputElement>['type'],
+  type?: React.InputHTMLAttributes<HTMLInputElement>['type'],
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-  variant: Variant,
-  disabled: boolean,
+  variant?: Variant,
+  disabled?: boolean,
 }
 
 //ComponentForLoginAndResgisterComponentForTop component props
