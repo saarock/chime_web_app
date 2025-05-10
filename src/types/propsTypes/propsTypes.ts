@@ -1,7 +1,7 @@
 
 // Import all the necessary dependencies
 
-import React, { JSX} from "react";
+import React, { JSX } from "react";
 
 // socketProvider props define here
 export interface SocketProviderProps {
@@ -23,18 +23,18 @@ export interface PageWrapperProps {
 
 // Button props
 export enum Variant {
-  "primary",
-  "secondary",
-  "danger",
-  "ternary"
+  primary = "priamry",
+  secondary = "secondary",
+  danger = "danger",
+  ternary = "ternary"
 }
 
 export interface ButtonProps {
   text: string,
-  type: React.ButtonHTMLAttributes<HTMLButtonElement>['type'],
-  onClick: () => {},
-  variant: Variant,
-  disabled: boolean,
+  type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'],
+  onClick: () => void,
+  variant?: Variant,
+  disabled?: boolean,
 }
 
 
@@ -44,7 +44,7 @@ export interface ButtonProps {
 export interface InputProps {
   placeHolder: React.InputHTMLAttributes<HTMLInputElement>["placeholder"],
   type: React.InputHTMLAttributes<HTMLInputElement>['type'],
-  onChange: (e:React.ChangeEvent<HTMLInputElement>) => void,
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   variant: Variant,
   disabled: boolean,
 }
@@ -53,7 +53,7 @@ export interface InputProps {
 export interface ComponentForLoginAndResgisterComponentForTopProps {
   title: string,
   secondTitle: string,
-  path:string,
+  path: string,
   name: string,
 }
 

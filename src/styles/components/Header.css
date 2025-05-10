@@ -59,7 +59,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--secondary-background-color);
     position: relative;
     width: 30rem;
     border-radius: 1rem;

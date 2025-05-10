@@ -35,14 +35,17 @@ body {
     background-color: var(--primary-btn-background-hover-color);
 }
 
+
+
 .chime-btn-ternary {
-    /* background-color: var(--secondary-btn-background-color); */
+    background-color: var(--secondary-btn-background-color);
     outline: 2px solid white;
     padding: 0.4rem;
     width: 7rem;
     text-align: center;
     border-radius: 0.6rem;
-    box-shadow: var(--box-shadow-for-btn)
+    box-shadow: var(--box-shadow-for-btn);
+    
 }
 
 .active {
@@ -59,4 +62,9 @@ body {
 
 .chime-input:focus {
     outline: 2px solid var(--little-color);
+    border: none;
+}
+
+.chime-input-secondary {
+    background-color: var(--secondary-background-color);
 }
