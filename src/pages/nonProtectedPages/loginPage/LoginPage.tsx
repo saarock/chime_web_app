@@ -2,7 +2,9 @@
 import { LoginComponent } from '../../../components'
 
 const LoginPage = () => {
+
   return (
+
   <LoginComponent />
   )
 }

@@ -1,14 +1,14 @@
 
 import { Footer, Header, PageWrapper } from './components'
 import { Outlet } from 'react-router-dom';
-import { ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
-const Layout = () => {
+const Layout = () => {  
   return (
     <>
       <Header />
       <PageWrapper>
-      <ToastContainer />
+        <ToastContainer />
         <Outlet />
       </PageWrapper>
       <Footer />

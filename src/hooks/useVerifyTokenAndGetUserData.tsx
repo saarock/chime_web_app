@@ -1,6 +1,6 @@
 // Import all the necessary dependencies here 
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { AuthService } from '../services';
 import { cookieUtil, localStorageUtil } from '../utils';
 import { ACCESS_TOKEN_KEY_NAME, LOCAL_STORAGE_USER_DATA_KEY, REFRESH_TOKEN_KEY_NAME } from '../constant';
@@ -20,6 +20,7 @@ import useRefreshTokensAndGetNewTokensWithUserData from './useRefreshTokensAndGe
  */
 
 const useVerifyTokenAndGetUserData = () => {
+
     const { setError, uiErrorMessage, setUiErrorMessage } = useRefreshTokensAndGetNewTokensWithUserData();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,7 +36,6 @@ const useVerifyTokenAndGetUserData = () => {
      * @async
      */
     const runOnEveryProtectedPageIfTheLocationChange = useCallback(async (): Promise<void> => {
-   
         const accessToken = cookieUtil.checkCookie(ACCESS_TOKEN_KEY_NAME);
         const refreshToken = cookieUtil.checkCookie(REFRESH_TOKEN_KEY_NAME);
         const userData = localStorageUtil.checkItem(LOCAL_STORAGE_USER_DATA_KEY);
@@ -46,10 +46,10 @@ const useVerifyTokenAndGetUserData = () => {
             return;
         }
 
-           // Verify user data and get the user data from the backend
-            const axiosResponseData = await AuthService.verifyTokenOnEveryPageAndGetUserData();
-            setUserData(axiosResponseData.data.userData);
-        
+        // Verify user data and get the user data from the backend
+        const axiosResponseData = await AuthService.verifyTokenOnEveryPageAndGetUserData();
+        setUserData(axiosResponseData.data.userData);
+
     }, [location.pathname]);
 
 
@@ -87,6 +87,7 @@ const useVerifyTokenAndGetUserData = () => {
             setUiErrorMessage("") // reset the value
         }
     }, [uiErrorMessage]);
+
 
     return { isLoading, errorMessage, isError, userData };
 };

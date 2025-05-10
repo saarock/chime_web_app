@@ -1,18 +1,20 @@
-import React, { useMemo } from 'react';
-import { NavLink } from 'react-router';
+// Import all the necessary dependencies here
+import { useMemo } from 'react';
 import { useAuth } from '../../hooks';
 import "../../styles";
 import logo from "../../assets/images/logo.png";
 import { localStorageUtil } from '../../utils';
 import { LOCAL_STORAGE_USER_DATA_KEY } from '../../constant';
 import { FaHome, FaPhoneAlt, FaSignInAlt, FaUserPlus, FaComments, FaVideo } from 'react-icons/fa';
-import SearchComponent from '../searchComponent/searchComponent';
+import SearchComponent from '../searchComponent/SearchComponent';
 import { CiSearch } from "react-icons/ci";
+import { useLocation, NavLink } from 'react-router-dom';
+import LoadingComponent from '../loadingComponent/LoadingComponent';
 
 const Header = () => {
-
   const { isAuthenticated } = useAuth();
-  const localStorageUtilCache = useMemo(() => localStorageUtil, []);
+  const location = useLocation();
+  const localStorageUtilCache = useMemo(() => localStorageUtil, [location.pathname]);
 
   const navs = [
     {
@@ -69,10 +71,11 @@ const Header = () => {
         </ul>
 
         {
-          (isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY)) && <div className='chime-header-nav-search-bar'>
+          (isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY)) ? <div className='chime-header-nav-search-bar'>
             <SearchComponent />
             <span className="chime-header-nav-search-bar-icon">{<CiSearch />}</span>
           </div>
+            : <LoadingComponent />
         }
         <ul className='chime-header-navbar-navs'>
           {navs.map((currentNav) =>
@@ -91,4 +94,4 @@ const Header = () => {
   );
 };
 
-export default React.memo(Header);
+export default Header;

@@ -17,24 +17,24 @@ import { localStorageUtil } from '../../utils';
  * @returns {JSX.Element} The protected content or an error message if the token is invalid
  */
 const PageProtector: React.FC<PageProtectorProps> = ({ children }: PageProtectorProps): JSX.Element => {
-    const { userData, isError, errorMessage  } = useVerifyTokenAndGetUserData();
+    const { userData, isError, errorMessage, } = useVerifyTokenAndGetUserData();
     const dispatch = useDispatch();
 
     /**
      * Saves user data to both localStorage and Redux when valid user data is available.
      */
     const saveTheUserDataInTheLocalStorageAndReduxState = useCallback((): void => {
-        if (userData) {
-            dispatch(login(userData));
-            localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, userData);
-        }
+        dispatch(login(userData));
+        localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, userData);
     }, [userData, dispatch]);
-
     /**
      * Updates localStorage and Redux state whenever userData changes.
      */
     useEffect(() => {
-        saveTheUserDataInTheLocalStorageAndReduxState();
+        if (userData) {
+            // If there is user data then run the saveTheUerDataInTheLocalStorageReduxState hook
+            saveTheUserDataInTheLocalStorageAndReduxState();
+        }
     }, [userData, saveTheUserDataInTheLocalStorageAndReduxState]);
 
     // If an error is present (e.g., invalid/expired token), render the error message.

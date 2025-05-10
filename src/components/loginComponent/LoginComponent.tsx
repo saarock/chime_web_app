@@ -1,6 +1,6 @@
 // Import All the necessary dependencies here
 
-import ComponentForLoginAndResgisterComponentForTop from "../componentForLoginAndResgisterComponentForTop/componentForLoginAndResgisterComponentForTop"
+import ComponentForLoginAndResgisterComponentForTop from "../componentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop"
 
 
 /**

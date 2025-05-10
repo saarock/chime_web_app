@@ -8,10 +8,12 @@ import Input from "./input/Input";
 import PageWrapper from "./pageWrapContainer/PageWrapper";
 import LoginComponent from "./loginComponent/LoginComponent";
 import LoginWithGoogleComponent from "./loginWithGoogleComponent/LoginWithGoogleComponent";
-import ComponentForLoginAndResgisterComponentForTop from "./componentForLoginAndResgisterComponentForTop/componentForLoginAndResgisterComponentForTop";
+import ComponentForLoginAndResgisterComponentForTop from "./componentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop";
 import RegisterComponent from "./registerComponent/RegisterComponent";
 import SplashScreen from "./splashScreen/SplashScreen";
 import NonProtectedPageProtector from "./notProtectedComponentWrapper/NonProtectedPageProtector";
+import SearchComponent from "./searchComponent/SearchComponent";
+import LoadingComponent from "./loadingComponent/LoadingComponent";
 
 export {
     Header,
@@ -26,4 +28,6 @@ export {
     RegisterComponent,
     SplashScreen,
     NonProtectedPageProtector,
+    SearchComponent,
+    LoadingComponent
 };

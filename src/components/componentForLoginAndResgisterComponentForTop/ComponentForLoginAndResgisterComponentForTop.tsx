@@ -1,6 +1,6 @@
 import React from "react"
 import { ComponentForLoginAndResgisterComponentForTopProps } from "../../types"
-import { NavLink } from "react-router"
+import { NavLink } from "react-router-dom"
 import logo from "../../assets/images/logo.png";
 import "../../styles";
 import LoginWithGoogleComponent from "../loginWithGoogleComponent/LoginWithGoogleComponent";

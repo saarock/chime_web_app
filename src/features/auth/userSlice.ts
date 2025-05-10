@@ -24,8 +24,8 @@ export const serverLoginWithGoogle = createAsyncThunk(
 
             // RETURN THE USERDATA;
             return userData.data.userData;
-        } catch (error: any) {
-            return thunkAPI.rejectWithValue(error.message);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
         }
     }
 )
@@ -63,7 +63,7 @@ const userSlice = createSlice({
             state.user = action.payload;
         }).addCase(serverLoginWithGoogle.rejected, (state, action) => {
             // handel asyn error
-        })
+        });
     }
 })
 

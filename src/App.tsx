@@ -23,7 +23,6 @@ const App = () => {
   useEffect(() => {
     const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
     const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
-
     if (accessToken && refreshToken) {
       initSocket(accessToken);
       initChatSocketEvents();
@@ -37,17 +36,15 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-
           // Non-Protected page
-            <Route index path="" element={<NonProtectedPageProtector><Home /></NonProtectedPageProtector>} />
-            <Route index path="/contact" element={<NonProtectedPageProtector><Contact /></NonProtectedPageProtector>} />
-            <Route index path="/login" element={<NonProtectedPageProtector><LoginPage /></NonProtectedPageProtector>} />
-            <Route index path="/register" element={<NonProtectedPageProtector><RegisterPage /></NonProtectedPageProtector>} />
+            <Route index element={<NonProtectedPageProtector><Home /></NonProtectedPageProtector>} />
+            <Route path="/contact" element={<NonProtectedPageProtector><Contact /></NonProtectedPageProtector>} />
+            <Route path="/login" element={<NonProtectedPageProtector><LoginPage /></NonProtectedPageProtector>} />
+            <Route path="/register" element={<NonProtectedPageProtector><RegisterPage /></NonProtectedPageProtector>} />
 
             // Protected page
-            <Route index path="/chats" element={<PageProtector><ChatsPage /></PageProtector>} />
-            <Route index path="/video-calls" element={<PageProtector><VideoCallPage /></PageProtector>} />
-
+            <Route path="/chats" element={<PageProtector><ChatsPage /></PageProtector>} />
+            <Route path="/video-calls" element={<PageProtector><VideoCallPage /></PageProtector>} />
 
           </Route>
         </Routes>

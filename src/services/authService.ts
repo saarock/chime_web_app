@@ -1,8 +1,9 @@
 // Import dependencies
 import AuthEndPoint from "../apis";
 import { AuthResponseData, UserLoginWithGoogleDetils } from "../types";
-import { AuthHelper } from "../helper";
 import { useClientLogout } from "../hooks";
+import { cookieUtil, errorhandler } from "../utils";
+import { REFRESH_TOKEN_KEY_NAME } from "../constant";
 
 /**
  * AuthService handles all authentication-related operations such as 
@@ -31,7 +32,7 @@ class AuthService {
 
             return data;
         } catch (error) {
-            AuthHelper.handleApiError(error);
+            throw errorhandler(error);
         }
     }
 
@@ -49,17 +50,19 @@ class AuthService {
             }
             return response.data;
         } catch (error) {
+            // throw whole to see the status code also if the status code is 401 then another request should call and 
+            // should generates new Tokens.
             throw error;
         }
     }
 
     /**
-     * Refreshes the access and refresh tokens using the stored refresh token.
+     * Refresh the access and refresh tokens using the stored refresh token.
      */
     static async refreshTokens(): Promise<AuthResponseData> {
         try {
             // Retrive the token from the cookie by using the helper
-            const refreshToken = AuthHelper.getRefreshToken();
+            const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
 
             if (!refreshToken) {
                 // If refreshTokne on the cookie is not available then immediately logout  
@@ -67,7 +70,6 @@ class AuthService {
                 // And throw the new Eror
                 throw new Error("No refresh token found");
             }
-
 
             const response = await AuthEndPoint.refreshTokens(refreshToken);
             if (!response?.data) {
@@ -81,7 +83,7 @@ class AuthService {
 
 
         } catch (error) {
-            AuthHelper.handleApiError(error);
+            throw errorhandler(error)
         }
     }
 }
