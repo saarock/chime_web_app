@@ -27,6 +27,7 @@ export interface UserLoginWithGoogleDetils {
 export interface UserAuthState {
     user: User | null,
     isAuthenticated: boolean,
+
 }
 
 

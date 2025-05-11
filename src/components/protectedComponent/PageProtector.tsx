@@ -35,7 +35,7 @@ const PageProtector: React.FC<PageProtectorProps> = ({ children }: PageProtector
             // If there is user data then run the saveTheUerDataInTheLocalStorageReduxState hook
             saveTheUserDataInTheLocalStorageAndReduxState();
         }
-    }, [userData, saveTheUserDataInTheLocalStorageAndReduxState]);
+    }, [userData]);
 
     // If an error is present (e.g., invalid/expired token), render the error message.
     if (isError) {

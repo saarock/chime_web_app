@@ -32,6 +32,11 @@ class AuthEndPoint {
         const response = await axiosClient.post("/refresh-tokens", {refreshToken}, {   timeout: 10000});
         return response;
     }
+
+    static async logoutUser(userId:string) {
+        const response = await axiosClient.post("/logout-user", {userId});
+        return response;
+    }
 }
 
 export default AuthEndPoint;

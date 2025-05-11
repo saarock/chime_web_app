@@ -1,0 +1,42 @@
+.chime-profile-header-container {
+    position: absolute;
+    bottom: -9rem;
+    right: 1rem;
+    background-color: rgba(22, 121, 149, 0.445);
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.chime-profile-header-navs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.chime-profile-header-navs-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    padding: 0.2rem;
+}
+
+.chime-profile-header-navs-item:hover {
+    color: var(--primary-hover-color);
+}
+
+.chime-logout {
+    color: rgb(234, 182, 182);
+    font-weight: bold;
+}
+
+.chime-logout:hover {
+    color: rgb(231, 222, 222);
+
+}

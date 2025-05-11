@@ -1,0 +1,63 @@
+
+/* Footer Styling */
+.chime-footer {
+  background-color: var(--primary-background-color);
+  padding: 60px 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.chime-footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--secondary-text-color);
+}
+
+.chime-footer-text {
+  font-size: 14px;
+  color: var(--primary-text-color);
+  margin-bottom: 20px;
+}
+
+.chime-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.chime-footer-link {
+  color: var(--secondary-text-color);
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+  padding: 5px;
+}
+
+.chime-footer-link:hover {
+  color: var(--primary-btn-background-color);
+}
+
+.chime-footer-link:active {
+  color: var(--primary-btn-background-hover-color);
+}
+
+.chime-footer-social {
+  margin-top: 20px;
+}
+
+.chime-footer-social-icon {
+  color: var(--secondary-text-color);
+  font-size: 16px;
+  margin: 0 15px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.chime-footer-social-icon:hover {
+  color: var(--primary-btn-background-color);
+}
+
+.chime-footer-social-icon:active {
+  color: var(--primary-btn-background-hover-color);
+}

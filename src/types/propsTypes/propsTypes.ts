@@ -47,6 +47,8 @@ export interface InputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   variant?: Variant,
   disabled?: boolean,
+  onMouseEnter? :() => void,
+  onMouseLeave?: () => void,
 }
 
 //ComponentForLoginAndResgisterComponentForTop component props

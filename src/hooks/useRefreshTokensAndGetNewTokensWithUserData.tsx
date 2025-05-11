@@ -52,7 +52,7 @@ const useRefreshTokensAndGetNewTokensWithUserData = () => {
                     : 'Something went wrong while refreshing tokens.'
             );
 
-        }
+        } 
     }, [dispatch]);
 
     /**
@@ -63,7 +63,7 @@ const useRefreshTokensAndGetNewTokensWithUserData = () => {
     const handleError = useCallback((error: unknown): void => {
         const isAxiosError = checkTheErrorWithTheStatusCode.isAxiosError(error);
         if (!isAxiosError) {
-    
+
             setUiErrorMessage(
                 error instanceof Error
                     ? error.message
@@ -73,7 +73,7 @@ const useRefreshTokensAndGetNewTokensWithUserData = () => {
         }
 
         const statusCode = checkTheErrorWithTheStatusCode.checkTheStatusCode(isAxiosError);
-        if (statusCode === 401) {
+        if (statusCode && statusCode === 401) { // if there is the status code and status code is 401 then generate new tokens
             refreshTokensAndGetUserDataWithTokens();
         } else {
             setUiErrorMessage(

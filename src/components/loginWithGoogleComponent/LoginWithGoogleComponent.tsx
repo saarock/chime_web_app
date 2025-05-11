@@ -8,6 +8,7 @@ import { AppDispatch } from "../../apps/store";
 import "../../styles";
 import { useState } from "react";
 import LoadingComponent from "../loadingComponent/LoadingComponent";
+import { toast } from "react-toastify";
 
 
 
@@ -36,11 +37,13 @@ const LoginWithGoogleComponent = () => {
       await dispatch(serverLoginWithGoogle({
         credentials: credentialsResponse.credential,
         clientId: credentialsResponse.clientId
-      }));
+      })).unwrap();
 
       // if user login successfully navigate to the chats
       window.location.replace("/chats"); // dont show the prev history before login and after login to the user
     } catch (error) {
+
+      toast.error(error instanceof Error ? error.message : "Login failed");
       console.error("Dispatch error", error);
     } finally {
       setLoading(false);

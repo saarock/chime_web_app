@@ -15,6 +15,8 @@ import NonProtectedPageProtector from "./notProtectedComponentWrapper/NonProtect
 import SearchComponent from "./searchComponent/SearchComponent";
 import LoadingComponent from "./loadingComponent/LoadingComponent";
 import ChimeRegisterLoginPageWrapper from "./chimeRegisterLoginPageWrapper/ChimeRegisterLoginPageWrapper";
+import WarnedHoverMessage from "./warnedHoverMessage/WarnedHoverMessage";
+import LogoutComponent from "./logoutComponent/LogoutComponent";
 
 export {
     Header,
@@ -31,5 +33,7 @@ export {
     NonProtectedPageProtector,
     SearchComponent,
     LoadingComponent,
-    ChimeRegisterLoginPageWrapper
+    ChimeRegisterLoginPageWrapper,
+    WarnedHoverMessage,
+    LogoutComponent,
 };

@@ -1,5 +1,8 @@
 .chime-header {
+    position: sticky;
+    top: 0;
     padding: 1rem;
+    z-index: 10000;
 }
 
 .chime-header-navbar {
@@ -15,10 +18,10 @@
     position: relative;
 }
 
-.chime-header-navbar-logos::after {
+.chime-header-navbar-logo-text {
     content: "Chime";
     position: absolute;
-    right: -3.5rem;
+    right: -3.7rem;
     font-family: 'Pacifico', cursive;
     font-size: 2rem;
 }
@@ -52,6 +55,7 @@
 .chime-header-navbar-navs-nav:hover {
     transition: 1s;
     transform: scale(110%);
+    
 }
 
 
@@ -69,4 +73,26 @@
     position: absolute;
     right: 1rem;
     color: var(--little-color);
+}
+
+.chime-header-navbar-navs-profile {
+    background-color: rgb(0, 0, 0);
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    width: 2.8rem;
+    height: 2.8rem;
+    outline: 2px solid white;
+    cursor: pointer;
+}
+
+.chime-header-navbar-navs-profile:hover {
+    outline: 4px solid white;
+
+}
+
+.chime-profile-nav-fallback-container {
+    position: absolute;
+    right: 0;
+    top: 3rem;
 }

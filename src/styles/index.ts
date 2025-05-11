@@ -7,3 +7,8 @@ export * from "./components/LoginComponent.css";
 export * from "./pages/LoginPage.css";
 export * from "./pages/RegisterPage.css";
 export * from "./components/ChimeRegisterLoginPageWrapper.css";
+export * from "./components/WarnedHoverMessage.css";
+export * from "./components/ProfileHeader.css";
+export * from "./components/Footer.css";
+
+

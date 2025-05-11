@@ -21,6 +21,7 @@ import useRefreshTokensAndGetNewTokensWithUserData from './useRefreshTokensAndGe
 
 const useVerifyTokenAndGetUserData = () => {
 
+    // THIS hook run if there is a error while verifying the user from the server
     const { setError, uiErrorMessage, setUiErrorMessage } = useRefreshTokensAndGetNewTokensWithUserData();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -84,7 +85,7 @@ const useVerifyTokenAndGetUserData = () => {
         if (uiErrorMessage.trim() !== '') {
             setIsError(true);
             setErrorMessage(uiErrorMessage);
-            setUiErrorMessage("") // reset the value
+            setUiErrorMessage("") // reset the value becuase if the error messge is same then the effect doesnot run in the case of the primative data types.
         }
     }, [uiErrorMessage]);
 

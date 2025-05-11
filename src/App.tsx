@@ -1,7 +1,7 @@
 
 // Start: Import necessary dependencies
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 import { Contact, Home, LoginPage, RegisterPage } from "./pages/nonProtectedIndex";
 import { NonProtectedPageProtector, PageProtector } from "./components";
@@ -15,6 +15,7 @@ import { initChatSocketEvents, initVideoSocketEvents } from "./features";
 
 
 const App = () => {
+
 
   /**
    * This useEffet hook helps to connect to the socket by checking the token if the tokens is there then user should connected to the socket
@@ -33,22 +34,22 @@ const App = () => {
   return (
 
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
+
+      <Routes>
+        <Route path="/" element={<Layout />}>
           // Non-Protected page
-            <Route index element={<NonProtectedPageProtector><Home /></NonProtectedPageProtector>} />
-            <Route path="/contact" element={<NonProtectedPageProtector><Contact /></NonProtectedPageProtector>} />
-            <Route path="/login" element={<NonProtectedPageProtector><LoginPage /></NonProtectedPageProtector>} />
-            <Route path="/register" element={<NonProtectedPageProtector><RegisterPage /></NonProtectedPageProtector>} />
+          <Route index element={<NonProtectedPageProtector><Home /></NonProtectedPageProtector>} />
+          <Route path="/contact" element={<NonProtectedPageProtector><Contact /></NonProtectedPageProtector>} />
+          <Route path="/login" element={<NonProtectedPageProtector><LoginPage /></NonProtectedPageProtector>} />
+          <Route path="/register" element={<NonProtectedPageProtector><RegisterPage /></NonProtectedPageProtector>} />
 
             // Protected page
-            <Route path="/chats" element={<PageProtector><ChatsPage /></PageProtector>} />
-            <Route path="/video-calls" element={<PageProtector><VideoCallPage /></PageProtector>} />
+          <Route path="/chats" element={<PageProtector><ChatsPage /></PageProtector>} />
+          <Route path="/video-calls" element={<PageProtector><VideoCallPage /></PageProtector>} />
 
-          </Route>
-        </Routes>
-      </BrowserRouter>
+        </Route>
+      </Routes>
+
 
     </>
   )

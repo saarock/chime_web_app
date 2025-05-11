@@ -86,6 +86,14 @@ class AuthService {
             throw errorhandler(error)
         }
     }
+
+    static async logoutUser(userId: string) {
+        try {
+            await AuthEndPoint.logoutUser(userId);
+        } catch (error) {
+            throw errorhandler(error);
+        }
+    }
 }
 
 export default AuthService;

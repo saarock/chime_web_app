@@ -4,6 +4,7 @@ import { AuthResponseData, UserAuthState, UserLoginWithGoogleDetils } from '../.
 import { AuthService } from '../../services'
 import { cookieUtil, localStorageUtil } from '../../utils'
 import { ACCESS_TOKEN_KEY_NAME, LOCAL_STORAGE_USER_DATA_KEY, REFRESH_TOKEN_KEY_NAME } from '../../constant'
+import { useClientLogout } from '../../hooks'
 
 
 
@@ -25,17 +26,33 @@ export const serverLoginWithGoogle = createAsyncThunk(
             // RETURN THE USERDATA;
             return userData.data.userData;
         } catch (error) {
+            console.log(error);
+
             return thunkAPI.rejectWithValue(error);
         }
     }
 )
 
 
+// logout user
+export const logoutUserFromServer = createAsyncThunk(
+    "logout-user",
+    async (userId: string, thunkAPI) => {
+        try {
+            await AuthService.logoutUser(userId);
+            useClientLogout();
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error);
+        }
+    }
+)
+
 
 // Define the initial state structure for user authentication
 const initialState: UserAuthState = {
     user: null, // No user is authenticated initially
     isAuthenticated: false, // Authentication status is false initially
+
 
 }
 
@@ -61,8 +78,15 @@ const userSlice = createSlice({
             // When the login is successful, update the authentication status to true
             state.isAuthenticated = true;
             state.user = action.payload;
-        }).addCase(serverLoginWithGoogle.rejected, (state, action) => {
-            // handel asyn error
+        }).addCase(serverLoginWithGoogle.rejected, (state, _) => {
+            state.isAuthenticated = false;
+            state.user = null;
+            state.isAuthenticated = false;
+        });
+
+        builder.addCase(logoutUserFromServer.fulfilled, (state, _) => {
+            state.isAuthenticated = false;
+            state.user = null;
         });
     }
 })

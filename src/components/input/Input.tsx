@@ -3,7 +3,8 @@ import { InputProps, Variant } from '../../types';
 import "../../styles/components/Input.css";
 
 
-const Input: React.FC<InputProps> = ({ placeHolder, disabled=false, onChange, variant=Variant.primary, type="button" }) => {
+const Input: React.FC<InputProps> = ({ placeHolder, disabled=false, onChange, variant=Variant.primary, type="button", onMouseEnter,onMouseLeave}) => {
+
     return (
         <input
             type={type}
@@ -11,6 +12,8 @@ const Input: React.FC<InputProps> = ({ placeHolder, disabled=false, onChange, va
             disabled={disabled}
             placeholder={placeHolder}
             onChange={onChange}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
 
         />
     )

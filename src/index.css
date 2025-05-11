@@ -12,6 +12,7 @@
     --primary-text-color: white;
     --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     --little-color: #51516a;
+    --primary-hover-color: #7a8084;
 }
 
 body {
@@ -40,7 +41,7 @@ body {
 }
 
 .chime-btn-primary:hover {
-    background-color: var(--primary-btn-background-hover-color);
+    background-color: var(--primary-btn-background-hover-color) !important;
 }
 
 
