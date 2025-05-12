@@ -3,6 +3,8 @@
     top: 0;
     padding: 1rem;
     z-index: 10000;
+    background-color: var(--primary-background-color);
+
 }
 
 .chime-header-navbar {

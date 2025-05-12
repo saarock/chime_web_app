@@ -72,3 +72,8 @@ body {
 .chime-input-secondary {
     background-color: var(--secondary-background-color);
 }
+.chime-input-primary {
+    padding: 1rem;
+    margin: 0.2rem;
+    outline: 2px solid var(--little-color);
+}

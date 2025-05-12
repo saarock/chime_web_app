@@ -5,7 +5,8 @@ import "../../styles";
 import logo from "../../assets/images/logo.png";
 import { localStorageUtil } from '../../utils';
 import { LOCAL_STORAGE_USER_DATA_KEY } from '../../constant';
-import { FaHome, FaPhoneAlt, FaSignInAlt, FaUserPlus, FaComments, FaVideo } from 'react-icons/fa';
+import { FaHome, FaPhoneAlt, FaSignInAlt, FaUserPlus, FaComments, FaVideo, } from 'react-icons/fa';
+import { IoIosNotifications } from "react-icons/io";
 import SearchComponent from '../searchComponent/SearchComponent';
 import { CiSearch } from "react-icons/ci";
 import { useLocation, NavLink } from 'react-router-dom';
@@ -106,6 +107,13 @@ const Header = () => {
       icon: <FaVideo />,
       isProtected: isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
       className: "",
+    },
+    {
+      path: "/notifications",
+      name: "notifications",
+      icon: <IoIosNotifications />,
+      isProtected: isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
+      className: "",
     }
   ];
 
@@ -143,6 +151,8 @@ const Header = () => {
           </div>
 
         }
+
+
         <ul className='chime-header-navbar-navs'>
           {
             navs.map((currentNav) =>
@@ -182,7 +192,7 @@ const Header = () => {
           {
             state.openTabs.length >= 0 && state.openTabs.map((tabId) => (
               tabId === "0" && (
-                <div className='chime-profile-nav-fallback-container' key={tabId}>
+                <div className='chime-profile-nav-fallback-container' key={tabId} onClick={(e) => e.stopPropagation()}>
                   <Suspense fallback="loading...">
                     <ProfileHeader />
                   </Suspense>

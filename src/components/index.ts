@@ -17,6 +17,7 @@ import LoadingComponent from "./loadingComponent/LoadingComponent";
 import ChimeRegisterLoginPageWrapper from "./chimeRegisterLoginPageWrapper/ChimeRegisterLoginPageWrapper";
 import WarnedHoverMessage from "./warnedHoverMessage/WarnedHoverMessage";
 import LogoutComponent from "./logoutComponent/LogoutComponent";
+import ChimeProfileComponent from "./chimeProfileComponent/ChimeProfileComponent";
 
 export {
     Header,
@@ -36,4 +37,5 @@ export {
     ChimeRegisterLoginPageWrapper,
     WarnedHoverMessage,
     LogoutComponent,
+    ChimeProfileComponent
 };

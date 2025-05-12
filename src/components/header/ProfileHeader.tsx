@@ -1,8 +1,16 @@
 import "../../styles/index";
 import { FaCog, FaUser } from "react-icons/fa";
 import LogoutComponent from "../logoutComponent/LogoutComponent";
+import { useNavigate } from "react-router-dom";
 
-const navItems = [
+
+
+const ProfileHeader = () => {
+
+  const navigate = useNavigate();
+
+
+  const navItems = [
   {
     name: "Setting",
     icon: <FaCog />,
@@ -12,15 +20,15 @@ const navItems = [
     name: "Profile",
     icon: <FaUser />,
     classSuffix: "profile",
+
   },
 ];
 
-const ProfileHeader = () => {
   return (
     <div className="chime-profile-header-container">
       <ul className="chime-profile-header-navs">
         {navItems.map((item) => (
-          <li key={item.name} className={`chime-profile-header-navs-item chime-${item.classSuffix}`}>
+          <li key={item.name} className={`chime-profile-header-navs-item chime-${item.classSuffix}`} onClick={() => navigate(item.name.toLowerCase())}>
             <span className="chime-profile-header-navs-icon">{item.icon}</span>
             <span className="chime-profile-header-navs-text">{item.name}</span>
           </li>

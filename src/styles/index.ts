@@ -10,5 +10,5 @@ export * from "./components/ChimeRegisterLoginPageWrapper.css";
 export * from "./components/WarnedHoverMessage.css";
 export * from "./components/ProfileHeader.css";
 export * from "./components/Footer.css";
-
-
+export * from "./components/ChimeProfileComponent.css";
+export * from "./pages/ChimeProfilePage.css";

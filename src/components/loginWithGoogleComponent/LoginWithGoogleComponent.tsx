@@ -19,10 +19,8 @@ import { toast } from "react-toastify";
 const LoginWithGoogleComponent = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
-
-
   const dispatch = useDispatch<AppDispatch>();
-
+  
 
   const loginWithGoogle = async (credentialsResponse: CredentialResponse) => {
     setLoading(true);
