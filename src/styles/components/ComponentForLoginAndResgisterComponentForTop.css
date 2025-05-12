@@ -1,0 +1,24 @@
+.chime-login-register-top-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chime-login-register-top-component-logo-container {
+    height: 10rem;    
+}
+.chime-login-register-top-component-logo {
+    height: 100%;
+}
+.chime-login-register-top-component-title-wrapper h1 {
+    font-size: 2rem;
+}
+.chime-login-register-top-component-second-title {
+    margin: 1.5rem;
+}
+
+.chime-link {
+    text-decoration: underline;
+    font-weight: 500;
+}
