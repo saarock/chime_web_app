@@ -3,9 +3,9 @@ import "../../../styles/index"
 
 const ChimeProfilePage = () => {
     return (
-        <div className="chime-profile-container">
+        // <div className="chime-profile-container">
             <ChimeProfileComponent/>
-        </div>
+        // </div>
     )
 }
 

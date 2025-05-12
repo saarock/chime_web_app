@@ -149,37 +149,28 @@
 
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .chime-profile-child-container {
-        max-width: 90%;
-        padding: 1.2rem;
-        margin: 1rem auto;
-    }
-
-    .chime-profile-image {
-        width: 80px;
-        height: 80px;
-    }
-
-    .chime-profile-name {
-        font-size: 1.3rem;
-    }
-
-    .chime-profile-details {
-        font-size: 0.85rem;
-        padding: 0.8rem;
-    }
+.chime-profile-table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-@media (max-width: 480px) {
-    .chime-profile-details div {
-        flex-direction: column;
-        gap: 0.2rem;
-    }
-
-    .chime-profile-edit-btn {
-        padding: 0.5rem;
-        font-size: 0.85rem;
-    }
+.chime-profile-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--secondary-text-color);
+  font-size: 0.9rem;
 }
+
+.chime-profile-table td strong {
+  color: var(--primary-btn-background-color);
+  font-weight: 600;
+}
+
+.chime-profile-table tr:last-child td {
+  border-bottom: none;
+}
+

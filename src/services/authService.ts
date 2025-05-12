@@ -50,9 +50,7 @@ class AuthService {
             }
             return response.data;
         } catch (error) {
-            // throw whole to see the status code also if the status code is 401 then another request should call and 
-            // should generates new Tokens.
-            throw error;
+            throw errorhandler(error);
         }
     }
 
@@ -80,10 +78,10 @@ class AuthService {
 
             const axiosResponseData = response.data;
             return axiosResponseData;
-
-
         } catch (error) {
-            throw errorhandler(error)
+
+            useClientLogout() // logout the user if refresh token expired or get's any error while refreshing the tokens
+            throw errorhandler(error);
         }
     }
 

@@ -6,7 +6,6 @@ import { cookieUtil, localStorageUtil } from '../utils';
 import { ACCESS_TOKEN_KEY_NAME, LOCAL_STORAGE_USER_DATA_KEY, REFRESH_TOKEN_KEY_NAME } from '../constant';
 import useClientLogout from './useClientLogout';
 import { User } from '../types';
-import useRefreshTokensAndGetNewTokensWithUserData from './useRefreshTokensAndGetNewTokensWithUserData';
 
 /**
  * Custom React hook to verify the user's token on every protected page load
@@ -20,9 +19,6 @@ import useRefreshTokensAndGetNewTokensWithUserData from './useRefreshTokensAndGe
  */
 
 const useVerifyTokenAndGetUserData = () => {
-
-    // THIS hook run if there is a error while verifying the user from the server
-    const { setError, uiErrorMessage, setUiErrorMessage } = useRefreshTokensAndGetNewTokensWithUserData();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
@@ -32,7 +28,7 @@ const useVerifyTokenAndGetUserData = () => {
 
     /**
      * Verifies the token and fetches user data when a protected page is loaded.
-     * Logs out the client if tokens are missing.
+     * Logout the client if tokens are missin from the client side.
      *
      * @async
      */
@@ -67,28 +63,12 @@ const useVerifyTokenAndGetUserData = () => {
             try {
                 await runOnEveryProtectedPageIfTheLocationChange();
             } catch (error) {
-                // Set the error so userRefreshHook... useEffect hook can take as a reactive and can bring the refreshs tokens with the user data from the backend.
-                setError(error);
+                setErrorMessage(error instanceof Error ? error.message : "Cannot verify the user");
             } finally {
                 setIsLoading(false);
             }
         })();
     }, [location.pathname]);
-
-
-
-
-    /**
-     * Updates local error state if the UI error message changes.
-     */
-    useEffect(() => {
-        if (uiErrorMessage.trim() !== '') {
-            setIsError(true);
-            setErrorMessage(uiErrorMessage);
-            setUiErrorMessage("") // reset the value becuase if the error messge is same then the effect doesnot run in the case of the primative data types.
-        }
-    }, [uiErrorMessage]);
-
 
     return { isLoading, errorMessage, isError, userData };
 };
