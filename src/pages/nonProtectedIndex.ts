@@ -5,4 +5,4 @@ import LoginPage from "./nonProtectedPages/loginPage/LoginPage";
 import RegisterPage from "./nonProtectedPages/registerPage/RegisterPage";
 
 // Export all the dependencie here
-export {Home, Contact, LoginPage, RegisterPage, }
+export default {Home, Contact, LoginPage, RegisterPage, }

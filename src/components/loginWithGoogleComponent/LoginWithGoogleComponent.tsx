@@ -30,7 +30,6 @@ const LoginWithGoogleComponent = () => {
       return;
     }
     try {
-
       // after checking the credentials loginFromTheGoogle
       await dispatch(serverLoginWithGoogle({
         credentials: credentialsResponse.credential,
@@ -40,7 +39,6 @@ const LoginWithGoogleComponent = () => {
       // if user login successfully navigate to the chats
       window.location.replace("/chats"); // dont show the prev history before login and after login to the user
     } catch (error) {
-
       toast.error(error instanceof Error ? error.message : "Login failed");
       console.error("Dispatch error", error);
     } finally {

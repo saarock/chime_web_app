@@ -5,10 +5,11 @@ import localStorageUtil from "./localStorageUtil";
 import cookieUtil from "./cookieUtil";
 import errorhandler from "./errorHandler";
 import checkTheErrorWithTheStatusCode from "./checkTheErrorWithStatusCode";
-
+import AuthUtil from "./authUtil";
 
 // exports
 export {
      asyncHandleError, localStorageUtil, cookieUtil, errorhandler,
      checkTheErrorWithTheStatusCode,
+     AuthUtil,
 };

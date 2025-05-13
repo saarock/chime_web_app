@@ -1,22 +1,34 @@
 // components/Button.jsx
-// All the necessary dependencies goes here
-import React from "react";
-import { ButtonProps } from "../../types";
-import "../../styles/components/Button.css";
 
+// Import necessary dependencies
+import React from "react"; // React library for JSX syntax and components
+import { ButtonProps } from "../../types"; // TypeScript types for props
+import "../../styles/components/Button.css"; // Import styles for the button component
 
+/**
+ * Button component that renders a customizable button element.
+ * 
+ * @param {ButtonProps} param0 - The props for the Button component.
+ * @param {string} param0.text - The text to display on the button.
+ * @param {Function} param0.onClick - The click handler function for the button.
+ * @param {string} [param0.type='button'] - The type of the button, can be 'button', 'submit', or 'reset'.
+ * @param {string} [param0.variant='primary'] - The variant of the button, which affects its styling. 
+ *        Possible values: 'primary', 'secondary', 'ternary' etc.
+ * @param {boolean} [param0.disabled=false] - If true, the button will be disabled and cannot be clicked.
+ * 
+ * @returns {JSX.Element} The Button component.
+ */
 const Button: React.FC<ButtonProps> = ({ text, onClick, type = 'button', variant = 'primary', disabled = false }) => {
     return (
         <button
-            type={type}
-            className={`chime-btn chime-btn-${variant}`}
-            onClick={onClick}
-            disabled={disabled}
+            type={type} // The type of the button (e.g., 'button', 'submit', etc.)
+            className={`chime-btn chime-btn-${variant}`} // Dynamically applies styles based on the variant (e.g., 'primary', 'secondary')
+            onClick={onClick} // The function to execute when the button is clicked
+            disabled={disabled} // Disables the button if true
         >
-            {text}
+            {text} {/* The text to display on the button */}
         </button>
     );
 };
-
 
 export default Button;

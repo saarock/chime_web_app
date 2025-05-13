@@ -1,31 +1,24 @@
 import "../../styles/index";
 import { useAuth } from "../../hooks";
-import LoadingComponent from "../loadingComponent/LoadingComponent";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Input from "../input/Input";
 import { GiCancel } from "react-icons/gi";
 import { FaEdit } from "react-icons/fa";
-import { useForm, SubmitErrorHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 export const ChimeProfileComponent = () => {
     const { user, isAuthenticated } = useAuth();
     const [isHaveToEdit, setIsHaveToEdit] = useState<boolean>(false);
     const { register, handleSubmit } = useForm<{ userName: string }>({});
 
-
-    const changeUserName = useCallback((data:any) => {
+      const changeUserName = useCallback((data: any) => {
         console.log(data);
-        
-
     }, []);
-
-
-
 
     return (
         <section className="chime-profile-section">
             {
-                isAuthenticated && user ? (
+                (isAuthenticated && user) && (
                     <form className="chime-profile-child-container" onSubmit={handleSubmit(changeUserName)}>
                         <div className="chime-profile-header">
                             <img
@@ -89,7 +82,7 @@ export const ChimeProfileComponent = () => {
                             </button>
                         }
                     </form>
-                ) : <LoadingComponent />
+                ) 
             }
         </section>
     );

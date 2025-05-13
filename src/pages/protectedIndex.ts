@@ -5,4 +5,4 @@ import VideoCallPage from "./protectedPages/videoCallPage/VideoCallPage";
 import ChimeProfilePage from "./protectedPages/chimeProfilePage/ChimeProfilePage";
 
 // Export all necessart dependencies here 
-export {ChatsPage, VideoCallPage, ChimeProfilePage}
+export default {ChatsPage, VideoCallPage, ChimeProfilePage}

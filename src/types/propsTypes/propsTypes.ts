@@ -49,6 +49,7 @@ export interface InputProps {
   disabled?: boolean,
   onMouseEnter? :() => void,
   onMouseLeave?: () => void,
+  value?: string,
 }
 
 //ComponentForLoginAndResgisterComponentForTop component props
@@ -57,5 +58,5 @@ export interface ComponentForLoginAndResgisterComponentForTopProps {
   secondTitle: string,
   path: string,
   name: string,
+  LoginWithGoogleComponent: React.FC
 }
-

@@ -1,10 +1,10 @@
 .chime-hover-warned-message-container {
     position: absolute;
-    bottom: -3rem;
+    bottom: -6rem;
     display: flex;
     align-items: center;
-    background-color: #fff3cd;
-    color: #856404;
+    background-color: #0e2d50;
+    color: #b29f9f;
     padding: 8px 12px;
     border: 1px solid #ffeeba;
     border-top-right-radius: 2rem;

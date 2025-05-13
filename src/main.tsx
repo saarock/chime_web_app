@@ -6,6 +6,10 @@ import { Provider } from "react-redux";
 import store from "./apps/store.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom";
+import { ErrorBoundary, FallbackComponent } from "./components/index.ts";
+
+
+
 
 
 
@@ -14,9 +18,10 @@ createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <GoogleOAuthProvider clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}>
         <BrowserRouter>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </BrowserRouter>
-
       </GoogleOAuthProvider>
     </Provider>
   </StrictMode>,

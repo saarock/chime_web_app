@@ -1,30 +1,37 @@
-
-// Import all the necessary data from 
-import React, { useEffect, useMemo } from 'react'
-import { PageProtectorProps } from '../../types'
+import React, { Suspense, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { cookieUtil } from '../../utils';
-import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from '../../constant';
+import { cookieUtil, localStorageUtil } from '../../utils';
+import {
+  ACCESS_TOKEN_KEY_NAME,
+  REFRESH_TOKEN_KEY_NAME,
+  LOCAL_STORAGE_USER_DATA_KEY,
+} from '../../constant';
+import { PageProtectorProps } from '../../types';
+import LoadingComponent from '../loadingComponent/LoadingComponent';
 
-const NonProtectedPageProtector: React.FC<PageProtectorProps> = ({ children }) => {
-
+const NonProtectedPageProtector: React.FC<React.PropsWithChildren<PageProtectorProps>> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  
-
-  const accessToken = useMemo(() => cookieUtil.checkCookie(ACCESS_TOKEN_KEY_NAME), [location.pathname]);
-  const refreshToken = useMemo(() => cookieUtil.checkCookie(REFRESH_TOKEN_KEY_NAME), [location.pathname]);
-
   useEffect(() => {
+    const accessToken = cookieUtil.checkCookie(ACCESS_TOKEN_KEY_NAME);
+    const refreshToken = cookieUtil.checkCookie(REFRESH_TOKEN_KEY_NAME);
+    const userData = localStorageUtil.getItems(LOCAL_STORAGE_USER_DATA_KEY);
+
     if (accessToken && refreshToken) {
-      navigate("/chats");
+      navigate('/chats');
+      return;
     }
-  }, [location.pathname]);
+    if (userData) {
+      localStorageUtil.clear();
+    }
+  }, [location.pathname, navigate]);
 
-  return (
-    children
-  )
-}
+  return <>
+    <Suspense fallback={<LoadingComponent />}>
+      {children}
+    </Suspense>
+  </>;
+};
 
-export default NonProtectedPageProtector
+export default NonProtectedPageProtector;

@@ -2,10 +2,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AuthService } from '../services';
-import { cookieUtil, localStorageUtil } from '../utils';
+import { AuthUtil, cookieUtil, localStorageUtil } from '../utils';
 import { ACCESS_TOKEN_KEY_NAME, LOCAL_STORAGE_USER_DATA_KEY, REFRESH_TOKEN_KEY_NAME } from '../constant';
-import useClientLogout from './useClientLogout';
+
 import { User } from '../types';
+import { useDispatch } from 'react-redux';
+import { login } from '../apps';
 
 /**
  * Custom React hook to verify the user's token on every protected page load
@@ -23,7 +25,8 @@ const useVerifyTokenAndGetUserData = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const [userData, setUserData] = useState<User | null>(null);
+    const dispatch = useDispatch();
+
 
 
     /**
@@ -39,17 +42,15 @@ const useVerifyTokenAndGetUserData = () => {
 
         if (!accessToken || !refreshToken || !userData) {
             // If both tokens and userData from the localStorage are missing, log out the client.
-            useClientLogout();
+            AuthUtil.clientSideLogout();
             return;
         }
 
         // Verify user data and get the user data from the backend
         const axiosResponseData = await AuthService.verifyTokenOnEveryPageAndGetUserData();
-        setUserData(axiosResponseData.data.userData);
-
+        dispatch(login(axiosResponseData.data.userData));
+        localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, axiosResponseData.data.userData);
     }, [location.pathname]);
-
-
 
     /**
      * Triggers token verification when the location changes (protected page load).
@@ -63,6 +64,7 @@ const useVerifyTokenAndGetUserData = () => {
             try {
                 await runOnEveryProtectedPageIfTheLocationChange();
             } catch (error) {
+                setIsError(true)
                 setErrorMessage(error instanceof Error ? error.message : "Cannot verify the user");
             } finally {
                 setIsLoading(false);
@@ -70,7 +72,7 @@ const useVerifyTokenAndGetUserData = () => {
         })();
     }, [location.pathname]);
 
-    return { isLoading, errorMessage, isError, userData };
+    return { isLoading, errorMessage, isError, };
 };
 
 export default useVerifyTokenAndGetUserData;

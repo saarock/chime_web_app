@@ -1,7 +1,7 @@
 
 //Import all the necessaray dependencies
 import { axiosClient } from "../../config";
-import {  UserLoginWithGoogleDetils } from "../../types";
+import { UserLoginWithGoogleDetils } from "../../types";
 
 
 
@@ -28,13 +28,20 @@ class AuthEndPoint {
         return response;
     }
 
-    static async refreshTokens(refreshToken:string) {
-        const response = await axiosClient.post("/refresh-tokens", {refreshToken}, {   timeout: 10000});
+    static async refreshTokens(refreshToken: string) {
+        const response = await axiosClient.post("/refresh-tokens", { refreshToken },
+            {
+                headers: {
+                    skipAuthRefresh: "true", // custom header
+                },
+            }
+
+        );
         return response;
     }
 
-    static async logoutUser(userId:string) {
-        const response = await axiosClient.post("/logout-user", {userId});
+    static async logoutUser(userId: string) {
+        const response = await axiosClient.post("/logout-user", { userId });
         return response;
     }
 }

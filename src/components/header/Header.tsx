@@ -9,8 +9,9 @@ import { FaHome, FaPhoneAlt, FaSignInAlt, FaUserPlus, FaComments, FaVideo, } fro
 import { IoIosNotifications } from "react-icons/io";
 import SearchComponent from '../searchComponent/SearchComponent';
 import { CiSearch } from "react-icons/ci";
-import { useLocation, NavLink } from 'react-router-dom';
+import { useLocation, NavLink, useNavigate } from 'react-router-dom';
 import { tabInitialState, tabReducer } from '../../reducers';
+import { User } from '../../types';
 
 // Laxy imports goes here
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
@@ -19,7 +20,8 @@ const ProfileHeader = lazy(() => import("./ProfileHeader"));
 
 const Header = () => {
   const location = useLocation();
-  const localStorageUtilCache = useMemo(() => localStorageUtil, [location.pathname]);
+  const navigate = useNavigate();
+  const localStorageUtilCacheUserData = useMemo(() => localStorageUtil.checkItem<boolean>(LOCAL_STORAGE_USER_DATA_KEY), [location.pathname, navigate]);
   const { user, isAuthenticated } = useAuth();
   const [state, dispatch] = useReducer(tabReducer, tabInitialState);
 
@@ -59,7 +61,7 @@ const Header = () => {
     return () => {
       document.body.removeEventListener("click", handleClick);
     };
-  }, [removeAllTheTabsOneByOne]);
+  }, []);
 
 
 
@@ -70,50 +72,54 @@ const Header = () => {
       path: "/",
       name: "Home",
       icon: <FaHome />,
-      isProtected: !isAuthenticated && !localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-      className: "",
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      className: "chime-just-link",
     },
     {
       path: "/contact",
       name: "Contact",
       icon: <FaPhoneAlt />,
-      isProtected: !isAuthenticated && !localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-      className: "",
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      className: "chime-just-link",
+
     },
     {
       path: "/login",
       name: "Login",
       icon: <FaSignInAlt />,
-      isProtected: !isAuthenticated && !localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
       className: "chime-btn chime-btn-primary",
     },
     {
       path: "/register",
       name: "Register",
       icon: <FaUserPlus />,
-      isProtected: !isAuthenticated && !localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
       className: "chime-btn chime-btn-ternary",
     },
     {
       path: "/chats",
       name: "Chats",
       icon: <FaComments />,
-      isProtected: isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-      className: "",
+      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      className: "chime-just-link",
+
     },
     {
       path: "/video-calls",
       name: "Video",
       icon: <FaVideo />,
-      isProtected: isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-      className: "",
+      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      className: "chime-just-link",
+
     },
     {
       path: "/notifications",
-      name: "notifications",
+      name: "Notifications",
       icon: <IoIosNotifications />,
-      isProtected: isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-      className: "",
+      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      className: "chime-just-link",
+
     }
   ];
 
@@ -123,7 +129,7 @@ const Header = () => {
       path: "/profile",
       name: "Profile",
       imageURL: isAuthenticated ? user?.profilePicture : "",
-      isProtected: isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
+      isProtected: isAuthenticated || localStorageUtilCacheUserData,
       className: "",
     }
   ]
@@ -145,7 +151,7 @@ const Header = () => {
 
 
         {
-          (isAuthenticated || localStorageUtilCache.checkItem(LOCAL_STORAGE_USER_DATA_KEY)) && <div className='chime-header-nav-search-bar'>
+          (isAuthenticated || localStorageUtilCacheUserData) && <div className='chime-header-nav-search-bar'>
             <SearchComponent />
             <span className="chime-header-nav-search-bar-icon">{<CiSearch />}</span>
           </div>
@@ -170,7 +176,7 @@ const Header = () => {
           {
             navsWithImage.map((currentNav) => {
               const safeImageURL = currentNav.imageURL?.trim();
-              if (currentNav.isProtected && safeImageURL) {
+              if ((isAuthenticated && user) || localStorageUtilCacheUserData) {
                 return (
                   <li key={currentNav.name} className='chime-header-navbar-navs-profile' onClick={(e) => openTab(e)}>
                     <img

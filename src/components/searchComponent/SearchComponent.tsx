@@ -10,11 +10,12 @@ const SearchComponent = () => {
   const [search, setSearch] = useState("");
 
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  }, []);
+    if (user?.userName) {
+      setSearch(e.target.value);
+    }
+  }, [user?.userName]);
 
   const handleMouseEnter = useCallback(() => {
- 
     if (!user?.userName) {
       setIsWarned(true);
     }
@@ -31,10 +32,11 @@ const SearchComponent = () => {
         placeHolder="Search by userName..."
         variant={Variant.secondary}
         type="search"
-        disabled={!user?.userName}
         onChange={handleSearchChange}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        value={search}
+        
       />
 
       {isWarned && <WarnedHoverMessage />}

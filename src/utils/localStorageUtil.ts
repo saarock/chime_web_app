@@ -2,7 +2,7 @@
 
 
 
-class LocalStorageUtil<T> {
+class LocalStorageUtil{
 
     /**
      * 
@@ -40,7 +40,7 @@ class LocalStorageUtil<T> {
      * @param key Key can be any thing it should be string
      * @returns Returns the boolean value [true or false]
      */
-    checkItem(key: string): boolean {
+    checkItem<T>(key: string): boolean {
         try {
             const data = localStorage.getItem(key);
             // If there is data return true otherwise return false

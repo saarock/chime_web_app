@@ -3,16 +3,24 @@
 
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
-import { Contact, Home, LoginPage, RegisterPage } from "./pages/nonProtectedIndex";
+// import { Contact, Home, LoginPage, RegisterPage } from "./pages/nonProtectedIndex";
 import { NonProtectedPageProtector, PageProtector } from "./components";
-import { ChatsPage, ChimeProfilePage, VideoCallPage } from "./pages/protectedIndex";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { cookieUtil } from "./utils";
 import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "./constant";
 import { initSocket } from "./config";
 import { initChatSocketEvents, initVideoSocketEvents } from "./features";
 
+// Lazy load non-protected page
+const Home = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.Home })))
+const LoginPage = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.LoginPage })));
+const RegisterPage = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.RegisterPage })));
+const Contact = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.Contact })));
 
+// Lazy loading protected page
+const ChatsPage = React.lazy(() => import('./pages/protectedIndex').then(module => ({ default: module.default.ChatsPage })));
+const ChimeProfilePage = React.lazy(() => import('./pages/protectedIndex').then(module => ({ default: module.default.ChimeProfilePage })));
+const VideoCallPage = React.lazy(() => import('./pages/protectedIndex').then(module => ({ default: module.default.VideoCallPage })));
 
 const App = () => {
 
@@ -30,6 +38,7 @@ const App = () => {
       initVideoSocketEvents();
     }
   }, []);
+
 
   return (
 

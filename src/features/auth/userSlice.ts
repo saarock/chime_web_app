@@ -2,9 +2,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AuthResponseData, UserAuthState, UserLoginWithGoogleDetils } from '../../types'
 import { AuthService } from '../../services'
-import { cookieUtil, localStorageUtil } from '../../utils'
+import { AuthUtil, cookieUtil, localStorageUtil } from '../../utils'
 import { ACCESS_TOKEN_KEY_NAME, LOCAL_STORAGE_USER_DATA_KEY, REFRESH_TOKEN_KEY_NAME } from '../../constant'
-import { useClientLogout } from '../../hooks'
+
 
 
 
@@ -40,7 +40,7 @@ export const logoutUserFromServer = createAsyncThunk(
     async (userId: string, thunkAPI) => {
         try {
             await AuthService.logoutUser(userId);
-            useClientLogout();
+            AuthUtil.clientSideLogout();
         } catch (error) {
             return thunkAPI.rejectWithValue(error);
         }

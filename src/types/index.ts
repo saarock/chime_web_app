@@ -7,5 +7,7 @@ export * from "./socketTypes/socket";
 export * from "./reduxTypes/reduxTypes";
 export * from "./propsTypes/propsTypes"
 export * from "./errorTypes/errorTypes";
+export * from "./ErrorBoundryTypes/ErrorBoundrayTypes";
+
 
 

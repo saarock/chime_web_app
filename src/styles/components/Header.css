@@ -54,12 +54,9 @@
     gap: 0.5rem;
 }
 
-.chime-header-navbar-navs-nav:hover {
-    transition: 1s;
-    transform: scale(110%);
-    
+.chime-just-link:hover {
+    color: var(--primary-btn-background-color);
 }
-
 
 .chime-header-nav-search-bar {
     display: flex;
@@ -70,6 +67,7 @@
     border-radius: 1rem;
     height: 4rem;
 }
+
 .chime-header-nav-search-bar-icon {
     font-size: 2rem;
     position: absolute;

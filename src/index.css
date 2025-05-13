@@ -40,11 +40,6 @@ body {
 
 }
 
-.chime-btn-primary:hover {
-    background-color: var(--primary-btn-background-hover-color) !important;
-}
-
-
 
 .chime-btn-ternary {
     background-color: var(--secondary-btn-background-color);
@@ -52,8 +47,16 @@ body {
     width: 7rem;
 }
 
+.chime-btn-primary .active {
+    color: wheat;
+}
+
+.chime-btn-ternary .active {
+    color: wheat;
+}
+
 .active {
-    color: var(--secondary-text-color);
+    color: var(--primary-btn-background-color);
 }
 
 .chime-input {
@@ -72,6 +75,7 @@ body {
 .chime-input-secondary {
     background-color: var(--secondary-background-color);
 }
+
 .chime-input-primary {
     padding: 1rem;
     margin: 0.2rem;
