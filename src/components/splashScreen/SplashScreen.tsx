@@ -1,10 +1,15 @@
 
+import React, { JSX } from "react";
 import "../../styles";
 
-const SplashScreen = () => {
+/**
+ * Splash screen for chime
+ * @returns {JSX.Element}
+ */
+const SplashScreen: React.ComponentType = (): JSX.Element => {
   return (
     <div className='chime-splash-screen-container'>
-        <h1>Powered by saarock</h1>
+      <h1>Powered by saarock</h1>
     </div>
   )
 }

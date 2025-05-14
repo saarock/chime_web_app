@@ -1,28 +1,32 @@
+// Import all the necessary
 import "../../styles/index";
 import { FaCog, FaUser } from "react-icons/fa";
-import LogoutComponent from "../logoutComponent/LogoutComponent";
+import LogoutComponent from "../LogoutComponent/LogoutComponent";
 import { useNavigate } from "react-router-dom";
+import { JSX } from "react";
 
-
-
-const ProfileHeader = () => {
-
+/**
+ * Chime profile nav container with many navs like -Profile -Setting -and Logout
+ * @returns {JSX.Element}
+ */
+const ProfileHeader: React.ComponentType = (): JSX.Element => {
+  // hooks goes here
   const navigate = useNavigate();
 
-
+  // chime container navs
   const navItems = [
-  {
-    name: "Setting",
-    icon: <FaCog />,
-    classSuffix: "setting",
-  },
-  {
-    name: "Profile",
-    icon: <FaUser />,
-    classSuffix: "profile",
+    {
+      name: "Setting",
+      icon: <FaCog />,
+      classSuffix: "setting",
+    },
+    {
+      name: "Profile",
+      icon: <FaUser />,
+      classSuffix: "profile",
 
-  },
-];
+    },
+  ];
 
   return (
     <div className="chime-profile-header-container">
@@ -33,6 +37,7 @@ const ProfileHeader = () => {
             <span className="chime-profile-header-navs-text">{item.name}</span>
           </li>
         ))}
+        {/* Chime container logout nav independenet nav to logout the user from the both the server side and client side */}
         <LogoutComponent />
       </ul>
     </div>

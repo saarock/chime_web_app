@@ -1,7 +1,5 @@
-// components/ChimeRegisterLoginPageWrapper.tsx
-
 // Import all necessary dependencies
-import React from 'react';
+import React, { JSX } from 'react';
 import { PageProtectorProps } from '../../types';
 import reg_logo from "../../assets/images/reg_log.png";
 import "../../styles/index";
@@ -13,13 +11,13 @@ import "../../styles/index";
  * It includes a static image on one side and renders dynamic children content (login or register form) on the other side.
  *
  * @param {PageProtectorProps} props - The props for the component.
- * @param {React.ReactNode} props.children - The form content (either login or register) to be displayed inside the wrapper.
+ * @param {React.ComponentType} props.children - The form content (either login or register) to be displayed inside the wrapper.
  * 
  * @returns {JSX.Element} A layout wrapper for login/register pages.
  *
  * @note The image on the left side remains static, while only the `children` (form section) changes based on the context.
  */
-const ChimeRegisterLoginPageWrapper: React.FC<PageProtectorProps> = ({ children }) => {
+const ChimeRegisterLoginPageWrapper: React.ComponentType<PageProtectorProps> = ({ children }): JSX.Element => {
     return (
         <div className="chime-entry-page">
 

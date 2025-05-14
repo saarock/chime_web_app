@@ -1,20 +1,24 @@
 // Import All the necessary dependencies here
-
-import ComponentForLoginAndResgisterComponentForTop from "../componentForLoginAndResgisterComponentForTop/componentForLoginAndResgisterComponentForTop"
-
-
+import React from "react";
+import ComponentForLoginAndResgisterComponentForTop from "../ComponentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop"
+import LoginWithGoogleComponent from "../LoginWithGoogleComponent/LoginWithGoogleComponent";
 
 
 /**
- * 
+ * Register main component
  * @returns JSX
  */
-const RegisterComponent = () => {
+const RegisterComponent: React.ComponentType = () => {
   return (
     <div className="chime-login-container">
-      <ComponentForLoginAndResgisterComponentForTop title="Sign Up To Your Account" secondTitle="Already have Account?   " path="/login" name="login"/>
+      <ComponentForLoginAndResgisterComponentForTop
+        title="Sign Up To Your Account"
+        secondTitle="Already have Account?    " 
+        path="/login"
+        name="login"
+        LoginWithGoogleComponent={LoginWithGoogleComponent} />
     </div>
   )
 }
 
-export default RegisterComponent
+export default RegisterComponent;

@@ -4,7 +4,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 // import { Contact, Home, LoginPage, RegisterPage } from "./pages/nonProtectedIndex";
-import { NonProtectedPageProtector, PageProtector } from "./components";
+import { NonProtectedPageProtector, ProtectedPageProtector } from "./components";
 import React, { useEffect } from "react";
 import { cookieUtil } from "./utils";
 import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "./constant";
@@ -53,9 +53,9 @@ const App = () => {
           <Route path="/register" element={<NonProtectedPageProtector><RegisterPage /></NonProtectedPageProtector>} />
 
             // Protected page
-          <Route path="/chats" element={<PageProtector><ChatsPage /></PageProtector>} />
-          <Route path="/video-calls" element={<PageProtector><VideoCallPage /></PageProtector>} />
-          <Route path="/profile" element={<PageProtector><ChimeProfilePage /></PageProtector>} />
+          <Route path="/chats" element={<ProtectedPageProtector><ChatsPage /></ProtectedPageProtector>} />
+          <Route path="/video-calls" element={<ProtectedPageProtector><VideoCallPage /></ProtectedPageProtector>} />
+          <Route path="/profile" element={<ProtectedPageProtector><ChimeProfilePage /></ProtectedPageProtector>} />
 
         </Route>
       </Routes>

@@ -1,12 +1,28 @@
-import { useCallback } from "react";
+// Import all the ncessary dependencies here 
+import React, { JSX, useCallback } from "react";
 import { FaExclamationTriangle, FaRedo, FaSignOutAlt } from "react-icons/fa";
 import { AuthUtil } from "../../utils";
 
-const ErrorUiComponent = ({ message }: { message: string }) => {
+
+/**
+ * 
+ * @param {string} param0.messge - Error message 
+ * @returns 
+ */
+const ErrorUiComponent: React.ComponentType<{ message: string }> = ({ message }: { message: string }): JSX.Element => {
+
+    /**
+     * Function within the callBackhook [Gives option to the user to logout if any error arrives during the server-request]
+     */
     const onLogout = useCallback(() => {
         AuthUtil.clientSideLogout();
     }, []);
 
+
+    /**
+   * Function within the callBackhook [Gives option to the user to refresh the page if any error arrives during the server-request]
+
+   */
     const onRefresh = useCallback(() => {
         window.location.reload();
     }, []);

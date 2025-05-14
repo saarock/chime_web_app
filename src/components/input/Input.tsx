@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { JSX } from 'react'
 import { InputProps, Variant } from '../../types';
 import "../../styles/components/Input.css";
 
-
-const Input: React.FC<InputProps> = ({ placeHolder, disabled=false, 
-    onChange, variant=Variant.primary, type="button", onMouseEnter,onMouseLeave,
+/**
+ * 
+ * @param {string} param0.placeholder - Input placehoder
+ * @param {boolean} param0.disabled - input disabled
+ * @returns {JSX.Element}
+ */
+const Input: React.ComponentType<InputProps> = ({ placeHolder, disabled = false,
+    onChange, variant = Variant.primary, type = "button", onMouseEnter, onMouseLeave,
     value,
-}) => {
+}): JSX.Element => {
 
     return (
         <input
@@ -18,7 +23,6 @@ const Input: React.FC<InputProps> = ({ placeHolder, disabled=false,
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             value={value}
-
         />
     )
 }

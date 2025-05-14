@@ -1,7 +1,13 @@
-import React from 'react';
-import "../../styles/index";  // Assuming the CSS is included in this file
+// Import all the ncessary dependencies here
+import React, { JSX } from 'react';
+import "../../styles/index";
 
-const Footer = () => {
+
+/**
+ * Footer component of the chime app
+ * @returns {JSX.Element} 
+ */
+const Footer: React.ComponentType = (): JSX.Element => {
   return (
     <footer className="chime-footer">
       <div className="chime-footer-content">

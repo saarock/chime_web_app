@@ -1,7 +1,5 @@
-// components/Button.jsx
-
 // Import necessary dependencies
-import React from "react"; // React library for JSX syntax and components
+import React, { JSX } from "react"; // React library for JSX syntax and components
 import { ButtonProps } from "../../types"; // TypeScript types for props
 import "../../styles/components/Button.css"; // Import styles for the button component
 
@@ -18,7 +16,7 @@ import "../../styles/components/Button.css"; // Import styles for the button com
  * 
  * @returns {JSX.Element} The Button component.
  */
-const Button: React.FC<ButtonProps> = ({ text, onClick, type = 'button', variant = 'primary', disabled = false }) => {
+const Button: React.FC<ButtonProps> = ({ text, onClick, type = 'button', variant = 'primary', disabled = false }): JSX.Element => {
     return (
         <button
             type={type} // The type of the button (e.g., 'button', 'submit', etc.)

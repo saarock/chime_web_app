@@ -1,7 +1,7 @@
 
 // Import all the necessary dependencies
 
-import React, { JSX } from "react";
+import React, { JSX, ReactNode } from "react";
 
 // socketProvider props define here
 export interface SocketProviderProps {
@@ -54,9 +54,9 @@ export interface InputProps {
 
 //ComponentForLoginAndResgisterComponentForTop component props
 export interface ComponentForLoginAndResgisterComponentForTopProps {
-  title: string,
-  secondTitle: string,
-  path: string,
-  name: string,
-  LoginWithGoogleComponent: React.FC
+  title: string;
+  secondTitle: string;
+  path: string;
+  name: string;
+  LoginWithGoogleComponent: React.ComponentType;
 }

@@ -1,16 +1,25 @@
-import React, { Component } from "react";
+// Import all the necessary dependencies here 
+import { Component } from "react";
 import { AuthUtil } from "../../utils";
+import { CustomErrorFallbackProps } from "../../types";
 
-interface CustomErrorFallbackProps {
-    error: Error;
-    errorInfo: React.ErrorInfo;
-}
 
+
+/**
+ * ErrorBoundry fallback custom component to show the error to the user
+ */
 class FallbackComponent extends Component<CustomErrorFallbackProps> {
+    /**
+ * Function within the callBackhook [Gives option to the user to refresh the page if any error arrives during the server-request]
+
+ */
     handleRefresh = () => {
         window.location.reload();
     };
 
+    /**
+     * Function within the callBackhook [Gives option to the user to logout if any error arrives during the server-request]
+     */
     handleLogout = () => {
         AuthUtil.clientSideLogout();
     };

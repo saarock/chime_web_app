@@ -1,10 +1,19 @@
-import { useCallback, useState } from "react";
+
+// Import all the necessary dependencies goes here 
+import React, { useCallback, useState } from "react";
 import { useAuth } from "../../hooks";
 import { Variant } from "../../types";
-import Input from "../input/Input";
-import WarnedHoverMessage from "../warnedHoverMessage/WarnedHoverMessage";
+import Input from "../Input/Input";
+import WarnedHoverMessage from "../WarnedHoverMessage/WarnedHoverMessage";
 
-const SearchComponent = () => {
+
+/**
+ * // Chime search component
+ * @returns {React.ComponentType}
+ */
+const SearchComponent:React.ComponentType = () => {
+
+  // All the hooks goes here
   const { user } = useAuth();
   const [isWarned, setIsWarned] = useState(false);
   const [search, setSearch] = useState("");

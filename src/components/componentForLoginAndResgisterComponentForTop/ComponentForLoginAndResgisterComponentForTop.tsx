@@ -1,4 +1,5 @@
-import React from "react";
+// Import all the dependencies here 
+import React, { JSX } from "react";
 import { ComponentForLoginAndResgisterComponentForTopProps } from "../../types";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
@@ -14,13 +15,13 @@ import "../../styles";
  * @param LoginWithGoogleComponent - Component to render Google OAuth login/register functionality
  * @returns {JSX.Element}
  */
-const ComponentForLoginAndResgisterComponentForTop: React.FC<ComponentForLoginAndResgisterComponentForTopProps> = ({
+const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<ComponentForLoginAndResgisterComponentForTopProps> = ({
   title,
   secondTitle,
   path,
   name,
   LoginWithGoogleComponent,
-}) => {
+}): JSX.Element => {
   return (
     <div className="chime-login-register-top-component">
       <div className="chime-login-register-top-component-logo-container">

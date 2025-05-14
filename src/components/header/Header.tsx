@@ -1,5 +1,5 @@
 // Import all the necessary dependencies here
-import { lazy, Suspense, useCallback, useEffect, useMemo, useReducer } from 'react';
+import React, { JSX, lazy, Suspense, useCallback, useEffect, useMemo, useReducer } from 'react';
 import { useAuth } from '../../hooks';
 import "../../styles";
 import logo from "../../assets/images/logo.png";
@@ -7,18 +7,23 @@ import { localStorageUtil } from '../../utils';
 import { LOCAL_STORAGE_USER_DATA_KEY } from '../../constant';
 import { FaHome, FaPhoneAlt, FaSignInAlt, FaUserPlus, FaComments, FaVideo, } from 'react-icons/fa';
 import { IoIosNotifications } from "react-icons/io";
-import SearchComponent from '../searchComponent/SearchComponent';
+import SearchComponent from '../SearchComponent/SearchComponent';
 import { CiSearch } from "react-icons/ci";
 import { useLocation, NavLink, useNavigate } from 'react-router-dom';
 import { tabInitialState, tabReducer } from '../../reducers';
-import { User } from '../../types';
 
 // Laxy imports goes here
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
 
 
 
-const Header = () => {
+/**
+ * Chime main header component to show all the important navs 
+ * @returns {JSX.Element} 
+ */
+const Header: React.ComponentType = (): JSX.Element => {
+
+  // Hooks goes here
   const location = useLocation();
   const navigate = useNavigate();
   const localStorageUtilCacheUserData = useMemo(() => localStorageUtil.checkItem<boolean>(LOCAL_STORAGE_USER_DATA_KEY), [location.pathname, navigate]);
@@ -28,6 +33,7 @@ const Header = () => {
 
   /**
    * function to open the tab means to show all the navs after clicking the navWithImage
+   * @param {MouseEvent<HTMLElement>} event 
    */
   const openTab = useCallback((e: React.MouseEvent<HTMLLIElement>) => {
     e.stopPropagation();
@@ -49,6 +55,8 @@ const Header = () => {
   }, []);
 
 
+
+  // useEffect to which run one mount only to add even-listener in the body so after clicking the body user can remove the navs that opens as the container
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       removeAllTheTabsOneByOne(e);
@@ -67,19 +75,20 @@ const Header = () => {
 
 
 
+  // Chime navs
   const navs = [
     {
       path: "/",
       name: "Home",
       icon: <FaHome />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
       className: "chime-just-link",
     },
     {
       path: "/contact",
       name: "Contact",
       icon: <FaPhoneAlt />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
       className: "chime-just-link",
 
     },
@@ -87,21 +96,21 @@ const Header = () => {
       path: "/login",
       name: "Login",
       icon: <FaSignInAlt />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
       className: "chime-btn chime-btn-primary",
     },
     {
       path: "/register",
       name: "Register",
       icon: <FaUserPlus />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
       className: "chime-btn chime-btn-ternary",
     },
     {
       path: "/chats",
       name: "Chats",
       icon: <FaComments />,
-      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      isProtected: isAuthenticated || localStorageUtilCacheUserData, // if the user is authenticated or there is data at localstorge then only show the nav
       className: "chime-just-link",
 
     },
@@ -109,7 +118,7 @@ const Header = () => {
       path: "/video-calls",
       name: "Video",
       icon: <FaVideo />,
-      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      isProtected: isAuthenticated || localStorageUtilCacheUserData,  // if the user is authenticated or there is data at localstorge then only show the nav
       className: "chime-just-link",
 
     },
@@ -117,13 +126,15 @@ const Header = () => {
       path: "/notifications",
       name: "Notifications",
       icon: <IoIosNotifications />,
-      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      isProtected: isAuthenticated || localStorageUtilCacheUserData,  // if the user is authenticated or there is data at localstorge then only show the nav
       className: "chime-just-link",
 
     }
   ];
 
 
+
+  // chime image nav which only show the navs as a container at user clicked
   const navsWithImage = [
     {
       path: "/profile",
@@ -150,6 +161,7 @@ const Header = () => {
         </NavLink>
 
 
+      {/* Chime search-bar */}
         {
           (isAuthenticated || localStorageUtilCacheUserData) && <div className='chime-header-nav-search-bar'>
             <SearchComponent />
@@ -158,7 +170,7 @@ const Header = () => {
 
         }
 
-
+       {/* Chime navs */}
         <ul className='chime-header-navbar-navs'>
           {
             navs.map((currentNav) =>
@@ -173,6 +185,7 @@ const Header = () => {
             )
           }
 
+         {/* chime container navs opener */}
           {
             navsWithImage.map((currentNav) => {
               const safeImageURL = currentNav.imageURL?.trim();
@@ -195,11 +208,13 @@ const Header = () => {
           }
 
 
+        {/* chime container navs */}
           {
             state.openTabs.length >= 0 && state.openTabs.map((tabId) => (
               tabId === "0" && (
                 <div className='chime-profile-nav-fallback-container' key={tabId} onClick={(e) => e.stopPropagation()}>
                   <Suspense fallback="loading...">
+                    {/* Chime pofile navs container */}
                     <ProfileHeader />
                   </Suspense>
                 </div>

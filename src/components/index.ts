@@ -1,36 +1,39 @@
 // import all the necessary dependencies
 
-import Header from "./header/Header";
-import Footer from "./footer/Footer";
-import PageProtector from "./protectedComponent/PageProtector";
+import Header from "./Header/Header";
+import Footer from "./Footer/Footer";
+import ProtectedPageProtector from "./ProtectedPageProtector/ProtectedPageProtector";
 import Button from "./Button/Button";
-import Input from "./input/Input";
-import PageWrapper from "./pageWrapContainer/PageWrapper";
-import LoginComponent from "./loginComponent/LoginComponent";
-import LoginWithGoogleComponent from "./loginWithGoogleComponent/LoginWithGoogleComponent";
+import Input from "./Input/Input";
+import PageWrapContainer from "./PageWrapContainer/PageWrapContainer";
+import LoginComponent from "./LoginComponent/LoginComponent";
+import LoginWithGoogleComponent from "./LoginWithGoogleComponent/LoginWithGoogleComponent";
 import ComponentForLoginAndResgisterComponentForTop from "./ComponentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop";
-import RegisterComponent from "./registerComponent/RegisterComponent";
-import SplashScreen from "./splashScreen/SplashScreen";
-import NonProtectedPageProtector from "./notProtectedComponentWrapper/NonProtectedPageProtector";
-import SearchComponent from "./searchComponent/SearchComponent";
-import LoadingComponent from "./loadingComponent/LoadingComponent";
+import RegisterComponent from "./RegisterComponent/RegisterComponent";
+import SplashScreen from "./SplashScreen/SplashScreen";
+import NonProtectedPageProtector from "./NotProtectedPageProtector/NonProtectedPageProtector";
+import SearchComponent from "./SearchComponent/SearchComponent";
+import LoadingComponent from "./LoadingComponent/LoadingComponent";
 import ChimeRegisterLoginPageWrapper from "./ChimeRegisterLoginPageWrapper/ChimeRegisterLoginPageWrapper";
-import WarnedHoverMessage from "./warnedHoverMessage/WarnedHoverMessage";
-import LogoutComponent from "./logoutComponent/LogoutComponent";
+import WarnedHoverMessage from "./WarnedHoverMessage/WarnedHoverMessage";
+import LogoutComponent from "./LogoutComponent/LogoutComponent";
 import ChimeProfileComponent from "./ChimeProfileComponent/ChimeProfileComponent";
-import ErrorUiComponent from "./errorUiComponent/ErrorUiComponent";
+import ErrorUiComponent from "./ErrorUiComponent/ErrorUiComponent";
 import FallbackComponent from "./FallBackComponent/FallBackComponent";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 
+
+
+// Export all the dependencies here
 export {
     Header,
     Footer,
-    PageProtector,
+    ProtectedPageProtector,
     Button,
     Input,
     LoginWithGoogleComponent,
-    PageWrapper,
+    PageWrapContainer,
     LoginComponent,
     ComponentForLoginAndResgisterComponentForTop,
     RegisterComponent,
