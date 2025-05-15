@@ -11,11 +11,12 @@ import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "./constant";
 import { initSocket } from "./config";
 import { initChatSocketEvents, initVideoSocketEvents } from "./features";
 
+
 // Lazy load non-protected page
-const Home = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.Home })))
+const HomePage = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.Home })))
 const LoginPage = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.LoginPage })));
 const RegisterPage = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.RegisterPage })));
-const Contact = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.Contact })));
+const ContactPage = React.lazy(() => import('./pages/nonProtectedIndex').then(module => ({ default: module.default.ContactPage })));
 
 // Lazy loading protected page
 const ChatsPage = React.lazy(() => import('./pages/protectedIndex').then(module => ({ default: module.default.ChatsPage })));
@@ -42,13 +43,13 @@ const App = () => {
 
   return (
 
-    <>
+    <div>
 
       <Routes>
         <Route path="/" element={<Layout />}>
           // Non-Protected page
-          <Route index element={<NonProtectedPageProtector><Home /></NonProtectedPageProtector>} />
-          <Route path="/contact" element={<NonProtectedPageProtector><Contact /></NonProtectedPageProtector>} />
+          <Route index element={<NonProtectedPageProtector><HomePage /></NonProtectedPageProtector>} />
+          <Route path="/contact" element={<NonProtectedPageProtector><ContactPage /></NonProtectedPageProtector>} />
           <Route path="/login" element={<NonProtectedPageProtector><LoginPage /></NonProtectedPageProtector>} />
           <Route path="/register" element={<NonProtectedPageProtector><RegisterPage /></NonProtectedPageProtector>} />
 
@@ -61,7 +62,7 @@ const App = () => {
       </Routes>
 
 
-    </>
+    </div>
   )
 }
 

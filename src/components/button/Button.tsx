@@ -1,8 +1,7 @@
 // Import necessary dependencies
 import React, { JSX } from "react"; // React library for JSX syntax and components
 import { ButtonProps } from "../../types"; // TypeScript types for props
-import "../../styles/components/Button.css"; // Import styles for the button component
-
+import "../../styles/components/Button.css"; // Css import
 /**
  * Button component that renders a customizable button element.
  * 
@@ -16,15 +15,18 @@ import "../../styles/components/Button.css"; // Import styles for the button com
  * 
  * @returns {JSX.Element} The Button component.
  */
-const Button: React.FC<ButtonProps> = ({ text, onClick, type = 'button', variant = 'primary', disabled = false }): JSX.Element => {
+const Button: React.FC<ButtonProps> = ({ text, onClick, type = 'button', variant = 'primary', disabled = false, children, className }): JSX.Element => {
     return (
         <button
             type={type} // The type of the button (e.g., 'button', 'submit', etc.)
-            className={`chime-btn chime-btn-${variant}`} // Dynamically applies styles based on the variant (e.g., 'primary', 'secondary')
+            className={`chime-btn chime-btn-${variant} ${className}`} // Dynamically applies styles based on the variant (e.g., 'primary', 'secondary')
             onClick={onClick} // The function to execute when the button is clicked
             disabled={disabled} // Disables the button if true
+
         >
-            {text} {/* The text to display on the button */}
+
+            {children}
+            {text} {/* The text or icon to display on the button */}
         </button>
     );
 };

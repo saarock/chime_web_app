@@ -1,63 +1,78 @@
-
-/* Footer Styling */
 .chime-footer {
-  background-color: var(--primary-background-color);
-  padding: 60px 20px;
-  text-align: center;
-  margin-top: 40px;
-}
-
-.chime-footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  color: var(--secondary-text-color);
-}
-
-.chime-footer-text {
-  font-size: 14px;
   color: var(--primary-text-color);
-  margin-bottom: 20px;
+  padding: 3rem 1.5rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  user-select: none;
+  border: 1px solid var(--second-little-color);
+
 }
 
-.chime-footer-links {
+.chime-footer-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.chime-footer-brand {
+  margin-bottom: 1.5rem;
+}
+
+.chime-footer-company {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin: 0 0 0.35rem 0;
+  text-transform: uppercase;
+  color: var(--secondary-btn-background-color);
+  text-shadow: 0 0 8px var(--secondary-btn-background-color);
+}
+
+.chime-footer-description {
+  font-size: 1.125rem;
+  color: var(--secondary-text-color);
+  margin: 0 auto;
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.chime-footer-socials {
+  margin: 2rem 0 2.5rem 0;
   display: flex;
   justify-content: center;
-  gap: 30px;
-  margin-top: 10px;
+  gap: 1.75rem;
 }
 
-.chime-footer-link {
-  color: var(--secondary-text-color);
-  text-decoration: none;
-  font-size: 16px;
-  transition: color 0.3s ease;
-  padding: 5px;
-}
-
-.chime-footer-link:hover {
+.chime-footer-social-link {
   color: var(--primary-btn-background-color);
+  font-size: 2rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: rgba(255 255 255 / 0.05);
+  box-shadow: 0 0 6px rgba(27, 132, 252, 0.4);
+  transition: 
+    color 0.3s ease, 
+    box-shadow 0.35s ease, 
+    background 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.chime-footer-link:active {
-  color: var(--primary-btn-background-hover-color);
+.chime-footer-social-link:hover,
+.chime-footer-social-link:focus {
+  color: var(--secondary-btn-background-color);
+  background: rgba(223, 0, 126, 0.15);
+  box-shadow:
+    0 0 10px var(--secondary-btn-background-color),
+    0 0 20px var(--secondary-btn-background-color),
+    0 0 30px var(--secondary-btn-background-color);
+  outline: none;
+  cursor: pointer;
 }
 
-.chime-footer-social {
-  margin-top: 20px;
-}
-
-.chime-footer-social-icon {
-  color: var(--secondary-text-color);
-  font-size: 16px;
-  margin: 0 15px;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.chime-footer-social-icon:hover {
-  color: var(--primary-btn-background-color);
-}
-
-.chime-footer-social-icon:active {
-  color: var(--primary-btn-background-hover-color);
+.chime-footer-bottom {
+  font-size: 0.9rem;
+  color: var(--little-color);
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }

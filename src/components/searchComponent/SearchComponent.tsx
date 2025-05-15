@@ -45,7 +45,6 @@ const SearchComponent:React.ComponentType = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         value={search}
-        
       />
 
       {isWarned && <WarnedHoverMessage />}

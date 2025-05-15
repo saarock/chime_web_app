@@ -10,7 +10,7 @@ import { CustomErrorFallbackProps } from "../../types";
  */
 class FallbackComponent extends Component<CustomErrorFallbackProps> {
     /**
- * Function within the callBackhook [Gives option to the user to refresh the page if any error arrives during the server-request]
+ * Function within the callBackhook [Provide options to the user to refresh the page if any error arrives during the server-request]
 
  */
     handleRefresh = () => {

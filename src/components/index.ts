@@ -21,8 +21,11 @@ import ChimeProfileComponent from "./ChimeProfileComponent/ChimeProfileComponent
 import ErrorUiComponent from "./ErrorUiComponent/ErrorUiComponent";
 import FallbackComponent from "./FallBackComponent/FallBackComponent";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
-
-
+import HeroSection from "../pages/nonProtectedPages/homePage/Home";
+import FeatureSection from "./FeatureSection/FeatureSection";
+import CallToAction from "./CallToAction/CallToAction";
+import HowItWorks from "./HowItWork/HowItWork";
+import ChimiSectionsHowHeader from "./ChimeSectionsHowHeader/ChimiSectionsHowHeader";
 
 
 // Export all the dependencies here
@@ -47,5 +50,10 @@ export {
     ChimeProfileComponent,
     ErrorUiComponent,
     FallbackComponent,
-    ErrorBoundary
+    ErrorBoundary,
+ChimiSectionsHowHeader,
+    CallToAction,
+    HeroSection,
+    FeatureSection,
+    HowItWorks,
 };

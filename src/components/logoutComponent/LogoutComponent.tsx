@@ -8,9 +8,9 @@ import { logoutUserFromServer } from '../../features/auth/userSlice';
 import { AppDispatch } from '../../apps/store';
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
 
-
 /**
  * stand-alone Logout component
+ * @note this component css in on [/styles/components/ProfileHeader.css file]
  * @returns {JSX.Element}
  */
 const LogoutComponent: React.ComponentType = (): JSX.Element => {

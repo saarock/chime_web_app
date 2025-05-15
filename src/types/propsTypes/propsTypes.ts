@@ -35,6 +35,8 @@ export interface ButtonProps {
   onClick: () => void,
   variant?: Variant,
   disabled?: boolean,
+  children?: ReactNode; // specially for icons
+  className?: string;
 }
 
 
@@ -47,9 +49,10 @@ export interface InputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
   variant?: Variant,
   disabled?: boolean,
-  onMouseEnter? :() => void,
+  onMouseEnter?: () => void,
   onMouseLeave?: () => void,
   value?: string,
+  className?: string,
 }
 
 //ComponentForLoginAndResgisterComponentForTop component props

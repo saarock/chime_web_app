@@ -2,7 +2,7 @@
 import React, { JSX } from 'react';
 import { PageProtectorProps } from '../../types';
 import reg_logo from "../../assets/images/reg_log.png";
-import "../../styles/index";
+import "../../styles/components/ChimeRegisterLoginPageWrapper.css";
 
 /**
  * ChimeRegisterLoginPageWrapper component

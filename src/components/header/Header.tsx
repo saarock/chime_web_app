@@ -1,7 +1,6 @@
 // Import all the necessary dependencies here
 import React, { JSX, lazy, Suspense, useCallback, useEffect, useMemo, useReducer } from 'react';
 import { useAuth } from '../../hooks';
-import "../../styles";
 import logo from "../../assets/images/logo.png";
 import { localStorageUtil } from '../../utils';
 import { LOCAL_STORAGE_USER_DATA_KEY } from '../../constant';
@@ -11,6 +10,7 @@ import SearchComponent from '../SearchComponent/SearchComponent';
 import { CiSearch } from "react-icons/ci";
 import { useLocation, NavLink, useNavigate } from 'react-router-dom';
 import { tabInitialState, tabReducer } from '../../reducers';
+import "../../styles/components/Header.css";
 
 // Laxy imports goes here
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
@@ -97,14 +97,14 @@ const Header: React.ComponentType = (): JSX.Element => {
       name: "Login",
       icon: <FaSignInAlt />,
       isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
-      className: "chime-btn chime-btn-primary",
+      className: "chime-btn chime-btn-ternary",
     },
     {
       path: "/register",
       name: "Register",
       icon: <FaUserPlus />,
       isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
-      className: "chime-btn chime-btn-ternary",
+      className: "chime-btn chime-btn-secondary",
     },
     {
       path: "/chats",

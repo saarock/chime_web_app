@@ -1,0 +1,186 @@
+.chime-feature-section {
+  background-color: var(--secondary-background-color);
+  background-image: radial-gradient(circle at 10% 90%, rgba(27, 132, 252, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 10%, rgba(223, 0, 126, 0.1) 0%, transparent 20%);
+  padding: 100px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.chime-feature-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(27, 132, 252, 0.3), rgba(223, 0, 126, 0.3), transparent);
+}
+
+.chime-feature-section::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(223, 0, 126, 0.3), rgba(27, 132, 252, 0.3), transparent);
+}
+
+.chime-feature-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+
+.chime-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.chime-feature-card {
+  background-color: var(--primary-background-color);
+  border-radius: 20px;
+  padding: 30px;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid rgba(81, 81, 106, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+.chime-feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent);
+  z-index: -1;
+}
+
+.chime-feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.chime-feature-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  background: rgba(25, 24, 51, 0.5);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.chime-feature-icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--primary-btn-background-color), var(--secondary-btn-background-color));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.chime-feature-icon svg {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
+}
+
+.chime-feature-icon-primary svg {
+  color: var(--primary-btn-background-color);
+}
+
+.chime-feature-icon-secondary svg {
+  color: var(--secondary-btn-background-color);
+}
+
+.chime-feature-card-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin-bottom: 16px;
+}
+
+.chime-feature-card-description {
+  font-size: 16px;
+  color: var(--secondary-text-color);
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .chime-feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .chime-feature-section {
+    padding: 80px 20px;
+  }
+
+  .chime-feature-title {
+    font-size: 36px;
+  }
+
+  .chime-feature-description {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .chime-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .chime-feature-card {
+    padding: 24px;
+  }
+
+  .chime-feature-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .chime-feature-icon svg {
+    font-size: 28px;
+  }
+
+  .chime-feature-card-title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chime-feature-section {
+    padding: 60px 16px;
+  }
+
+  .chime-feature-header {
+    margin-bottom: 50px;
+  }
+
+  .chime-feature-title {
+    font-size: 32px;
+  }
+
+  .chime-feature-description {
+    font-size: 15px;
+  }
+}

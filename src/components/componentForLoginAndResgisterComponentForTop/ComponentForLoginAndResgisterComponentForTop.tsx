@@ -3,7 +3,7 @@ import React, { JSX } from "react";
 import { ComponentForLoginAndResgisterComponentForTopProps } from "../../types";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import "../../styles";
+import "../../styles/components/ComponentForLoginAndResgisterComponentForTop.css";
 
 /**
  * This component sits on top of the login and register form and shows dynamic content.

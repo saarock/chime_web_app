@@ -1,13 +1,11 @@
 
 import { lazy, Suspense } from "react"
-import "../../../styles/index"
+import "../../../styles/pages/ChimeProfilePage.css";
+
 
 // lazy loading 
-const ChimeProfileComponent = lazy(() => import("../../../components/chimeProfileComponent/ChimeProfileComponent"));
-const LoadingComponent = lazy(() => import("../../../components/loadingComponent/LoadingComponent"));
-
-
-
+const ChimeProfileComponent = lazy(() => import("../../../components/ChimeProfileComponent/ChimeProfileComponent"));
+const LoadingComponent = lazy(() => import("../../../components/LoadingComponent/LoadingComponent"));
 
 const ChimeProfilePage = () => {
 

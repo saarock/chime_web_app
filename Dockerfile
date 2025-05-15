@@ -1,14 +1,12 @@
 FROM node:22
 
-WORKDIR /chime_front
+WORKDIR /app
 
-# Install app dependencies
-COPY package*.json .
-RUN npm install 
+COPY package*.json ./
+RUN npm install
 
 COPY . .
 
 EXPOSE 5173
 
-CMD [ "npm", "run", "dev" ]
-
+CMD ["npm", "run", "dev", "--", "--host"]

@@ -10,7 +10,7 @@ import LoginWithGoogleComponent from "../LoginWithGoogleComponent/LoginWithGoogl
  */
 const RegisterComponent: React.ComponentType = () => {
   return (
-    <div className="chime-login-container">
+    <div className="chime-register-container">
       <ComponentForLoginAndResgisterComponentForTop
         title="Sign Up To Your Account"
         secondTitle="Already have Account?    " 

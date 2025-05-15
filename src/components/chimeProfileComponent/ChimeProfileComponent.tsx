@@ -1,10 +1,11 @@
-import "../../styles/index";
+
 import { useAuth } from "../../hooks";
-import { useCallback, useEffect, useState } from "react";
-import Input from "../input/Input";
+import { useCallback, useState } from "react";
+import Input from "../Input/Input";
 import { GiCancel } from "react-icons/gi";
 import { FaEdit } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+
 
 export const ChimeProfileComponent = () => {
     const { user, isAuthenticated } = useAuth();

@@ -1,8 +1,7 @@
 // Import dependencies
 import AuthEndPoint from "../apis";
 import { AuthResponseData, UserLoginWithGoogleDetils } from "../types";
-import { AuthUtil, cookieUtil, errorhandler } from "../utils";
-import { REFRESH_TOKEN_KEY_NAME } from "../constant";
+import { errorhandler } from "../utils";
 
 /**
  * AuthService handles all authentication-related operations such as 

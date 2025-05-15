@@ -1,6 +1,6 @@
 
 import { ChimeRegisterLoginPageWrapper, LoginComponent } from '../../../components'
-import "../../../styles/index"
+import "../../../styles/pages/LoginPage.css";
 const LoginPage = () => {
 
   return (

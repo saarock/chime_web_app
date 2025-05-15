@@ -1,6 +1,6 @@
 
 import React, { JSX } from "react";
-import "../../styles";
+import "../../styles/components/SplashScreen.css";
 
 /**
  * Splash screen for chime

@@ -3,9 +3,8 @@ import React, { JSX, useCallback } from "react";
 import { FaExclamationTriangle, FaRedo, FaSignOutAlt } from "react-icons/fa";
 import { AuthUtil } from "../../utils";
 
-
 /**
- * 
+ * ErrorUi component to show the error that arrives from the server or other's network errors @note this is different from the fallBackComponent
  * @param {string} param0.messge - Error message 
  * @returns 
  */

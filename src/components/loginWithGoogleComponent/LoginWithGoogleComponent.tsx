@@ -3,7 +3,7 @@ import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { serverLoginWithGoogle } from "../../apps";
 import { AppDispatch } from "../../apps/store";
-import "../../styles";
+import "../../styles/components/LoginWithGoogle.css";
 import React, { JSX, useState } from "react";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import { toast } from "react-toastify";

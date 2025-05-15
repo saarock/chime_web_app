@@ -12,7 +12,7 @@ const PageWrapContainer: React.FC<PageWrapperProps> = ({
     children
 }): React.ReactNode => {
     return (
-        <main>
+        <main id='main'>
             {children}
         </main>
     )

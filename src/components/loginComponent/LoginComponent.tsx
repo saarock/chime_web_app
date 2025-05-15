@@ -1,6 +1,6 @@
 // Import All the necessary dependencies here
 import React, { JSX } from "react";
-import "../../styles/index";
+import "../../styles/components/LoginComponent.css";
 import ComponentForLoginAndResgisterComponentForTop from "../ComponentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop"
 import LoginWithGoogleComponent from "../LoginWithGoogleComponent/LoginWithGoogleComponent";
 

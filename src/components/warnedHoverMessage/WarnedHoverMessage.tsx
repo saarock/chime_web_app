@@ -1,5 +1,5 @@
 import React, { JSX } from "react";
-import "../../styles/index";
+import "../../styles/components/WarnedHoverMessage.css";
 import { FaLock } from "react-icons/fa";
 
 
