@@ -4,8 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { AuthService } from '../services';
 import { AuthUtil, cookieUtil, localStorageUtil } from '../utils';
 import { ACCESS_TOKEN_KEY_NAME, LOCAL_STORAGE_USER_DATA_KEY, REFRESH_TOKEN_KEY_NAME } from '../constant';
-
-import { User } from '../types';
 import { useDispatch } from 'react-redux';
 import { login } from '../apps';
 

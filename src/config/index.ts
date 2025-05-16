@@ -1,7 +1,7 @@
 // Import all the necessary dependencies
 import axiosClient from "./axiosClient";
-import { initSocket, disconnectSocket, getSocket } from "./socketManager";
+import { disconnectSockets, getChatSocket, getVideoSocket, initChatSocket, initVideoSocket, disconnectChatSocket, disconnectVideoSocket } from "./socketManager";
 
 
-// Export 
-export { axiosClient, initSocket, disconnectSocket, getSocket };
+// Export
+export { axiosClient, disconnectSockets, getChatSocket, getVideoSocket, initChatSocket, initVideoSocket, disconnectChatSocket, disconnectVideoSocket };

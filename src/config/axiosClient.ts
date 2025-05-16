@@ -1,8 +1,10 @@
 // Import All the necessary dependencies
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { AuthUtil, cookieUtil } from "../utils";
-import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../constant";
-import { AuthService } from "../services";
+import { cookieUtil } from "../utils";
+import { ACCESS_TOKEN_KEY_NAME } from "../constant";
+import { refreshTokens } from "../manager";
+
+
 
 
 
@@ -67,12 +69,6 @@ axiosClient.interceptors.response.use(
                 originalRequest._retry = true; // Set the request as retried true to avoid the infinite loops;
             }
 
-            const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
-
-            if (!refreshToken) {
-                AuthUtil.clientSideLogout();
-                return Promise.reject(error); // No refresh token available, reject immediately
-            }
 
             if (isRefreshing) {
                 return new Promise((resolve, reject) => {
@@ -83,19 +79,12 @@ axiosClient.interceptors.response.use(
             isRefreshing = true;
 
             try {
-
-                const axiosResponseData = await AuthService.refreshTokens(refreshToken);
-                const newAccessoken = axiosResponseData.data.accessToken;
-                const newRefreshToken = axiosResponseData.data.refreshToken;
-
-                cookieUtil.set(ACCESS_TOKEN_KEY_NAME, newAccessoken);
-                cookieUtil.set(REFRESH_TOKEN_KEY_NAME, newRefreshToken);
-
-                // ✅ Set the global default header before retrying
-                axiosClient.defaults.headers.common["Authorization"] = `Bearer ${newAccessoken}`;
+                const newAccessToken = await refreshTokens();
+                // Set the global default header before retrying
+                axiosClient.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
 
                 failedQueue.forEach(({ resolve, config }) => {
-                    config.headers.Authorization = `Bearer ${newAccessoken}`;
+                    config.headers.Authorization = `Bearer ${newAccessToken}`;
                     resolve(axiosClient(config));
                 });
 

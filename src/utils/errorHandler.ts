@@ -40,11 +40,11 @@ const errorhandler = (error: unknown): never => {
             console.error(fallback);
             throw new Error(fallback);
         }
-    } else {
-        // if the error is not axios error
-        console.error(error instanceof Error ? error.message : "An unexpected error occurred.")
-        throw new Error(error instanceof Error ? error.message : "An unexpected error occurred.");
     }
+    // if the error is not axios error
+    console.error(error instanceof Error ? error.message : "An unexpected error occurred.")
+    throw new Error(error instanceof Error ? error.message : "An unexpected error occurred.");
+
 };
 
 // Exports

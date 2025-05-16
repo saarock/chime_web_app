@@ -8,7 +8,7 @@ import { NonProtectedPageProtector, ProtectedPageProtector } from "./components"
 import React, { useEffect } from "react";
 import { cookieUtil } from "./utils";
 import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "./constant";
-import { initSocket } from "./config";
+import { initSockets } from "./config";
 import { initChatSocketEvents, initVideoSocketEvents } from "./features";
 
 
@@ -24,21 +24,6 @@ const ChimeProfilePage = React.lazy(() => import('./pages/protectedIndex').then(
 const VideoCallPage = React.lazy(() => import('./pages/protectedIndex').then(module => ({ default: module.default.VideoCallPage })));
 
 const App = () => {
-
-
-  /**
-   * This useEffet hook helps to connect to the socket by checking the token if the tokens is there then user should connected to the socket
-   * @note run when the page mount or reload
-   */
-  useEffect(() => {
-    const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
-    const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
-    if (accessToken && refreshToken) {
-      initSocket(accessToken);
-      initChatSocketEvents();
-      initVideoSocketEvents();
-    }
-  }, []);
 
 
   return (

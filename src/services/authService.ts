@@ -1,7 +1,8 @@
 // Import dependencies
 import AuthEndPoint from "../apis";
+import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../constant";
 import { AuthResponseData, UserLoginWithGoogleDetils } from "../types";
-import { errorhandler } from "../utils";
+import { AuthUtil, cookieUtil, errorhandler } from "../utils";
 
 /**
  * AuthService handles all authentication-related operations such as 
@@ -37,12 +38,25 @@ class AuthService {
     /**
      * Refresh the access and refresh tokens using the stored refresh token.
      */
-    static async refreshTokens(refreshToken:string): Promise<AuthResponseData> {
+    static async refreshTokens(): Promise<AuthResponseData> {
         try {
+            const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
+            if (!refreshToken) {
+                AuthUtil.clientSideLogout();
+                throw new Error("No accessToken available")
+            }
+
             const response = await AuthEndPoint.refreshTokens(refreshToken);
             const axiosResponseData = await response.data;
+
+            const newRefreshToken = axiosResponseData.data.refreshToken;
+            const newAccessoken = axiosResponseData.data.accessToken;
+
+            cookieUtil.set(ACCESS_TOKEN_KEY_NAME, newAccessoken);
+            cookieUtil.set(REFRESH_TOKEN_KEY_NAME, newRefreshToken);
+
             return axiosResponseData;
-        } catch (error) {      
+        } catch (error) {
             throw errorhandler(error);
         }
     }

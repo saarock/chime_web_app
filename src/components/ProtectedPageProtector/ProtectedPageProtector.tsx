@@ -2,7 +2,7 @@
 // Import all the necessary dependencies here
 import React, { JSX, lazy, Suspense, } from 'react';
 import { PageProtectorProps } from '../../types';
-import { useVerifyTokenAndGetUserData } from '../../hooks';
+import { useChatSocket, useVerifyTokenAndGetUserData } from '../../hooks';
 
 
 // lazy imports
@@ -22,7 +22,8 @@ const ProtectedPageProtector: React.FC<PageProtectorProps> = ({ children }: Page
     
     // All the hooks goes here
     const { isError, errorMessage, } = useVerifyTokenAndGetUserData();
-
+    // Initilize the chat socket on whole page
+    useChatSocket();
 
     // If an error is present (e.g., invalid/expired token), render the error message.
     if (isError && errorMessage) {
