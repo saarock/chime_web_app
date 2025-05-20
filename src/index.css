@@ -11,7 +11,7 @@
 
 
 :root {
-  --primary-btn-background-color: #1B84FC;
+--primary-btn-background-color: #1b84fc;
   --secondary-btn-background-color: #df007e;
   --primary-btn-background-hover-color: #1e7fef;
   --primary-background-color: #191833;
@@ -24,6 +24,8 @@
   --social-hover-glow: #df007e;
   --second-little-color: rgba(128, 128, 128, 0.055);
 }
+
+
 
 
 body {

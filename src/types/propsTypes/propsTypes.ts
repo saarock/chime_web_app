@@ -26,11 +26,12 @@ export enum Variant {
   primary = "primary",
   secondary = "secondary",
   danger = "danger",
-  ternary = "ternary"
+  ternary = "ternary",
+  outline = "outline",
 }
 
 export interface ButtonProps {
-  text: string,
+  text?: string,
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'],
   onClick: () => void,
   variant?: Variant,

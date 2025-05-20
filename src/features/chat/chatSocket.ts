@@ -30,10 +30,10 @@ export const initChatSocketEvents = () => {
           chatSocket.connect();
         })();
       } catch (error) {
-        AuthUtil.clientSideLogout(); // logout the user if any error arrives
+        // AuthUtil.clientSideLogout(); // logout the user if any error arrives
       }
     } else {
-      AuthUtil.clientSideLogout(); // Logout the user from the client side
+      // AuthUtil.clientSideLogout(); // Logout the user from the client side
 
     }
   });

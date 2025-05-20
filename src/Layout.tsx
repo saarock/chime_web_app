@@ -8,7 +8,7 @@ const Layout = () => {
     <>
       <Header />
       <PageWrapContainer>
-        <ToastContainer />
+        <ToastContainer position='top-left' />
         <Outlet />
       </PageWrapContainer>
       <Footer />

@@ -6,9 +6,6 @@ import { refreshTokens } from "../manager";
 
 
 
-
-
-
 interface FailedRequest {
     resolve: (value?: any) => void;
     reject: (reason?: any) => void;

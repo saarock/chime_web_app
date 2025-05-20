@@ -26,6 +26,7 @@ import FeatureSection from "./FeatureSection/FeatureSection";
 import CallToAction from "./CallToAction/CallToAction";
 import HowItWorks from "./HowItWork/HowItWork";
 import ChimiSectionsHowHeader from "./ChimeSectionsHowHeader/ChimiSectionsHowHeader";
+import { TVStatic } from "./TVStatic/TVStatic";
 
 
 // Export all the dependencies here
@@ -56,4 +57,5 @@ ChimiSectionsHowHeader,
     HeroSection,
     FeatureSection,
     HowItWorks,
+    TVStatic,
 };

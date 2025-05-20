@@ -7,6 +7,7 @@ import store from "./apps/store.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom";
 import { ErrorBoundary, FallbackComponent } from "./components/index.ts";
+import { PeerProvider } from "./providers/Peer.tsx";
 
 
 
@@ -19,7 +20,9 @@ createRoot(document.getElementById("root")!).render(
       <GoogleOAuthProvider clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}>
         <BrowserRouter>
           <ErrorBoundary>
-            <App />
+            <PeerProvider>
+              <App />
+            </PeerProvider>
           </ErrorBoundary>
         </BrowserRouter>
       </GoogleOAuthProvider>

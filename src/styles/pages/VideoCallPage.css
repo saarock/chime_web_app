@@ -1,0 +1,515 @@
+/* Main container */
+.video-call-page {
+    background: linear-gradient(to bottom right, var(--primary-background-color), #13122b);
+    color: var(--primary-text-color);
+    padding: 1.5rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.video-call-page.maximized {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    padding: 2rem;
+}
+
+.video-call-container {
+    max-width: 95vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+    width: 90vw;
+}
+
+/* Title */
+.video-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.video-title {
+    background-color: var(--secondary-background-color);
+    border-radius: 9999px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(var(--secondary-btn-background-color), 0.2);
+    padding: 0.75rem 2rem;
+}
+
+.video-title h1 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    background: linear-gradient(to right, var(--primary-btn-background-color), var(--secondary-btn-background-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+}
+
+/* Video Grid */
+.video-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+/* Layout variations */
+.layout-side-by-side {
+    grid-template-columns: 1fr 1fr;
+}
+
+.layout-picture-in-picture {
+    grid-template-columns: 1fr;
+    position: relative;
+    width: 50vw;
+}
+
+.layout-picture-in-picture {
+    width: 55rem;
+}
+
+.layout-picture-in-picture .local-video {
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 10;
+
+}
+
+.layout-focus-remote {
+    grid-template-columns: 1fr 300px;
+    width: 75vw;
+}
+
+.layout-focus-remote .remote-video {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.layout-focus-remote .local-video {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+@media (max-width: 768px) {
+
+    .layout-side-by-side,
+    .layout-focus-remote {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+    }
+
+    .layout-focus-remote .local-video,
+    .layout-focus-remote .remote-video {
+        grid-column: 1;
+    }
+
+    .layout-focus-remote .remote-video {
+        grid-row: 1;
+    }
+
+    .layout-focus-remote .local-video {
+        grid-row: 2;
+    }
+}
+
+/* Video Boxes */
+.video-box {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: var(--secondary-background-color);
+    transition: all 0.3s ease;
+    aspect-ratio: 16 / 9;
+    transform-origin: center;
+}
+
+.local-video {
+    box-shadow: 0 0 30px rgba(223, 0, 126, 0.15);
+    border: 1px solid rgba(223, 0, 126, 0.2);
+}
+
+.local-video:hover {
+    box-shadow: 0 0 40px rgba(223, 0, 126, 0.25);
+}
+
+.remote-video {
+    box-shadow: 0 0 30px rgba(27, 132, 252, 0.15);
+    border: 1px solid rgba(27, 132, 252, 0.2);
+}
+
+.remote-video:hover {
+    box-shadow: 0 0 40px rgba(27, 132, 252, 0.25);
+}
+
+.video-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.video-element {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-disabled .video-element {
+    opacity: 0.5;
+}
+
+.video-disabled-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.video-disabled-icon {
+    background-color: rgba(var(--secondary-background-color), 0.8);
+    padding: 1.25rem;
+    border-radius: 9999px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(223, 0, 126, 0.3);
+    color: var(--secondary-btn-background-color);
+}
+
+.video-label {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 2;
+}
+
+.audio-disabled-indicator {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: var(--secondary-btn-background-color);
+    padding: 0.5rem;
+    border-radius: 9999px;
+    z-index: 2;
+    color: white;
+}
+
+/* Fullscreen button */
+.fullscreen-button {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--primary-text-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(4px);
+}
+
+.fullscreen-button:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: scale(1.1);
+}
+
+/* Ensure the fullscreen video maintains aspect ratio */
+video:fullscreen {
+    object-fit: contain;
+    background-color: black;
+}
+
+/* Static and No Call States */
+.static-container {
+    position: absolute;
+    inset: 0;
+}
+
+.tv-static-canvas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.no-call-message {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.message-box {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 1.5rem 2rem;
+    border-radius: 1rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(27, 132, 252, 0.3);
+    box-shadow: 0 0 30px rgba(27, 132, 252, 0.2);
+    animation: pulse 2s infinite;
+}
+
+.message-box p {
+    color: var(--secondary-text-color);
+    font-weight: 500;
+    text-align: center;
+    margin: 0;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+}
+
+/* Connecting State */
+.connecting-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background-color: rgba(var(--secondary-background-color), 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.connecting-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.connecting-spinner {
+    color: var(--primary-btn-background-color);
+    animation: spin 1.5s linear infinite;
+}
+
+.connecting-content p {
+    color: var(--secondary-text-color);
+    font-weight: 500;
+    margin: 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Controls */
+.controls-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: auto;
+}
+
+.gradient-overlay {
+    position: absolute;
+    inset-x: 0;
+    top: -5rem;
+    height: 5rem;
+    background: linear-gradient(to top, var(--primary-background-color), transparent);
+    pointer-events: none;
+}
+
+.controls-panel {
+    background-color: rgba(var(--secondary-background-color), 0.8);
+    backdrop-filter: blur(12px);
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.control-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 9999px;
+    box-shadow: var(--box-shadow-for-btn);
+    transition: all 0.3s ease;
+    background-color: var(--secondary-background-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--primary-text-color);
+    cursor: pointer;
+}
+
+.control-button:hover {
+    background-color: var(--little-color);
+}
+
+.control-button.control-disabled {
+    background-color: var(--secondary-btn-background-color);
+    border: 1px solid rgba(223, 0, 126, 0.5);
+    color: white;
+}
+
+.control-button.control-disabled:hover {
+    opacity: 0.9;
+}
+
+.control-button.end-call {
+    background-color: #dc2626;
+    border: 1px solid rgba(220, 38, 38, 0.5);
+    color: white;
+}
+
+.control-button.end-call:hover {
+    background-color: #b91c1c;
+}
+
+.control-button.call-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 2rem;
+    width: auto;
+    background-color: var(--primary-btn-background-color);
+    border: 1px solid rgba(27, 132, 252, 0.5);
+    color: white;
+}
+
+.control-button.call-button:hover {
+    background-color: var(--primary-btn-background-hover-color);
+}
+
+.control-button.call-button.connecting {
+    background-color: rgba(27, 132, 252, 0.7);
+    cursor: not-allowed;
+}
+
+.spinner {
+    animation: spin 1.5s linear infinite;
+}
+
+/* Advanced Controls */
+.advanced-controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.advanced-control-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    background-color: rgba(var(--secondary-background-color), 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--secondary-text-color);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+}
+
+.advanced-control-button:hover {
+    background-color: var(--little-color);
+    color: var(--primary-text-color);
+}
+
+.layout-name {
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+    text-transform: capitalize;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .video-call-page {
+        padding: 1rem;
+    }
+
+    .video-title h1 {
+        font-size: 1.5rem;
+    }
+
+    .controls-panel {
+        gap: 0.5rem;
+    }
+
+    .control-button {
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+
+    .advanced-controls {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-title {
+        padding: 0.5rem 1.5rem;
+    }
+
+    .video-title h1 {
+        font-size: 1.25rem;
+    }
+
+    .control-button {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .control-button.call-button {
+        padding: 0 1rem;
+    }
+}

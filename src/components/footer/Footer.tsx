@@ -14,7 +14,7 @@ import { SimpleFooterProps } from "../../types";
  * @returns 
  * 
  */
-const SimpleFooter: React.ComponentType<SimpleFooterProps> = ({
+const Footer: React.ComponentType<SimpleFooterProps> = ({
   companyName = "Saarock",
   companyDescription = "Connect with people worldwide through safe and anonymous chats.",
   socialLinks = [
@@ -57,4 +57,4 @@ const SimpleFooter: React.ComponentType<SimpleFooterProps> = ({
   );
 };
 
-export default SimpleFooter;
+export default Footer;

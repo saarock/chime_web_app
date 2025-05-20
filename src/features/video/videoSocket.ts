@@ -1,8 +1,8 @@
 import { getVideoSocket } from "../../config/socketManager";
 import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
 import { refreshTokens } from "../../manager";
-
 import { AuthUtil, cookieUtil } from "../../utils";
+
 
 export const initVideoSocketEvents = () => {
   const videoSocket = getVideoSocket();
@@ -27,23 +27,10 @@ export const initVideoSocketEvents = () => {
           videoSocket.connect();
         })();
       } catch (error) {
-        AuthUtil.clientSideLogout(); // logout the user if any error arrives
+        // AuthUtil.clientSideLogout(); // logout the user if any error arrives
       }
     } else {
-      AuthUtil.clientSideLogout(); // Logout the user from the client side
+      // AuthUtil.clientSideLogout(); // Logout the user from the client side
     }
-  });
-
-
-  videoSocket.on('offer', (offer) => {
-    // handle WebRTC offer
-  });
-
-  videoSocket.on('answer', (answer) => {
-    // handle WebRTC answer
-  });
-
-  videoSocket.on('ice-candidate', (candidate) => {
-    // handle ICE candidate
   });
 };
