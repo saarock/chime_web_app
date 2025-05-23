@@ -27,7 +27,10 @@ import CallToAction from "./CallToAction/CallToAction";
 import HowItWorks from "./HowItWork/HowItWork";
 import ChimiSectionsHowHeader from "./ChimeSectionsHowHeader/ChimiSectionsHowHeader";
 import { TVStatic } from "./TVStatic/TVStatic";
-
+import VideoAdvanceController from "./VideoAdvanceController/VideoAdvanceController";
+import VideoControllerPanel from "./VideoControllerPanel/VideoControllerPanel";
+import VideoBox from "./VideoBox/VideoBox";
+import VideoTitle from "./VideoTitle/VideoTitle";
 
 // Export all the dependencies here
 export {
@@ -58,4 +61,8 @@ ChimiSectionsHowHeader,
     FeatureSection,
     HowItWorks,
     TVStatic,
+    VideoAdvanceController,
+    VideoControllerPanel,
+    VideoBox,
+    VideoTitle,
 };

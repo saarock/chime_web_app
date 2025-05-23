@@ -1,326 +1,213 @@
-"use client"
 
-import type React from "react"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useReducer, useRef } from "react"
 import {
-  Phone,
-  PhoneOff,
-  Video,
-  VideoOff,
-  Mic,
-  MicOff,
-  Loader2,
-  Maximize2,
-  Minimize2,
-  ZoomIn,
-  ZoomOut,
-  Layout,
-  Fullscreen,
-} from "lucide-react"
-import { TVStatic } from "../../../components"
-import "../../../styles/pages/VideoCallPage.css";
+  VideoAdvanceController,
+  VideoBox,
+  VideoControllerPanel,
+  VideoTitle,
+} from "../../../components"
+import "../../../styles/pages/VideoCallPage.css"
 import useWebRTC from "../../../hooks/useWebRTC"
+import { CallReducer, videoInitialState } from "../../../reducers"
+import { Loader2 } from "lucide-react"
 
-
+/**
+ * VideoCallPage
+ * Main page component for random video chatting.
+ * - Sets up local/remote video streams
+ * - Manages call state via reducer
+ * - Renders video panels and control panels
+ */
 export default function VideoCallPage() {
-  const { localStream, remoteStream, randomCall, endCall, usersConnected } = useWebRTC()
+  // Retrieve WebRTC streams and call controls from custom hook
+  const { localStream, remoteStream, randomCall, endCall, isPartnerCallEnded } =
+    useWebRTC()
+
+  // Refs for attaching streams to <video> elements
   const localVideoRef = useRef<HTMLVideoElement>(null!)
   const remoteVideoRef = useRef<HTMLVideoElement>(null!)
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true)
-  const [isAudioEnabled, setIsAudioEnabled] = useState(true)
-  const [isInCall, setIsInCall] = useState(false)
-  const [isConnecting, setIsConnecting] = useState(false)
-  const [isMaximized, setIsMaximized] = useState(false)
-  const [zoomLevel, setZoomLevel] = useState(1)
-  const [layout, setLayout] = useState<"side-by-side" | "picture-in-picture" | "focus-remote">("side-by-side");
-  const [isFullScreen] = useState<boolean>(false);
 
+  // Combine multiple UI flags into a single state via reducer
+  const [state, dispatch] = useReducer(CallReducer, videoInitialState)
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Sync local media stream with <video> element and flag availability
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (localVideoRef.current && localStream) {
-      localVideoRef.current.srcObject = localStream
+      localVideoRef.current.srcObject = localStream;
     }
   }, [localStream])
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Sync remote media stream with <video> element and update call flags
+  // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       remoteVideoRef.current.srcObject = remoteStream
-      setIsInCall(true)
-      setIsConnecting(false)
+      dispatch({ type: "SET_IN_CALL", payload: true })
+      dispatch({ type: "SET_CONNECTING", payload: false })
     } else {
-      setIsInCall(false)
+      // No remote stream means no ongoing call
+      dispatch({ type: "SET_IN_CALL", payload: false })
     }
-  }, [remoteStream]);
+  }, [remoteStream])
 
-
-
-
-  const toggleVideo = () => {
-    if (localStream) {
-      localStream.getVideoTracks().forEach((track) => {
-        track.enabled = !isVideoEnabled
-      })
-      setIsVideoEnabled(!isVideoEnabled)
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Handle partner hang-up: show connecting state again
+  // ─────────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (isPartnerCallEnded) {
+      // When partner ends, transition back to searching state
+      dispatch({ type: "SET_IN_CALL", payload: false })
+      dispatch({ type: "SET_CONNECTING", payload: true })
     }
-  }
+  }, [isPartnerCallEnded])
 
-  const toggleAudio = () => {
-    if (localStream) {
-      localStream.getAudioTracks().forEach((track) => {
-        track.enabled = !isAudioEnabled
-      })
-      setIsAudioEnabled(!isAudioEnabled)
+
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Clean up browser unload to prevent accidental loss of interaction
+  // ─────────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      const msg =
+        "If you leave this page, your active video chat will be disconnected."
+      e.preventDefault()
+      e.returnValue = msg
+      return msg
     }
-  }
+    window.addEventListener("beforeunload", handleBeforeUnload)
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload)
+  }, [])
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Call control callbacks
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  // Initiates or retries random call search
   const handleRandomCall = useCallback(() => {
-    setIsConnecting(true)
+    dispatch({ type: "SET_CONNECTING", payload: true })
     randomCall()
-    setIsMaximized(true);
   }, [randomCall])
 
-  const endRandomCall = () => {
+  // Ends current call and resets flags
+  const endRandomCall = useCallback(() => {
     endCall()
-    setIsInCall(false);
-    setIsConnecting(false);
-    setIsMaximized(false);
-  }
+    dispatch({ type: "SET_IN_CALL", payload: false })
+    dispatch({ type: "SET_CONNECTING", payload: false })
+  }, [endCall])
 
-  const toggleMaximize = () => {
-    setIsMaximized(true)
-  }
-
-  const increaseZoom = () => {
-    if (zoomLevel < 2) {
-      setZoomLevel(zoomLevel + 0.1)
+  // Toggle local video tracks
+  const toggleVideo = useCallback(() => {
+    if (localStream) {
+      localStream.getVideoTracks().forEach((t) => (t.enabled = !state.isVideoEnabled))
+      dispatch({ type: "TOGGLE_VIDEO" })
     }
-  }
+  }, [localStream, state.isVideoEnabled])
 
-  const decreaseZoom = () => {
-    if (zoomLevel > 0.5) {
-      setZoomLevel(zoomLevel - 0.1)
+  // Toggle local audio tracks
+  const toggleAudio = useCallback(() => {
+    if (localStream) {
+      localStream.getAudioTracks().forEach((t) => (t.enabled = !state.isAudioEnabled))
+      dispatch({ type: "TOGGLE_AUDIO" })
     }
+  }, [localStream, state.isAudioEnabled])
+
+  // Toggle browser fullscreen mode for entire page
+  const toggleMaximize = useCallback(() => {
+    dispatch({ type: "TOGGLE_MAXIMIZED" })
+    const elem = document.documentElement
+    if (!state.isMaximized) elem.requestFullscreen?.()
+    else document.exitFullscreen?.()
+  }, [state.isMaximized])
+
+  // Zoom controls for video panels
+  const increaseZoom = useCallback(() => dispatch({ type: "SET_ZOOM", payload: state.zoomLevel + 0.1 }), [state.zoomLevel])
+  const decreaseZoom = useCallback(() => dispatch({ type: "SET_ZOOM", payload: state.zoomLevel - 0.1 }), [state.zoomLevel])
+
+  // Cycle between side-by-side and focus-remote layouts
+  const cycleLayout = useCallback(
+    () => dispatch({ type: "SET_LAYOUT", payload: state.layout === "side-by-side" ? "focus-remote" : "side-by-side" }),
+    [state.layout]
+  )
+
+  // Fullscreen for individual video elements
+  const toggleFullScreenElem = useCallback((ref: React.RefObject<HTMLVideoElement>) => {
+    if (!ref.current) return
+    const isFs = !!document.fullscreenElement
+    if (isFs) document.exitFullscreen?.()
+    else ref.current.requestFullscreen?.()
+  }, []);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Render: show placeholder until local stream is ready
+  // ─────────────────────────────────────────────────────────────────────────────
+  if (!localStream) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-900 to-blue-900 text-white px-4 text-center">
+        <div className="animate-spin mb-6">
+          <Loader2 size={64} className="text-blue-400" />
+        </div>
+        <h2 className="text-2xl font-semibold mb-2">Searching for Camera Access...</h2>
+        <p className="text-base text-gray-300 max-w-md">
+          Please allow access to your camera and microphone in the browser settings to start video chatting.
+        </p>
+      </div>
+    )
   }
-
-  const cycleLayout = () => {
-    if (layout === "side-by-side") {
-      setLayout("picture-in-picture")
-    } else if (layout === "picture-in-picture") {
-      setLayout("focus-remote")
-    } else {
-      setLayout("side-by-side")
-    }
-  }
-
-  const toggleFullScreen = (videoRef: React.RefObject<HTMLVideoElement>) => {
-    if (!videoRef.current) return
-
-    const videoElement = videoRef.current;
-
-    const isFullScreen =
-      document.fullscreenElement ||
-      (document as any).webkitFullscreenElement ||
-      (document as any).mozFullScreenElement ||
-      (document as any).msFullscreenElement;
-    if (isFullScreen) {
-      if (document.exitFullscreen) {
-        document.exitFullscreen().catch((err) => {
-          console.error(`Error attempting to exit full-screen mode: ${err.message}`)
-          return;
-        })
-      } else if ((document as any).webkitExitFullscreen) {
-        (document as any).webkitExitFullscreen();
-      } else if ((document as any).mozCancelFullScreen) {
-        (document as any).mozCancelFullScreen();
-      } else if ((document as any).msExitFullscreen) {
-        (document as any).msExitFullscreen();
-      }
-    } else {
-      if (videoElement.requestFullscreen) {
-        videoElement.requestFullscreen().catch(err => {
-          console.error(`Error attempting to request full-screen mode: ${err.message}`);
-        });
-      } else if ((videoElement as any).webkitRequestFullscreen) {
-        (videoElement as any).webkitRequestFullscreen();
-      } else if ((videoElement as any).mozRequestFullScreen) {
-        (videoElement as any).mozRequestFullScreen();
-      } else if ((videoElement as any).msRequestFullscreen) {
-        (videoElement as any).msRequestFullscreen();
-
-      }
-    }
-  }
-
-
-useEffect(() => {
-  const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-    const confirmationMessage = 'It looks like you have been editing something. If you leave before saving, your changes will be lost.';
-    e.preventDefault(); // Some browsers require this
-    e.returnValue = confirmationMessage; // Chrome requires returnValue to be set
-    return confirmationMessage;
-  };
-
-  window.addEventListener("beforeunload", handleBeforeUnload);
-
-  return () => {
-    window.removeEventListener("beforeunload", handleBeforeUnload);
-  };
-}, []);
 
 
   return (
-    <div className={`video-call-page ${isMaximized ? "maximized" : ""}`}>
+    <div className={`video-call-page ${state.isMaximized ? "maximized" : ""}`}>
       <div className="video-call-container">
-
-        {
-          isMaximized ? "" : <div className="video-title-container">
-            <div className="video-title">
-              <h1>Random Video Chat</h1>
-            </div>
-          </div>
-        }
-
-        <div className={`video-grid layout-${layout}`}>
-          {/* Local Video */}
-          <div
-            className={`video-box local-video ${!isVideoEnabled ? "video-disabled" : ""}`}
-            style={{ transform: `scale(${zoomLevel})` }}
-          >
-            <div className="video-gradient-overlay"></div>
-            <video ref={localVideoRef} autoPlay muted playsInline className="video-element" />
-            {!isVideoEnabled && (
-              <div className="video-disabled-overlay">
-                <div className="video-disabled-icon">
-                  <VideoOff size={48} />
-                </div>
-              </div>
-            )}
-            <div className="video-label">You</div>
-            <button
-              className="fullscreen-button"
-              onClick={() => toggleFullScreen(localVideoRef)}
-              aria-label="Toggle fullscreen for local video"
-            >
-              <Fullscreen size={16} />
-            </button>
-
-            {/* Audio indicator */}
-            {!isAudioEnabled && (
-              <div className="audio-disabled-indicator">
-                <MicOff size={16} />
-              </div>
-            )}
-          </div>
-
-          {/* Remote Video */}
-          <div
-            className={`video-box remote-video ${!isInCall ? "no-call" : ""}`}
-            style={{ transform: `scale(${zoomLevel})` }}
-          >
-            <div className="video-gradient-overlay"></div>
-            <video ref={remoteVideoRef} autoPlay playsInline className="video-element" />
-
-            {!isInCall && !isConnecting && (
-              <div className="static-container">
-                <TVStatic />
-                <div className="no-call-message">
-                  <div className="message-box">
-                    <p>Click "Random Call" to find someone</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {isConnecting && (
-              <div className="connecting-overlay">
-                <div className="connecting-content">
-                  <Loader2 size={48} className="connecting-spinner" />
-                  <p>Finding someone to chat with...</p>
-                </div>
-              </div>
-            )}
-
-            <div className="video-label">Remote User</div>
-            <button
-              className="fullscreen-button"
-              onClick={() => toggleFullScreen(remoteVideoRef)}
-              aria-label="Toggle fullscreen for remote video"
-            >
-              <Fullscreen size={16} />
-            </button>
-          </div>
+        <VideoTitle />
+        <div className={`video-grid layout-${state.layout}`}>
+          <VideoBox
+            refObject={localVideoRef}
+            label="You"
+            isActive={true}
+            isLocalVideoEnabled={state.isVideoEnabled}
+            isConnecting={false}
+            isInCall={state.isInCall}
+            zoomLevel={state.zoomLevel}
+            layout={state.layout}
+            onFullscreen={() => toggleFullScreenElem(localVideoRef)}
+          />
+          <VideoBox
+            refObject={remoteVideoRef}
+            label="Remote User"
+            isActive={true}
+            isLocalVideoEnabled={state.isVideoEnabled}
+            isConnecting={state.isConnecting}
+            isInCall={state.isInCall}
+            zoomLevel={state.zoomLevel}
+            layout={state.layout}
+            onFullscreen={() => toggleFullScreenElem(remoteVideoRef)}
+          />
         </div>
-
-        {/* Controls */}
-        <div className="controls-container">
-          <div className="gradient-overlay"></div>
-
-          <div className="controls-panel">
-            <button
-              onClick={toggleAudio}
-              className={`control-button ${!isAudioEnabled ? "control-disabled" : ""}`}
-              aria-label={isAudioEnabled ? "Mute microphone" : "Unmute microphone"}
-            >
-              {isAudioEnabled ? <Mic size={24} /> : <MicOff size={24} />}
-            </button>
-
-            <button
-              onClick={toggleVideo}
-              className={`control-button ${!isVideoEnabled ? "control-disabled" : ""}`}
-              aria-label={isVideoEnabled ? "Turn off camera" : "Turn on camera"}
-            >
-              {isVideoEnabled ? <Video size={24} /> : <VideoOff size={24} />}
-            </button>
-
-            <button onClick={endRandomCall} className="control-button end-call" aria-label="End call">
-              <PhoneOff size={24} />
-            </button>
-
-            <button
-              onClick={handleRandomCall}
-              disabled={isConnecting}
-              className={`control-button call-button ${isConnecting ? "connecting" : ""}`}
-              aria-label="Start random call"
-            >
-              {isConnecting ? (
-                <>
-                  <Loader2 size={20} className="spinner" />
-                  <span>Connecting...</span>
-                </>
-              ) : (
-                <>
-                  <Phone size={20} />
-                  <span>Random Call</span>
-                </>
-              )}
-            </button>
-          </div>
-
-          <div className="advanced-controls">
-            <button
-              onClick={toggleMaximize}
-              className="advanced-control-button"
-              aria-label={isMaximized ? "Minimize" : "Maximize"}
-            >
-              {isMaximized ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
-            </button>
-
-            <button onClick={increaseZoom} className="advanced-control-button" aria-label="Zoom in">
-              <ZoomIn size={20} />
-            </button>
-
-            <button onClick={decreaseZoom} className="advanced-control-button" aria-label="Zoom out">
-              <ZoomOut size={20} />
-            </button>
-
-            <button onClick={cycleLayout} className="advanced-control-button" aria-label="Change layout">
-              <Layout size={20} />
-              <span className="layout-name">{layout.replace(/-/g, " ")}</span>
-            </button>
-          </div>
+        <div className={`controls-container ${state.isMaximized ? `controls-container-${state.layout}` : ""}`}>
+          <VideoControllerPanel
+            toggleAudio={toggleAudio}
+            toggleVideo={toggleVideo}
+            isVideoEnabled={state.isVideoEnabled}
+            isAudioEnabled={state.isAudioEnabled}
+            endRandomCall={endRandomCall}
+            handleRandomCall={handleRandomCall}
+            isConnecting={state.isConnecting}
+          />
+          <VideoAdvanceController
+            toggleMaximize={toggleMaximize}
+            isMaximized={state.isMaximized}
+            increaseZoom={increaseZoom}
+            decreaseZoom={decreaseZoom}
+            cycleLayout={cycleLayout}
+            layout={state.layout}
+          />
         </div>
       </div>
     </div>
   )
 }
+

@@ -18,12 +18,13 @@ const useWebRTC = () => {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
 
 
+  const [isPartnerCallEnded, setIsPartnerCallEnded] = useState(false);
+
+
+
 
   // Store the current partner’s userId for signaling
   const partnerIdRef = useRef<string | null>(null);
-
-  // Track whether ICE has connected
-  const [usersConnected, setUsersConnected] = useState<boolean>(false); /** @note When two users connected then it should be true other-wise false */
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 2) CAPTURE LOCAL MEDIA
@@ -47,6 +48,14 @@ const useWebRTC = () => {
   // Run once on mount
   useEffect(() => {
     setLocalStreamFunction();
+    return () => {
+      // Turn off all tracks if they exist
+      if (localStream) {
+        localStream.getTracks().forEach((track) => {
+          track.stop();
+        });
+      }
+    }
   }, [setLocalStreamFunction]);
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -94,7 +103,7 @@ const useWebRTC = () => {
           // ICE is trying paths
           break;
         case "connected":
-          setUsersConnected(true);
+          setIsPartnerCallEnded(false); // It means the partner is connected
           break;
         case "completed":
         case "failed":
@@ -121,6 +130,7 @@ const useWebRTC = () => {
       setRemoteStream(null);
     };
   }, [localStream, getOrCreatePeerConnection]);
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 4) SOCKET EVENT HANDLERS
@@ -237,11 +247,11 @@ const useWebRTC = () => {
       cleanupPeerConnection();
       // If the other party ended (isEnder=false), we can auto-start a new search
       if (!isEnder && videoSocket) {
+        setIsPartnerCallEnded(true);
         getOrCreatePeerConnection(); // Create new peer connection
         videoSocket.emit("start:random-video-call", {
           filters: { age: "", gender: "", country: "" },
         });
-        toast.info(" call ended")
       } else {
         toast.info(" call ended from isEnder")
       }
@@ -250,9 +260,12 @@ const useWebRTC = () => {
   );
 
   /** Handler for retry event when both agreed to try someone else */
-  const handleNextTry = useCallback(() => {
+  const handleNextTry = useCallback(({ isEnder }: { isEnder: boolean }) => {
     cleanupPeerConnection();
     partnerIdRef.current = null;
+    if (!isEnder) {
+      setIsPartnerCallEnded(true); // partner ended the call automatically try for others so show the connecting screen with the helps of this state
+    }
     getOrCreatePeerConnection();
     videoSocket?.emit("start:random-video-call", {
       filters: { age: "", gender: "", country: "" },
@@ -350,7 +363,7 @@ const useWebRTC = () => {
   // ─────────────────────────────────────────────────────────────────────────────
   // 7) return states on Video page
   // ─────────────────────────────────────────────────────────────────────────────
-  return { localStream, remoteStream, randomCall, endCall, usersConnected };
+  return { localStream, remoteStream, randomCall, endCall, isPartnerCallEnded };
 };
 
 export default useWebRTC;
