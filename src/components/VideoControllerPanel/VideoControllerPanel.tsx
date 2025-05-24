@@ -9,6 +9,7 @@ interface VideoControllerPanelProps {
     endRandomCall: () => void;
     handleRandomCall: () => void;
     isConnecting: boolean;
+    isRemoteStream: boolean;
 
 }
 
@@ -21,6 +22,7 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = (
         endRandomCall,
         handleRandomCall,
         isConnecting,
+        isRemoteStream,
     }
 ) => {
     return (
@@ -41,7 +43,7 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = (
                 {isVideoEnabled ? <Video size={24} /> : <VideoOff size={24} />}
             </button>
 
-            <button onClick={endRandomCall} className="control-button end-call" aria-label="End call">
+            <button onClick={endRandomCall} className="control-button end-call" aria-label="End call" disabled={!(isRemoteStream || isConnecting)} style={{cursor: (isRemoteStream || isConnecting) ? "pointer" : "not-allowed"}}>
                 <PhoneOff size={24} />
             </button>
 

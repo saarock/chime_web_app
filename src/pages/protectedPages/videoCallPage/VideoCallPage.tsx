@@ -2,15 +2,17 @@
 
 import React, { useCallback, useEffect, useReducer, useRef } from "react"
 import {
+  LoadingComponent,
   VideoAdvanceController,
   VideoBox,
   VideoControllerPanel,
   VideoTitle,
 } from "../../../components"
-import "../../../styles/pages/VideoCallPage.css"
-import useWebRTC from "../../../hooks/useWebRTC"
-import { CallReducer, videoInitialState } from "../../../reducers"
-import { Loader2 } from "lucide-react"
+import "../../../styles/pages/VideoCallPage.css";
+import { CallReducer, videoInitialState } from "../../../reducers";
+import { Loader2 } from "lucide-react";
+import { useAuth, useWebRTC} from "../../../hooks";
+
 
 /**
  * VideoCallPage
@@ -21,15 +23,19 @@ import { Loader2 } from "lucide-react"
  */
 export default function VideoCallPage() {
   // Retrieve WebRTC streams and call controls from custom hook
-  const { localStream, remoteStream, randomCall, endCall, isPartnerCallEnded } =
-    useWebRTC()
+  const { localStream, remoteStream, randomCall, endCall, isPartnerCallEnded, partnerIdRef } =
+    useWebRTC();
+
+  // Check the user is login or not from the userAuth hook
+  const { isAuthenticated, user } = useAuth();
 
   // Refs for attaching streams to <video> elements
-  const localVideoRef = useRef<HTMLVideoElement>(null!)
-  const remoteVideoRef = useRef<HTMLVideoElement>(null!)
+  const localVideoRef = useRef<HTMLVideoElement>(null!);
+  const remoteVideoRef = useRef<HTMLVideoElement>(null!);
 
   // Combine multiple UI flags into a single state via reducer
-  const [state, dispatch] = useReducer(CallReducer, videoInitialState)
+  const [state, dispatch] = useReducer(CallReducer, videoInitialState);
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Sync local media stream with <video> element and flag availability
@@ -46,11 +52,11 @@ export default function VideoCallPage() {
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       remoteVideoRef.current.srcObject = remoteStream
-      dispatch({ type: "SET_IN_CALL", payload: true })
-      dispatch({ type: "SET_CONNECTING", payload: false })
+      dispatch({ type: "SET_IN_CALL", payload: true });
+      dispatch({ type: "SET_CONNECTING", payload: false });
     } else {
       // No remote stream means no ongoing call
-      dispatch({ type: "SET_IN_CALL", payload: false })
+      dispatch({ type: "SET_IN_CALL", payload: false });
     }
   }, [remoteStream])
 
@@ -63,7 +69,19 @@ export default function VideoCallPage() {
       dispatch({ type: "SET_IN_CALL", payload: false })
       dispatch({ type: "SET_CONNECTING", payload: true })
     }
-  }, [isPartnerCallEnded])
+  }, [isPartnerCallEnded]);
+
+
+
+
+  // useEffect(() => {
+  //   if (!remoteStream && partnerIdRef.current) {
+  //     partnerIdRef.current = null;
+  //     dispatch({ type: "SET_IN_CALL", payload: false });
+  //     dispatch({ type: "SET_CONNECTING", payload: true });
+  //     randomCall();
+  //   }
+  // }, [remoteStream]);
 
 
 
@@ -73,14 +91,20 @@ export default function VideoCallPage() {
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const msg =
-        "If you leave this page, your active video chat will be disconnected."
-      e.preventDefault()
-      e.returnValue = msg
-      return msg
+        "If you leave this page, your active video chat will be disconnected.";
+      console.log("Page is reloading...");
+      
+        e.preventDefault();
+      e.returnValue = msg;
+      return e;
     }
     window.addEventListener("beforeunload", handleBeforeUnload)
     return () => window.removeEventListener("beforeunload", handleBeforeUnload)
-  }, [])
+  }, [endCall]);
+
+
+
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Call control callbacks
@@ -141,6 +165,18 @@ export default function VideoCallPage() {
     else ref.current.requestFullscreen?.()
   }, []);
 
+
+
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Render: show placeholder while checking the user-tokens
+  // ─────────────────────────────────────────────────────────────────────────────
+  if (!isAuthenticated || !user) {
+    return <LoadingComponent />
+  }
+
+
+
   // ─────────────────────────────────────────────────────────────────────────────
   // Render: show placeholder until local stream is ready
   // ─────────────────────────────────────────────────────────────────────────────
@@ -165,6 +201,7 @@ export default function VideoCallPage() {
         <VideoTitle />
         <div className={`video-grid layout-${state.layout}`}>
           <VideoBox
+            stream={localStream}
             refObject={localVideoRef}
             label="You"
             isActive={true}
@@ -176,6 +213,7 @@ export default function VideoCallPage() {
             onFullscreen={() => toggleFullScreenElem(localVideoRef)}
           />
           <VideoBox
+            stream={remoteStream}
             refObject={remoteVideoRef}
             label="Remote User"
             isActive={true}
@@ -189,6 +227,7 @@ export default function VideoCallPage() {
         </div>
         <div className={`controls-container ${state.isMaximized ? `controls-container-${state.layout}` : ""}`}>
           <VideoControllerPanel
+            isRemoteStream={remoteStream ? true : false}
             toggleAudio={toggleAudio}
             toggleVideo={toggleVideo}
             isVideoEnabled={state.isVideoEnabled}

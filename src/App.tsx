@@ -5,11 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
 // import { Contact, Home, LoginPage, RegisterPage } from "./pages/nonProtectedIndex";
 import { NonProtectedPageProtector, ProtectedPageProtector } from "./components";
-import React, { useEffect } from "react";
-import { cookieUtil } from "./utils";
-import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "./constant";
-import { initSockets } from "./config";
-import { initChatSocketEvents, initVideoSocketEvents } from "./features";
+import React from "react";
 
 
 // Lazy load non-protected page

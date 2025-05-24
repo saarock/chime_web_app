@@ -20,9 +20,9 @@ createRoot(document.getElementById("root")!).render(
       <GoogleOAuthProvider clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}>
         <BrowserRouter>
           <ErrorBoundary>
-            <PeerProvider>
+            {/* <PeerProvider> */}
               <App />
-            </PeerProvider>
+            {/* </PeerProvider> */}
           </ErrorBoundary>
         </BrowserRouter>
       </GoogleOAuthProvider>

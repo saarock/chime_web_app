@@ -1,3 +1,4 @@
+// Import all the necessary dependencies here
 import { useEffect, useState } from 'react'
 import { cookieUtil } from '../utils';
 import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from '../constant';
@@ -7,7 +8,7 @@ import { Socket } from 'socket.io-client';
 
 const useVideoSocket = () => {
 
-    
+
 
     const [videoSocket, setVideoSocket] = useState<Socket | null>(null);
 
@@ -19,7 +20,7 @@ const useVideoSocket = () => {
         const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
         const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
         if (accessToken && refreshToken) {
-   
+
             initVideoSocket();
             initVideoSocketEvents();
             setVideoSocket(getVideoSocket());
@@ -29,7 +30,7 @@ const useVideoSocket = () => {
         // cleanup the video socket
         return (() => {
             disconnectVideoSocket();
-        })
+        });
     }, []);
 
 

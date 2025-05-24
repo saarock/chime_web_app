@@ -13,6 +13,7 @@ interface VideoBoxProps {
     zoomLevel: number
     layout: "side-by-side" | "focus-remote"
     onFullscreen: () => void
+    stream: MediaStream | null
 }
 function VideoBox({
     refObject,
@@ -25,6 +26,7 @@ function VideoBox({
     zoomLevel,
     layout,
     onFullscreen,
+    stream
 }: VideoBoxProps) {
     const disabledClass = !isLocalVideoEnabled ? "video-disabled" : ""
     const noCallClass = !isInCall && label === "Remote User" ? "no-call" : ""
@@ -35,7 +37,7 @@ function VideoBox({
             style={{ transform: `scale(${zoomLevel})` }}
         >
             <div className="video-gradient-overlay" />
-            <video ref={refObject} autoPlay playsInline muted={label === "You"} className="video-element" />
+            {stream && <video ref={refObject} autoPlay playsInline muted={label === "You"} className="video-element" />}
             {!isLocalVideoEnabled && label === "You" && (
                 <div className="video-disabled-overlay">
                     <div className="video-disabled-icon">
@@ -43,11 +45,11 @@ function VideoBox({
                     </div>
                 </div>
             )}
-             {/* Audio indicator */}
+            {/* Audio indicator */}
             {!isLocalAudioEnabled && (
-              <div className="audio-disabled-indicator">
-                <MicOff size={16} />
-              </div>
+                <div className="audio-disabled-indicator">
+                    <MicOff size={16} />
+                </div>
             )}
 
             {label === "Remote User" && !isInCall && !isConnecting && (

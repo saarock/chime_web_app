@@ -23,6 +23,7 @@ const useWebRTC = () => {
 
 
 
+
   // Store the current partner’s userId for signaling
   const partnerIdRef = useRef<string | null>(null);
 
@@ -178,6 +179,13 @@ const useWebRTC = () => {
       const pc = peerConnection.current;
       if (!pc || !videoSocket) return;
 
+      //  Only handle the call if we did NOT initiate it
+      // Skip if we were the caller who sent the offer
+      if (pc.signalingState !== "stable") {
+        console.warn("Already initiated offer, skipping receive-call");
+        return;
+      }
+
       try {
         await pc.setRemoteDescription(new RTCSessionDescription(offer));
         console.log("Offer applied, state:", pc.signalingState);
@@ -216,6 +224,35 @@ const useWebRTC = () => {
     [sendError]
   );
 
+
+  /**
+   * For the future 
+   */
+
+// useEffect(() => {
+//   if (!remoteStream) return;
+
+//   const handleTrackEnded = () => {
+//     if (!remoteStream.active) {
+//       console.warn("All remote tracks ended, setting stream to null.");
+//       setRemoteStream(null);
+//     }
+//   };
+
+//   // Attach 'ended' listener to all tracks
+//   remoteStream.getTracks().forEach((track) =>
+//     track.addEventListener("ended", handleTrackEnded)
+//   );
+
+//   return () => {
+//     // Cleanup listeners
+//     remoteStream.getTracks().forEach((track) =>
+//       track.removeEventListener("ended", handleTrackEnded)
+//     );
+//   };
+// }, [remoteStream]);
+
+
   /** Add each incoming ICE candidate to our peer */
   const handleICE = useCallback(
     async ({ candidate }: any) => {
@@ -243,18 +280,23 @@ const useWebRTC = () => {
   /** Handler for remote “end-call” event */
   const handleUserCallEnded = useCallback(
     ({ isEnder }: { isEnder: boolean }) => {
-      partnerIdRef.current = null; // Clean-up the previous userId
       cleanupPeerConnection();
+      setRemoteStream(null);
       // If the other party ended (isEnder=false), we can auto-start a new search
       if (!isEnder && videoSocket) {
         setIsPartnerCallEnded(true);
         getOrCreatePeerConnection(); // Create new peer connection
-        videoSocket.emit("start:random-video-call", {
-          filters: { age: "", gender: "", country: "" },
-        });
+        if (partnerIdRef.current) {
+          videoSocket.emit("start:random-video-call", {
+            filters: { age: "", gender: "", country: "" },
+          });
+        }
       } else {
         toast.info(" call ended from isEnder")
       }
+
+
+      partnerIdRef.current = null; // Clean-up the previous userId after all the events
     },
     [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket]
   );
@@ -262,11 +304,12 @@ const useWebRTC = () => {
   /** Handler for retry event when both agreed to try someone else */
   const handleNextTry = useCallback(({ isEnder }: { isEnder: boolean }) => {
     cleanupPeerConnection();
-    partnerIdRef.current = null;
-    if (!isEnder) {
+    partnerIdRef.current = null; // Clean-up the previous userId
+    if (!isEnder && partnerIdRef.current) {
       setIsPartnerCallEnded(true); // partner ended the call automatically try for others so show the connecting screen with the helps of this state
     }
     getOrCreatePeerConnection();
+
     videoSocket?.emit("start:random-video-call", {
       filters: { age: "", gender: "", country: "" },
     });
@@ -321,6 +364,8 @@ const useWebRTC = () => {
     handleNextTry,
   ]);
 
+
+
   // ─────────────────────────────────────────────────────────────────────────────
   // 6) PUBLIC API
   // ─────────────────────────────────────────────────────────────────────────────
@@ -330,7 +375,7 @@ const useWebRTC = () => {
       // Clean up immediately
       cleanupPeerConnection();
       const partnerId = partnerIdRef.current;
-      partnerIdRef.current = null;
+      // alert(partnerId)
       videoSocket.emit("end-call", { partnerId });
     }
   }, [videoSocket]);
@@ -340,30 +385,35 @@ const useWebRTC = () => {
   const randomCall = useCallback(() => {
     if (!videoSocket) return;
 
+
+    // alert(partnerIdRef.current)
     // If already in a call, ask to end and retry
-    if (partnerIdRef.current) {
+    if (partnerIdRef.current && remoteStream) {
       cleanupPeerConnection();
       getOrCreatePeerConnection();
       const partnerId = partnerIdRef.current;
-      partnerIdRef.current = null;
       videoSocket.emit(
         "go:and:tell:callee:call:ended:so:you:can:try:for:others",
         { partnerId }
       );
+
     } else {
       cleanupPeerConnection();
       getOrCreatePeerConnection();
+      // alert("I am starting the random call")
       videoSocket.emit("start:random-video-call", {
         filters: { age: "", gender: "", country: "" },
       });
     }
-  }, [videoSocket, getOrCreatePeerConnection]);
+  }, [videoSocket, getOrCreatePeerConnection, remoteStream]);
+
+
 
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 7) return states on Video page
   // ─────────────────────────────────────────────────────────────────────────────
-  return { localStream, remoteStream, randomCall, endCall, isPartnerCallEnded };
+  return { localStream, remoteStream, randomCall, endCall, isPartnerCallEnded, partnerIdRef };
 };
 
 export default useWebRTC;
