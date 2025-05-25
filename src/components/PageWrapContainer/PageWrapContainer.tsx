@@ -1,21 +1,16 @@
 // Import all the necessary dependencies here
-import React from 'react'
-import { PageWrapperProps } from '../../types'
-
+import React from "react";
+import { PageWrapperProps } from "../../types";
 
 /**
- * Chime outlet wrapper  
+ * Chime outlet wrapper
  * @param {React.ReactNode}
  * @returns {React.ReactNode}
  */
 const PageWrapContainer: React.FC<PageWrapperProps> = ({
-    children
+  children,
 }): React.ReactNode => {
-    return (
-        <main id='main'>
-            {children}
-        </main>
-    )
-}
+  return <main id="main">{children}</main>;
+};
 
 export default PageWrapContainer;

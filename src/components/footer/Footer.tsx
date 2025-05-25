@@ -1,27 +1,47 @@
 // Import all the necessary dependencies here
 import React, { JSX } from "react";
-import { FaTwitter, FaFacebookF, FaInstagram, FaLinkedinIn, FaGithub } from "react-icons/fa";
+import {
+  FaTwitter,
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaGithub,
+} from "react-icons/fa";
 import "../../styles/components/Footer.css";
 import { SimpleFooterProps } from "../../types";
 
-
-
 /**
  * @param {SimpleFooterProps}
- * @param {string} param0.companyName 
+ * @param {string} param0.companyName
  * @param {string} param0.companyDescription
  * @param {string} param0.socialLinks {param0.socialLinks.name, .url and .icon}
- * @returns 
- * 
+ * @returns
+ *
  */
 const Footer: React.ComponentType<SimpleFooterProps> = ({
   companyName = "Saarock",
   companyDescription = "Connect with people worldwide through safe and anonymous chats.",
   socialLinks = [
-    { name: "Twitter", url: "https://twitter.com/saarock", icon: <FaTwitter /> },
-    { name: "Facebook", url: "https://facebook.com/saarock", icon: <FaFacebookF /> },
-    { name: "Instagram", url: "https://instagram.com/saarock", icon: <FaInstagram /> },
-    { name: "LinkedIn", url: "https://linkedin.com/company/saarock", icon: <FaLinkedinIn /> },
+    {
+      name: "Twitter",
+      url: "https://twitter.com/saarock",
+      icon: <FaTwitter />,
+    },
+    {
+      name: "Facebook",
+      url: "https://facebook.com/saarock",
+      icon: <FaFacebookF />,
+    },
+    {
+      name: "Instagram",
+      url: "https://instagram.com/saarock",
+      icon: <FaInstagram />,
+    },
+    {
+      name: "LinkedIn",
+      url: "https://linkedin.com/company/saarock",
+      icon: <FaLinkedinIn />,
+    },
     { name: "GitHub", url: "https://github.com/saarock", icon: <FaGithub /> },
   ],
 }): JSX.Element => {

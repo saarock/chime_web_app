@@ -8,21 +8,17 @@ import React, { JSX, useState } from "react";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import { toast } from "react-toastify";
 
-
-
 /**
- * 
+ *
  * @returns Google Login button with response
  */
 const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
-
-
   // All the hooks goes here
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
 
   /**
-   * 
+   *
    * @param credentialsResponse [Google credentials with client-id]
    * @returns {void}
    */
@@ -35,33 +31,39 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
     }
     try {
       // after checking the credentials loginFromTheGoogle
-      await dispatch(serverLoginWithGoogle({
-        credentials: credentialsResponse.credential,
-        clientId: credentialsResponse.clientId
-      })).unwrap();
+      await dispatch(
+        serverLoginWithGoogle({
+          credentials: credentialsResponse.credential,
+          clientId: credentialsResponse.clientId,
+        }),
+      ).unwrap();
 
       // if user login successfully navigate to the chats
       window.location.replace("/chats"); // dont show the prev history before login and after login to the user
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Login failed");
-      console.error("Dispatch error", error instanceof Error ? error.message : error);
+      console.error(
+        "Dispatch error",
+        error instanceof Error ? error.message : error,
+      );
     } finally {
       setLoading(false);
     }
   };
 
-
   return (
     <div className="chime-login-with-google-container">
       <div className="chime-login-with-google-child-container">
-        {
-          loading ? <LoadingComponent /> : <GoogleLogin
+        {loading ? (
+          <LoadingComponent />
+        ) : (
+          <GoogleLogin
             onSuccess={(e) => loginWithGoogle(e)}
             onError={() => {
               console.error("Login Failed");
             }}
           />
-        }
+        )}
       </div>
     </div>
   );

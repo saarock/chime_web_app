@@ -1,4 +1,4 @@
 export interface ChimeSectionsHowHeaderProps {
-    title:string;
-    description: string;
+  title: string;
+  description: string;
 }

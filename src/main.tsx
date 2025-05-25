@@ -9,19 +9,16 @@ import { BrowserRouter } from "react-router-dom";
 import { ErrorBoundary, FallbackComponent } from "./components/index.ts";
 import { PeerProvider } from "./providers/Peer.tsx";
 
-
-
-
-
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <GoogleOAuthProvider clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}>
+      <GoogleOAuthProvider
+        clientId={`${import.meta.env.VITE_GOOGLE_CLIENT_ID}`}
+      >
         <BrowserRouter>
           <ErrorBoundary>
             {/* <PeerProvider> */}
-              <App />
+            <App />
             {/* </PeerProvider> */}
           </ErrorBoundary>
         </BrowserRouter>

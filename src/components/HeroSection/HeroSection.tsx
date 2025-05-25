@@ -1,9 +1,14 @@
 // Import all the necessary dependencies
-import { FiArrowRight } from "react-icons/fi"
-import { FaVideo, FaMicrophone, FaTimes, FaRandom, FaUsers } from "react-icons/fa"
-import { JSX } from "react"
+import { FiArrowRight } from "react-icons/fi";
+import {
+  FaVideo,
+  FaMicrophone,
+  FaTimes,
+  FaRandom,
+  FaUsers,
+} from "react-icons/fa";
+import { JSX } from "react";
 import "../../styles/components/HeroSection.css";
-
 
 /**
  * Chime hero section component
@@ -17,18 +22,23 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
           <div className="chime-hero-content">
             <div className="chime-hero-text">
               <h1 className="chime-hero-title">
-                Random Video Chats & <span className="chime-text-secondary">Group Conversations</span>
+                Random Video Chats &{" "}
+                <span className="chime-text-secondary">
+                  Group Conversations
+                </span>
               </h1>
               <p className="chime-hero-description">
-                Connect with strangers worldwide through random video chats or join group conversations with people who
-                share your interests.
+                Connect with strangers worldwide through random video chats or
+                join group conversations with people who share your interests.
               </p>
             </div>
             <div className="chime-hero-buttons">
               <button className="chime-button chime-button-primary chime-button-large">
                 Start Chatting <FiArrowRight className="chime-button-icon" />
               </button>
-              <button className="chime-button chime-button-secondary chime-button-large">Create Profile</button>
+              <button className="chime-button chime-button-secondary chime-button-large">
+                Create Profile
+              </button>
             </div>
             <div className="chime-hero-users">
               <div className="chime-user-avatars">
@@ -37,7 +47,8 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
                 ))}
               </div>
               <p className="chime-user-count">
-                Join <span className="chime-text-highlight">5,000+</span> users already connected
+                Join <span className="chime-text-highlight">5,000+</span> users
+                already connected
               </p>
             </div>
           </div>
@@ -74,7 +85,6 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
 
             {/* Group Chat Window */}
             <div className="chime-group-chat">
-
               <div className="chime-group-header">
                 <div className="chime-group-title">
                   <FaUsers className="chime-group-icon" />
@@ -85,32 +95,54 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
 
               <div className="chime-chat-messages">
                 <div className="chime-chat-message">
-                  <div className="chime-message-avatar chime-avatar-primary">J</div>
+                  <div className="chime-message-avatar chime-avatar-primary">
+                    J
+                  </div>
                   <div className="chime-message-content">
-                    <p className="chime-message-author chime-text-primary">Jake</p>
-                    <p className="chime-message-text">Has anyone been to Bali recently?</p>
+                    <p className="chime-message-author chime-text-primary">
+                      Jake
+                    </p>
+                    <p className="chime-message-text">
+                      Has anyone been to Bali recently?
+                    </p>
                   </div>
                 </div>
 
                 <div className="chime-chat-message">
-                  <div className="chime-message-avatar chime-avatar-secondary">S</div>
+                  <div className="chime-message-avatar chime-avatar-secondary">
+                    S
+                  </div>
                   <div className="chime-message-content">
-                    <p className="chime-message-author chime-text-secondary">Sarah</p>
-                    <p className="chime-message-text">I was there last month! The beaches are amazing.</p>
+                    <p className="chime-message-author chime-text-secondary">
+                      Sarah
+                    </p>
+                    <p className="chime-message-text">
+                      I was there last month! The beaches are amazing.
+                    </p>
                   </div>
                 </div>
 
                 <div className="chime-chat-message">
-                  <div className="chime-message-avatar chime-avatar-neutral">M</div>
+                  <div className="chime-message-avatar chime-avatar-neutral">
+                    M
+                  </div>
                   <div className="chime-message-content">
-                    <p className="chime-message-author chime-text-primary">Mike</p>
-                    <p className="chime-message-text">I'm planning to go in December. Any recommendations?</p>
+                    <p className="chime-message-author chime-text-primary">
+                      Mike
+                    </p>
+                    <p className="chime-message-text">
+                      I'm planning to go in December. Any recommendations?
+                    </p>
                   </div>
                 </div>
               </div>
 
               <div className="chime-chat-input-container">
-                <input type="text" placeholder="Type a message..." className="chime-chat-input" />
+                <input
+                  type="text"
+                  placeholder="Type a message..."
+                  className="chime-chat-input"
+                />
                 <button className="chime-chat-send">
                   <FiArrowRight />
                 </button>
@@ -120,7 +152,7 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;

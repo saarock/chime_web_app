@@ -17,12 +17,16 @@ const useWebRTC = () => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
 
+  // Errors in state
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Online users counts
+  const [onlineUsersCount, setOnlineUsersCount] = useState<number>(0);
+
+  // SuccessMessage in state
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const [isPartnerCallEnded, setIsPartnerCallEnded] = useState(false);
-
-
-
-
 
   // Store the current partner’s userId for signaling
   const partnerIdRef = useRef<string | null>(null);
@@ -56,7 +60,7 @@ const useWebRTC = () => {
           track.stop();
         });
       }
-    }
+    };
   }, [setLocalStreamFunction]);
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -95,7 +99,10 @@ const useWebRTC = () => {
     };
 
     // When remote tracks arrive, show them
-    pc.ontrack = (e) => setRemoteStream(e.streams[0]);
+    pc.ontrack = (e) => {
+      setRemoteStream(e.streams[0])
+      setSuccessMessage(` Connected to new user...`)
+    };
 
     // Watch ICE connection state (checking → connected → disconnected, etc.)
     pc.oniceconnectionstatechange = () => {
@@ -132,16 +139,20 @@ const useWebRTC = () => {
     };
   }, [localStream, getOrCreatePeerConnection]);
 
-
   // ─────────────────────────────────────────────────────────────────────────────
   // 4) SOCKET EVENT HANDLERS
   // ─────────────────────────────────────────────────────────────────────────────
 
-  // Simple toasts for queue conditions
-  const sendSelfLoop = useCallback(() => toast.info("Only you are here."), []);
-  const sendWait = useCallback(() => toast.info("Waiting for partner…"), []);
-  const sendNotFound = useCallback(() => toast.info("Partner not available"), []);
-  const sendError = useCallback((msg: string) => toast.error(msg), []);
+  // Simple Error messages and success message handlers
+  const sendSelfLoop = useCallback(({ message }: { message: string }) => setErrorMessage(message), []);
+  const sendWait = useCallback(() => setSuccessMessage("Wait for the user..."), []);
+  const sendNotFound = useCallback(
+    ({ message }: { message: string }) => setErrorMessage(message),
+    [],
+  );
+  const sendError = useCallback((message: string) => setErrorMessage(message), []);
+
+
 
   /** When a match is found:
    *  - isCaller === true: create & send an SDP offer
@@ -153,7 +164,7 @@ const useWebRTC = () => {
       if (!pc || !videoSocket) return;
 
       if (!isCaller) {
-        toast.info("Partner found — waiting for their call.");
+        setSuccessMessage("partner Found Wait for there call");
         return;
       }
 
@@ -167,7 +178,7 @@ const useWebRTC = () => {
         sendError("Failed to create offer");
       }
     },
-    [getOrCreatePeerConnection, videoSocket, sendError]
+    [getOrCreatePeerConnection, videoSocket, sendError],
   );
 
   /** When an offer arrives:
@@ -188,7 +199,6 @@ const useWebRTC = () => {
 
       try {
         await pc.setRemoteDescription(new RTCSessionDescription(offer));
-        console.log("Offer applied, state:", pc.signalingState);
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         videoSocket.emit("call-accepted", { to: from, answer });
@@ -198,7 +208,7 @@ const useWebRTC = () => {
         sendError("Error handling incoming call");
       }
     },
-    [videoSocket, sendError]
+    [videoSocket, sendError],
   );
 
   /** When an answer arrives:
@@ -210,7 +220,6 @@ const useWebRTC = () => {
       if (!pc) return;
 
       try {
-        console.log("Answer arrived, signalingState:", pc.signalingState);
         if (pc.signalingState === "have-local-offer") {
           await pc.setRemoteDescription(new RTCSessionDescription(answer));
         } else {
@@ -221,99 +230,96 @@ const useWebRTC = () => {
         sendError("Error setting remote description");
       }
     },
-    [sendError]
+    [sendError],
   );
-
-
-  /**
-   * For the future 
-   */
-
-// useEffect(() => {
-//   if (!remoteStream) return;
-
-//   const handleTrackEnded = () => {
-//     if (!remoteStream.active) {
-//       console.warn("All remote tracks ended, setting stream to null.");
-//       setRemoteStream(null);
-//     }
-//   };
-
-//   // Attach 'ended' listener to all tracks
-//   remoteStream.getTracks().forEach((track) =>
-//     track.addEventListener("ended", handleTrackEnded)
-//   );
-
-//   return () => {
-//     // Cleanup listeners
-//     remoteStream.getTracks().forEach((track) =>
-//       track.removeEventListener("ended", handleTrackEnded)
-//     );
-//   };
-// }, [remoteStream]);
 
 
   /** Add each incoming ICE candidate to our peer */
-  const handleICE = useCallback(
-    async ({ candidate }: any) => {
-      const pc = peerConnection.current;
-      if (!pc) return;
+  const handleICE = useCallback(async ({ candidate }: any) => {
+    const pc = peerConnection.current;
+    if (!pc) return;
 
-      try {
-        await pc.addIceCandidate(new RTCIceCandidate(candidate));
-      } catch {
-        console.error("ICE candidate add failed");
-      }
-    },
-    []
-  );
+    try {
+      await pc.addIceCandidate(new RTCIceCandidate(candidate));
+    } catch {
+      console.error("ICE candidate add failed");
+      sendError("ICE candidate add failed")
+    }
+  }, []);
 
   /** Clean up & optionally restart peer when call ends */
   const cleanupPeerConnection = useCallback(() => {
-    if (peerConnection.current) {
-      peerConnection.current.close();
-      peerConnection.current = null;
+    try {
+      if (peerConnection.current) {
+        peerConnection.current.close();
+        peerConnection.current = null;
+      }
+      setRemoteStream(null);
+    } catch (error) {
+      console.error(error);
+      sendError("Failed to close the peer connection.")
     }
-    setRemoteStream(null);
   }, []);
 
   /** Handler for remote “end-call” event */
   const handleUserCallEnded = useCallback(
     ({ isEnder }: { isEnder: boolean }) => {
-      cleanupPeerConnection();
-      setRemoteStream(null);
-      // If the other party ended (isEnder=false), we can auto-start a new search
-      if (!isEnder && videoSocket) {
-        setIsPartnerCallEnded(true);
-        getOrCreatePeerConnection(); // Create new peer connection
-        if (partnerIdRef.current) {
-          videoSocket.emit("start:random-video-call", {
-            filters: { age: "", gender: "", country: "" },
-          });
+      try {
+        cleanupPeerConnection();
+        setRemoteStream(null);
+        setSuccessMessage("Call end");
+        // If the other party ended (isEnder=false), we can auto-start a new search
+        if (!isEnder && videoSocket) {
+          setIsPartnerCallEnded(true);
+          getOrCreatePeerConnection(); // Create new peer connection
+          if (partnerIdRef.current) {
+            videoSocket.emit("start:random-video-call", {
+              filters: { age: "", gender: "", country: "" },
+            });
+          }
+        } else {
+          toast.info(" call ended from isEnder");
         }
-      } else {
-        toast.info(" call ended from isEnder")
+
+        partnerIdRef.current = null; // Clean-up the previous userId after all the events
+      } catch (error) {
+        console.log(error);
+        sendError(error instanceof Error ? error.message : "Failed to end the call try again.")
       }
-
-
-      partnerIdRef.current = null; // Clean-up the previous userId after all the events
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket]
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket],
   );
 
   /** Handler for retry event when both agreed to try someone else */
-  const handleNextTry = useCallback(({ isEnder }: { isEnder: boolean }) => {
-    cleanupPeerConnection();
-    partnerIdRef.current = null; // Clean-up the previous userId
-    if (!isEnder && partnerIdRef.current) {
-      setIsPartnerCallEnded(true); // partner ended the call automatically try for others so show the connecting screen with the helps of this state
-    }
-    getOrCreatePeerConnection();
+  const handleNextTry = useCallback(
+    ({ isEnder }: { isEnder: boolean }) => {
+      try {
+        cleanupPeerConnection();
+        if (!isEnder && partnerIdRef.current) {
+          setIsPartnerCallEnded(true); // partner ended the call automatically try for others so show the connecting screen with the helps of this state
+        }
+        partnerIdRef.current = null; // Clean-up the previous userId
+        getOrCreatePeerConnection();
 
-    videoSocket?.emit("start:random-video-call", {
-      filters: { age: "", gender: "", country: "" },
-    });
-  }, [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket]);
+        videoSocket?.emit("start:random-video-call", {
+          filters: { age: "", gender: "", country: "" },
+        });
+      } catch (error) {
+        console.error(error);
+        sendError(error instanceof Error ? error.message : "Failed to try again pleased try again..")
+      }
+    },
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket],
+  );
+
+
+  /**
+   * Handle online user counts
+   */
+  const handleOnlineUsersCount = useCallback(({ count }: { count: number }) => {
+    setOnlineUsersCount(count);
+  }, []);
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 5) ATTACH SOCKET LISTENERS
@@ -325,8 +331,8 @@ const useWebRTC = () => {
     videoSocket.on("self-loop", sendSelfLoop);
     videoSocket.on("wait", sendWait);
     videoSocket.on("user:not-found", sendNotFound);
-    videoSocket.on("match:error", (e: any) =>
-      sendError(e.message || "Match error")
+    videoSocket.on("video:global:error", ({ message }: { message: string }) =>
+      sendError(message || "Match error"),
     );
     videoSocket.on("user:match-found", handleMatchFound);
     videoSocket.on("receive-call", handleReceiveCall);
@@ -334,6 +340,7 @@ const useWebRTC = () => {
     videoSocket.on("ice-candidate", handleICE);
     videoSocket.on("user:call-ended", handleUserCallEnded);
     videoSocket.on("user:call-ended:try:for:other", handleNextTry);
+    videoSocket.on("onlineUsersCount", handleOnlineUsersCount);
 
     return () => {
       videoSocket.off("self-loop", sendSelfLoop);
@@ -345,10 +352,9 @@ const useWebRTC = () => {
       videoSocket.off("call-accepted", handleCallAccepted);
       videoSocket.off("ice-candidate", handleICE);
       videoSocket.off("user:call-ended", handleUserCallEnded);
-      videoSocket.off(
-        "user:call-ended:try:for:other",
-        handleNextTry
-      );
+      videoSocket.off("user:call-ended:try:for:other", handleNextTry);
+      videoSocket.off("onlineUsersCount", handleOnlineUsersCount);
+
     };
   }, [
     videoSocket,
@@ -366,6 +372,7 @@ const useWebRTC = () => {
 
 
 
+
   // ─────────────────────────────────────────────────────────────────────────────
   // 6) PUBLIC API
   // ─────────────────────────────────────────────────────────────────────────────
@@ -375,18 +382,13 @@ const useWebRTC = () => {
       // Clean up immediately
       cleanupPeerConnection();
       const partnerId = partnerIdRef.current;
-      // alert(partnerId)
       videoSocket.emit("end-call", { partnerId });
     }
   }, [videoSocket]);
 
-
-
   const randomCall = useCallback(() => {
     if (!videoSocket) return;
 
-
-    // alert(partnerIdRef.current)
     // If already in a call, ask to end and retry
     if (partnerIdRef.current && remoteStream) {
       cleanupPeerConnection();
@@ -394,9 +396,8 @@ const useWebRTC = () => {
       const partnerId = partnerIdRef.current;
       videoSocket.emit(
         "go:and:tell:callee:call:ended:so:you:can:try:for:others",
-        { partnerId }
+        { partnerId },
       );
-
     } else {
       cleanupPeerConnection();
       getOrCreatePeerConnection();
@@ -407,13 +408,22 @@ const useWebRTC = () => {
     }
   }, [videoSocket, getOrCreatePeerConnection, remoteStream]);
 
-
-
-
   // ─────────────────────────────────────────────────────────────────────────────
   // 7) return states on Video page
   // ─────────────────────────────────────────────────────────────────────────────
-  return { localStream, remoteStream, randomCall, endCall, isPartnerCallEnded, partnerIdRef };
+  return {
+    localStream,
+    remoteStream,
+    randomCall,
+    endCall,
+    isPartnerCallEnded,
+    partnerIdRef,
+    errorMessage,
+    successMessage,
+    setErrorMessage,
+    setSuccessMessage,
+    onlineUsersCount,
+  };
 };
 
 export default useWebRTC;

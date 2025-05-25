@@ -1,4 +1,7 @@
-import { ChimeRegisterLoginPageWrapper, RegisterComponent } from '../../../components'
+import {
+  ChimeRegisterLoginPageWrapper,
+  RegisterComponent,
+} from "../../../components";
 import "../../../styles/pages/RegisterPage.css";
 
 const RegisterPage = () => {
@@ -6,7 +9,7 @@ const RegisterPage = () => {
     <ChimeRegisterLoginPageWrapper>
       <RegisterComponent />
     </ChimeRegisterLoginPageWrapper>
-  )
-}
+  );
+};
 
-export default RegisterPage
+export default RegisterPage;

@@ -1,15 +1,14 @@
 .chime-footer {
-  color: var(--primary-text-color);
-  padding: 3rem 1.5rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--secondary-text-color);
+  padding: 2rem 1rem;
   text-align: center;
-  user-select: none;
-  border: 1px solid var(--second-little-color);
+  font-family: "Segoe UI", sans-serif;
+  border-top: 1px solid var(--second-little-color);
 
 }
 
 .chime-footer-container {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -18,61 +17,45 @@
 }
 
 .chime-footer-company {
-  font-size: 2.25rem;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  margin: 0 0 0.35rem 0;
-  text-transform: uppercase;
-  color: var(--secondary-btn-background-color);
-  text-shadow: 0 0 8px var(--secondary-btn-background-color);
+  font-size: 1.5rem;
+  color: var(--primary-text-color);
+  margin-bottom: 0.5rem;
 }
 
 .chime-footer-description {
-  font-size: 1.125rem;
-  color: var(--secondary-text-color);
+  font-size: 0.95rem;
+  color: var(--little-color);
+  max-width: 600px;
   margin: 0 auto;
-  max-width: 480px;
-  line-height: 1.6;
 }
 
 .chime-footer-socials {
-  margin: 2rem 0 2.5rem 0;
   display: flex;
   justify-content: center;
-  gap: 1.75rem;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
 }
 
 .chime-footer-social-link {
-  color: var(--primary-btn-background-color);
-  font-size: 2rem;
-  padding: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--primary-text-color);
+  background-color: var(--second-little-color);
   border-radius: 50%;
-  background: rgba(255 255 255 / 0.05);
-  box-shadow: 0 0 6px rgba(27, 132, 252, 0.4);
-  transition: 
-    color 0.3s ease, 
-    box-shadow 0.35s ease, 
-    background 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.6rem;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.chime-footer-social-link:hover,
-.chime-footer-social-link:focus {
-  color: var(--secondary-btn-background-color);
-  background: rgba(223, 0, 126, 0.15);
-  box-shadow:
-    0 0 10px var(--secondary-btn-background-color),
-    0 0 20px var(--secondary-btn-background-color),
-    0 0 30px var(--secondary-btn-background-color);
-  outline: none;
-  cursor: pointer;
+.chime-footer-social-link:hover {
+  color: var(--social-hover-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px var(--social-hover-glow);
 }
 
 .chime-footer-bottom {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--little-color);
-  letter-spacing: 0.05em;
-  font-weight: 500;
+  margin-top: 2rem;
+  border-top: 1px solid var(--second-little-color);
+  padding-top: 1rem;
 }

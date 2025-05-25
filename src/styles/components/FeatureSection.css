@@ -1,7 +1,16 @@
 .chime-feature-section {
   background-color: var(--secondary-background-color);
-  background-image: radial-gradient(circle at 10% 90%, rgba(27, 132, 252, 0.1) 0%, transparent 20%),
-    radial-gradient(circle at 90% 10%, rgba(223, 0, 126, 0.1) 0%, transparent 20%);
+  background-image:
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(27, 132, 252, 0.1) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(223, 0, 126, 0.1) 0%,
+      transparent 20%
+    );
   padding: 100px 20px;
   position: relative;
   overflow: hidden;
@@ -14,7 +23,13 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(27, 132, 252, 0.3), rgba(223, 0, 126, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(27, 132, 252, 0.3),
+    rgba(223, 0, 126, 0.3),
+    transparent
+  );
 }
 
 .chime-feature-section::after {
@@ -24,15 +39,19 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(223, 0, 126, 0.3), rgba(27, 132, 252, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(223, 0, 126, 0.3),
+    rgba(27, 132, 252, 0.3),
+    transparent
+  );
 }
 
 .chime-feature-container {
   max-width: 1200px;
   margin: 0 auto;
 }
-
-
 
 .chime-feature-grid {
   display: grid;
@@ -49,7 +68,9 @@
   z-index: 1;
   overflow: hidden;
   border: 1px solid rgba(81, 81, 106, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
 .chime-feature-card::before {
@@ -65,7 +86,9 @@
 
 .chime-feature-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .chime-feature-icon {
@@ -90,8 +113,14 @@
   bottom: 0;
   border-radius: 20px;
   padding: 2px;
-  background: linear-gradient(135deg, var(--primary-btn-background-color), var(--secondary-btn-background-color));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  background: linear-gradient(
+    135deg,
+    var(--primary-btn-background-color),
+    var(--secondary-btn-background-color)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }

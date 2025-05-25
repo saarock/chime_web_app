@@ -2,7 +2,7 @@
 import React, { JSX } from "react";
 
 /**
- * Loader to show on async 
+ * Loader to show on async
  * @returns {JSX.Element}
  */
 const LoadingComponent: React.ComponentType = (): JSX.Element => {

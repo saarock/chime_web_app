@@ -2,5 +2,4 @@
 import AuthService from "./authService";
 // import peer from "./peer";
 
-
-export { AuthService }
+export { AuthService };

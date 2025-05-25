@@ -1,7 +1,7 @@
 // Import all the necessary dependencies
-import React, { JSX } from 'react';
-import { InputProps, Variant } from '../../types';
-import '../../styles/components/Input.css';
+import React, { JSX } from "react";
+import { InputProps, Variant } from "../../types";
+import "../../styles/components/Input.css";
 
 /**
  * A customizable and reusable Input component.
@@ -21,28 +21,28 @@ import '../../styles/components/Input.css';
  * @returns {JSX.Element} Rendered Input element with provided properties.
  */
 const Input: React.ComponentType<InputProps> = ({
-    placeHolder,
-    disabled = false,
-    onChange,
-    variant = Variant.primary,
-    type = "button",
-    onMouseEnter,
-    onMouseLeave,
-    value,
-    className,
+  placeHolder,
+  disabled = false,
+  onChange,
+  variant = Variant.primary,
+  type = "button",
+  onMouseEnter,
+  onMouseLeave,
+  value,
+  className,
 }): JSX.Element => {
-    return (
-        <input
-            type={type}
-            className={`chime-input chime-input-${variant} ${className}`}
-            disabled={disabled}
-            placeholder={placeHolder}
-            onChange={onChange}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            value={value}
-        />
-    );
+  return (
+    <input
+      type={type}
+      className={`chime-input chime-input-${variant} ${className}`}
+      disabled={disabled}
+      placeholder={placeHolder}
+      onChange={onChange}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      value={value}
+    />
+  );
 };
 
 export default Input;

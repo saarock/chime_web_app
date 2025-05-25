@@ -8,9 +8,7 @@ import React from "react";
 // }
 
 export type SimpleFooterProps = {
-    companyName?: string,
-    companyDescription: string,
-    socialLinks?: { name: string; url: string; icon: React.ReactNode }[],
-}
-
-
+  companyName?: string;
+  companyDescription: string;
+  socialLinks?: { name: string; url: string; icon: React.ReactNode }[];
+};

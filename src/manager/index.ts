@@ -1,3 +1,3 @@
 import refreshTokens from "./refreshManager";
 
-export {refreshTokens}
+export { refreshTokens };

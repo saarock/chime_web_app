@@ -1,17 +1,16 @@
 .chime-splash-screen-container {
-    height: 100vh;
-    width: 100vw;
-    background-color: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    position: sticky;
-    left: 0;
-    top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  position: sticky;
+  left: 0;
+  top: 0;
 }
 .chime-splash-screen-container h1 {
-    font-size: 3rem;
-    color: white;
-
+  font-size: 3rem;
+  color: white;
 }

@@ -3,7 +3,6 @@ import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
 import { refreshTokens } from "../../manager";
 import { AuthUtil, cookieUtil } from "../../utils";
 
-
 export const initVideoSocketEvents = () => {
   const videoSocket = getVideoSocket();
 
@@ -20,10 +19,10 @@ export const initVideoSocketEvents = () => {
     if (err.message === "AUTH_EXPIRED") {
       try {
         // IIFI function
-        ; (async () => {
+        (async () => {
           const newAccessoken = await refreshTokens();
           cookieUtil.set(ACCESS_TOKEN_KEY_NAME, newAccessoken);
-          videoSocket.auth = { accessToken: newAccessoken }
+          videoSocket.auth = { accessToken: newAccessoken };
           videoSocket.connect();
         })();
       } catch (error) {

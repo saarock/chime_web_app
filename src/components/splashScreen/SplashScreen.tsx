@@ -1,4 +1,3 @@
-
 import React, { JSX } from "react";
 import "../../styles/components/SplashScreen.css";
 
@@ -8,10 +7,10 @@ import "../../styles/components/SplashScreen.css";
  */
 const SplashScreen: React.ComponentType = (): JSX.Element => {
   return (
-    <div className='chime-splash-screen-container'>
+    <div className="chime-splash-screen-container">
       <h1>Powered by saarock</h1>
     </div>
-  )
-}
+  );
+};
 
-export default SplashScreen
+export default SplashScreen;

@@ -1,0 +1,189 @@
+/* styles/components/VideoControllerPanel.css */
+
+/* Container for the control panel */
+.chime-controls-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--primary-background-color); /* #191833 */
+  border-radius: 12px;
+  box-shadow: var(--box-shadow-for-btn); /* rgba(0, 0, 0, 0.24) 0px 3px 8px */
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid var(--second-little-color);
+
+}
+
+/* Hover effect for the container */
+.chime-controls-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Button styling */
+.chime-control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  background: var(--secondary-background-color); /* #212137 */
+  color: var(--primary-text-color); /* #f0f2f5 */
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for buttons */
+.chime-control-button:hover:not(:disabled) {
+  background: var(--primary-btn-background-color); /* #1b84fc */
+  color: var(--primary-text-color); /* #f0f2f5 */
+  transform: scale(1.15) rotate(5deg);
+
+}
+
+/* Active state for buttons */
+.chime-control-button:active:not(:disabled) {
+  transform: scale(0.95);
+  background: var(--primary-btn-background-hover-color); /* #1e7fef */
+}
+
+/* Focus state for accessibility */
+.chime-control-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--second-little-color); /* rgba(128, 128, 128, 0.055) */
+}
+
+/* Disabled state */
+.chime-control-button:disabled {
+  background: var(--little-color); /* #51516a */
+  color: var(--primary-hover-color); /* #7a8084 */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Disabled state for specific buttons */
+.chime-control-disabled {
+  opacity: 0.3;
+  background-color: rgb(102, 28, 28) !important;
+}
+
+/* End call button */
+.chime-end-call {
+  background: var(--secondary-btn-background-color); /* #df007e */
+}
+
+/* End call button hover */
+.chime-end-call:hover:not(:disabled) {
+  background: var(--social-hover-glow); /* #df007e */
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px var(--primary-btn-background-color); /* #1b84fc */
+}
+
+/* Random call button */
+.chime-call-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  background: var(--primary-btn-background-color); /* #1b84fc */
+}
+
+/* Random call button hover */
+.chime-call-button:hover:not(:disabled) {
+  background: var(--primary-btn-background-hover-color); /* #1e7fef */
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px var(--social-hover-glow); /* #df007e */
+}
+
+/* Connecting state for random call button */
+.chime-call-button.connecting {
+  background: var(--little-color); /* #51516a */
+  cursor: wait;
+}
+
+/* Spinner animation */
+.chime-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Spin animation for Loader2 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Text inside random call button */
+.chime-call-button span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--secondary-text-color); /* #dae9f0 */
+  animation: slideIn 0.5s ease-in-out;
+}
+
+/* Slide-in animation for text */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+
+
+/* Responsive design for smaller screens */
+@media (max-width: 640px) {
+  .chime-controls-panel {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .chime-control-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .chime-call-button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+  }
+
+  .chime-call-button span {
+    font-size: 13px;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .chime-controls-panel {
+    background: var(--primary-background-color); /* #191833 */
+  }
+
+  .chime-control-button {
+    background: var(--secondary-background-color); /* #212137 */
+    color: var(--primary-text-color); /* #f0f2f5 */
+  }
+
+  .chime-call-button {
+    background: var(--primary-btn-background-color); /* #1b84fc */
+  }
+
+  .chime-end-call {
+    background: var(--secondary-btn-background-color); /* #df007e */
+  }
+}

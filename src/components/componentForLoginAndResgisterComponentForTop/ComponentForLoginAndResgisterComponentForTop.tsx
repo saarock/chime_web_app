@@ -1,4 +1,4 @@
-// Import all the dependencies here 
+// Import all the dependencies here
 import React, { JSX } from "react";
 import { ComponentForLoginAndResgisterComponentForTopProps } from "../../types";
 import { NavLink } from "react-router-dom";
@@ -7,7 +7,7 @@ import "../../styles/components/ComponentForLoginAndResgisterComponentForTop.css
 
 /**
  * This component sits on top of the login and register form and shows dynamic content.
- * 
+ *
  * @param title - Dynamic message like "Sign in to your account" or "Sign up to your account"
  * @param secondTitle - Message like "Don't have an account?" or "Already have an account?"
  * @param path - Path to navigate (e.g., "/register" or "/login")
@@ -15,7 +15,9 @@ import "../../styles/components/ComponentForLoginAndResgisterComponentForTop.css
  * @param LoginWithGoogleComponent - Component to render Google OAuth login/register functionality
  * @returns {JSX.Element}
  */
-const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<ComponentForLoginAndResgisterComponentForTopProps> = ({
+const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<
+  ComponentForLoginAndResgisterComponentForTopProps
+> = ({
   title,
   secondTitle,
   path,
@@ -25,7 +27,11 @@ const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<Componen
   return (
     <div className="chime-login-register-top-component">
       <div className="chime-login-register-top-component-logo-container">
-        <img src={logo} alt="logo" className="chime-login-register-top-component-logo" />
+        <img
+          src={logo}
+          alt="logo"
+          className="chime-login-register-top-component-logo"
+        />
       </div>
       <div className="chime-login-register-top-component-title-wrapper">
         <h1>{title}</h1>
@@ -33,7 +39,9 @@ const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<Componen
       <div className="chime-login-register-top-component-second-title">
         <span>{secondTitle}</span>{" "}
         <span>
-          <NavLink to={path} className="chime-link">{name}</NavLink>
+          <NavLink to={path} className="chime-link">
+            {name}
+          </NavLink>
         </span>
       </div>
       {/* Render the LoginWithGoogleComponent as a component */}

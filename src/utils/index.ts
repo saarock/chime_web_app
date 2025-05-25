@@ -9,7 +9,10 @@ import AuthUtil from "./authUtil";
 
 // exports
 export {
-     asyncHandleError, localStorageUtil, cookieUtil, errorhandler,
-     checkTheErrorWithTheStatusCode,
-     AuthUtil,
+  asyncHandleError,
+  localStorageUtil,
+  cookieUtil,
+  errorhandler,
+  checkTheErrorWithTheStatusCode,
+  AuthUtil,
 };

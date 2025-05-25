@@ -1,0 +1,227 @@
+    /* Container */
+.chime-video-box {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  user-select: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--primary-text-color);
+}
+
+
+/* Disabled Video */
+.chime-video-box-video-disabled {
+  background-color: var(--secondary-background-color);
+}
+
+/* When Remote User has no call */
+.chime-video-box-no-call {
+  color: var(--little-color);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  text-align: center;
+}
+
+/* Layout styles */
+.chime-video-box-side-by-side {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.chime-video-box-focus-remote {
+  max-width: 90vw;
+  aspect-ratio: 16 / 9;
+}
+
+/* Video Element */
+.chime-video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #000;
+  filter: brightness(1);
+  transition: filter 0.3s ease;
+}
+
+/* Gradient overlay on video for subtle visual */
+.chime-video-gradient-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent 50%);
+  border-radius: 12px;
+}
+
+/* Disabled video overlay */
+.chime-video-disabled-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(25, 24, 51, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  z-index: 20;
+  color: var(--little-color);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Icon in disabled overlay */
+.chime-video-disabled-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-btn-background-color);
+}
+
+/* Audio indicator */
+.chime-audio-disabled-indicator {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: var(--secondary-btn-background-color);
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  box-shadow: var(--box-shadow-for-btn);
+}
+
+/* Static container now fills entire box */
+.chime-static-container {
+  position: absolute;
+  inset: 0;               /* top:0; right:0; bottom:0; left:0; */
+  overflow: hidden;
+  border-radius: 12px;    /* match parent */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-background-color);
+  z-index: 10;
+}
+
+/* No call message box */
+.chime-no-call-message {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+.chime-message-box p {
+  background-color: var(--primary-btn-background-color);
+  color: var(--primary-text-color);
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: var(--box-shadow-for-btn);
+  user-select: none;
+}
+
+/* Connecting overlay */
+.chime-connecting-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(25, 24, 51, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 12px;
+  z-index: 30;
+  color: var(--primary-text-color);
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.chime-connecting-spinner {
+  margin-bottom: 12px;
+  color: var(--primary-btn-background-color);
+  animation: spin 1.5s linear infinite;
+}
+
+/* Spinner animation for Loader2 - fallback */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Video label */
+.chime-video-label {
+  position: absolute;
+  bottom: 8px;
+  left: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--secondary-text-color);
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  user-select: none;
+  z-index: 25;
+}
+
+/* Fullscreen button */
+.chime-fullscreen-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: var(--primary-btn-background-color);
+  border: none;
+  border-radius: 6px;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--primary-text-color);
+  box-shadow: var(--box-shadow-for-btn);
+  transition: background-color 0.3s ease;
+  z-index: 25;
+}
+
+.chime-fullscreen-button:hover,
+.chime-fullscreen-button:focus {
+  background-color: var(--primary-btn-background-hover-color);
+  outline: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .chime-video-box-side-by-side {
+    max-width: 90vw;
+  }
+
+  .chime-video-label {
+    font-size: 0.8rem;
+  }
+
+  .chime-message-box p {
+    font-size: 0.9rem;
+    padding: 6px 16px;
+  }
+}
+
+@media (max-width: 400px) {
+  .chime-fullscreen-button {
+    padding: 4px;
+  }
+  .chime-video-label {
+    font-size: 0.75rem;
+  }
+}

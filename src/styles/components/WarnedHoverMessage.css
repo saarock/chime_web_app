@@ -1,13 +1,13 @@
 .chime-hover-warned-message-container {
-    position: absolute;
-    bottom: -6rem;
-    display: flex;
-    align-items: center;
-    background-color: #0e2d50;
-    color: #b29f9f;
-    padding: 8px 12px;
-    border: 1px solid #ffeeba;
-    border-top-right-radius: 2rem;
-    border-bottom-right-radius: 2rem;
-    border-bottom-left-radius: 2rem;
+  position: absolute;
+  bottom: -6rem;
+  display: flex;
+  align-items: center;
+  background-color: #0e2d50;
+  color: #b29f9f;
+  padding: 8px 12px;
+  border: 1px solid #ffeeba;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
 }

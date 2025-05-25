@@ -4,14 +4,23 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 
-
 :root {
---primary-btn-background-color: #1b84fc;
+  --primary-btn-background-color: #1b84fc;
   --secondary-btn-background-color: #df007e;
   --primary-btn-background-hover-color: #1e7fef;
   --primary-background-color: #191833;
@@ -25,22 +34,17 @@
   --second-little-color: rgba(128, 128, 128, 0.055);
 }
 
-
-
-
 body {
-    background-color: var(--primary-background-color);
-    color: var(--primary-text-color);
-    position: relative;
-    min-height: 100vh;
+  background-color: var(--primary-background-color);
+  color: var(--primary-text-color);
+  position: relative;
+  min-height: 100vh;
 }
 
 #main {
-min-height: 90vh;    
+  min-height: 90vh;
 }
 
 .active {
-    color: var(--primary-btn-background-color);
+  color: var(--primary-btn-background-color);
 }
-
-

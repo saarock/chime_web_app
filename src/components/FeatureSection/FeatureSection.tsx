@@ -1,30 +1,42 @@
 // Import all the necessary dependencies
-import type React from "react"
-import { FaRandom, FaUsers, FaUserCircle, FaVideo, FaShieldAlt, FaGlobe } from "react-icons/fa"
-import { JSX } from "react"
+import type React from "react";
+import {
+  FaRandom,
+  FaUsers,
+  FaUserCircle,
+  FaVideo,
+  FaShieldAlt,
+  FaGlobe,
+} from "react-icons/fa";
+import { JSX } from "react";
 import { FeatureCardProps } from "../../types";
 import "../../styles/components/FeatureSection.css";
 import ChimiSectionsHowHeader from "../ChimeSectionsHowHeader/ChimiSectionsHowHeader";
 
-
-
 /**
- * Chime featureCard component that can be use to show new feature for users 
- * @param {React.ReactNode} param0.icon - Icon 
+ * Chime featureCard component that can be use to show new feature for users
+ * @param {React.ReactNode} param0.icon - Icon
  * @param {string} param0.iconType - define icon type [ primary | secondary ]
  * @param {string} param0.title - define the title of the feature card
  * @param {string} param0.description - define the description for the feature card
- * @returns {JSX.Element} 
+ * @returns {JSX.Element}
  */
-const FeatureCard: React.ComponentType<FeatureCardProps> = ({ icon, iconType, title, description }): JSX.Element => {
+const FeatureCard: React.ComponentType<FeatureCardProps> = ({
+  icon,
+  iconType,
+  title,
+  description,
+}): JSX.Element => {
   return (
     <div className="chime-feature-card">
-      <div className={`chime-feature-icon chime-feature-icon-${iconType}`}>{icon}</div>
+      <div className={`chime-feature-icon chime-feature-icon-${iconType}`}>
+        {icon}
+      </div>
       <h3 className="chime-feature-card-title">{title}</h3>
       <p className="chime-feature-card-description">{description}</p>
     </div>
-  )
-}
+  );
+};
 
 /**
  * Chime feature section
@@ -34,11 +46,11 @@ const FeatureSection: React.ComponentType = (): JSX.Element => {
   return (
     <section className="chime-feature-section" id="features">
       <div className="chime-feature-container">
-
-
-        <ChimiSectionsHowHeader title={"Discover Our Features"} description="Our platform offers everything you need to connect with new people and have meaningful conversations.
-            Explore entertainment options and make new friends worldwide" />
-
+        <ChimiSectionsHowHeader
+          title={"Discover Our Features"}
+          description="Our platform offers everything you need to connect with new people and have meaningful conversations.
+            Explore entertainment options and make new friends worldwide"
+        />
 
         <div className="chime-feature-grid">
           <FeatureCard
@@ -80,7 +92,7 @@ const FeatureSection: React.ComponentType = (): JSX.Element => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default FeatureSection
+export default FeatureSection;

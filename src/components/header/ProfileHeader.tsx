@@ -24,7 +24,6 @@ const ProfileHeader: React.ComponentType = (): JSX.Element => {
       name: "Profile",
       icon: <FaUser />,
       classSuffix: "profile",
-
     },
   ];
 
@@ -32,7 +31,11 @@ const ProfileHeader: React.ComponentType = (): JSX.Element => {
     <div className="chime-profile-header-container">
       <ul className="chime-profile-header-navs">
         {navItems.map((item) => (
-          <li key={item.name} className={`chime-profile-header-navs-item chime-${item.classSuffix}`} onClick={() => navigate(item.name.toLowerCase())}>
+          <li
+            key={item.name}
+            className={`chime-profile-header-navs-item chime-${item.classSuffix}`}
+            onClick={() => navigate(item.name.toLowerCase())}
+          >
             <span className="chime-profile-header-navs-icon">{item.icon}</span>
             <span className="chime-profile-header-navs-text">{item.name}</span>
           </li>

@@ -1,24 +1,29 @@
 // Import all the necessary dependencies here
-import type React from "react"
-import { FiUserPlus, FiUsers, FiVideo } from "react-icons/fi"
-import { JSX } from "react"
+import type React from "react";
+import { FiUserPlus, FiUsers, FiVideo } from "react-icons/fi";
+import { JSX } from "react";
 import "../../styles/components/HowItWorks.css";
 import { StepCardProps } from "../../types";
 import ChimiSectionsHowHeader from "../ChimeSectionsHowHeader/ChimiSectionsHowHeader";
 
-
-
-const StepCard: React.ComponentType<StepCardProps> = ({ number, icon, iconType, title, description }): JSX.Element => {
+const StepCard: React.ComponentType<StepCardProps> = ({
+  number,
+  icon,
+  iconType,
+  title,
+  description,
+}): JSX.Element => {
   return (
     <div className="chime-step-card">
       <div className="chime-step-number">{number}</div>
-      <div className={`chime-step-icon chime-step-icon-${iconType}`}>{icon}</div>
+      <div className={`chime-step-icon chime-step-icon-${iconType}`}>
+        {icon}
+      </div>
       <h3 className="chime-step-title">{title}</h3>
       <p className="chime-step-description">{description}</p>
     </div>
-  )
-}
-
+  );
+};
 
 /**
  * // Component to show the details that how the chime work
@@ -28,8 +33,10 @@ const HowItWorks: React.ComponentType = (): JSX.Element => {
   return (
     <section className="chime-how-it-works" id="how-it-works">
       <div className="chime-how-container">
-
-        <ChimiSectionsHowHeader title={"How to use chime"} description={"Pleased follow the instructions given below"} />
+        <ChimiSectionsHowHeader
+          title={"How to use chime"}
+          description={"Pleased follow the instructions given below"}
+        />
         <div className="chime-steps-container">
           <StepCard
             number={1}
@@ -57,7 +64,7 @@ const HowItWorks: React.ComponentType = (): JSX.Element => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default HowItWorks
+export default HowItWorks;

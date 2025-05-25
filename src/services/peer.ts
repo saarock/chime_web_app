@@ -29,30 +29,33 @@ class PeerService {
       return new RTCPeerConnection({
         iceServers: this.iceServers,
         iceCandidatePoolSize: 10,
-        bundlePolicy: 'max-bundle',
-        rtcpMuxPolicy: 'require'
+        bundlePolicy: "max-bundle",
+        rtcpMuxPolicy: "require",
       });
     } catch (error) {
-      console.error('Failed to create peer connection:', error);
-      throw new Error('Failed to initialize WebRTC connection');
+      console.error("Failed to create peer connection:", error);
+      throw new Error("Failed to initialize WebRTC connection");
     }
   }
 
   private setupEventListeners(): void {
     this._peer.onicecandidateerror = (event) => {
-      console.error('ICE candidate error:', event);
+      console.error("ICE candidate error:", event);
     };
 
     this._peer.onconnectionstatechange = () => {
-      console.log('Connection state changed:', this._peer.connectionState);
+      console.log("Connection state changed:", this._peer.connectionState);
     };
 
     this._peer.oniceconnectionstatechange = () => {
-      console.log('ICE connection state changed:', this._peer.iceConnectionState);
+      console.log(
+        "ICE connection state changed:",
+        this._peer.iceConnectionState,
+      );
     };
 
     this._peer.onsignalingstatechange = () => {
-      console.log('Signaling state changed:', this._peer.signalingState);
+      console.log("Signaling state changed:", this._peer.signalingState);
     };
   }
 
@@ -65,39 +68,45 @@ class PeerService {
       const offer = await this._peer.createOffer({
         offerToReceiveAudio: true,
         offerToReceiveVideo: true,
-        iceRestart: false
+        iceRestart: false,
       });
 
       await this._peer.setLocalDescription(offer);
       return offer;
     } catch (error) {
-      console.error('Error creating offer:', error);
-      throw new Error('Failed to create offer');
+      console.error("Error creating offer:", error);
+      throw new Error("Failed to create offer");
     }
   }
 
-  async getAnswer(offer: RTCSessionDescriptionInit): Promise<RTCSessionDescriptionInit> {
+  async getAnswer(
+    offer: RTCSessionDescriptionInit,
+  ): Promise<RTCSessionDescriptionInit> {
     try {
       await this._peer.setRemoteDescription(new RTCSessionDescription(offer));
       const answer = await this._peer.createAnswer({
         offerToReceiveAudio: true,
-        offerToReceiveVideo: true
+        offerToReceiveVideo: true,
       });
 
       await this._peer.setLocalDescription(answer);
       return answer;
     } catch (error) {
-      console.error('Error creating answer:', error);
-      throw new Error('Failed to create answer');
+      console.error("Error creating answer:", error);
+      throw new Error("Failed to create answer");
     }
   }
 
-  async setRemoteDescription(sessionDescription: RTCSessionDescriptionInit): Promise<void> {
+  async setRemoteDescription(
+    sessionDescription: RTCSessionDescriptionInit,
+  ): Promise<void> {
     try {
-      await this._peer.setRemoteDescription(new RTCSessionDescription(sessionDescription));
+      await this._peer.setRemoteDescription(
+        new RTCSessionDescription(sessionDescription),
+      );
     } catch (error) {
-      console.error('Error setting remote description:', error);
-      throw new Error('Failed to set remote description');
+      console.error("Error setting remote description:", error);
+      throw new Error("Failed to set remote description");
     }
   }
 
@@ -105,7 +114,7 @@ class PeerService {
     try {
       await this._peer.addIceCandidate(new RTCIceCandidate(candidate));
     } catch (error) {
-      console.error('Error adding ICE candidate:', error);
+      console.error("Error adding ICE candidate:", error);
       // Don't throw error as this might be non-fatal
     }
   }
@@ -114,15 +123,15 @@ class PeerService {
     try {
       // Close existing connection
       this._peer.close();
-      
+
       // Create new connection
       this._peer = this.createPeerConnection();
       this.setupEventListeners();
-      
-      console.log('Peer connection has been reset');
+
+      console.log("Peer connection has been reset");
     } catch (error) {
-      console.error('Error resetting peer connection:', error);
-      throw new Error('Failed to reset peer connection');
+      console.error("Error resetting peer connection:", error);
+      throw new Error("Failed to reset peer connection");
     }
   }
 
@@ -131,8 +140,8 @@ class PeerService {
       const offer = await this._peer.createOffer({ iceRestart: true });
       await this._peer.setLocalDescription(offer);
     } catch (error) {
-      console.error('Error restarting ICE:', error);
-      throw new Error('Failed to restart ICE');
+      console.error("Error restarting ICE:", error);
+      throw new Error("Failed to restart ICE");
     }
   }
 }
