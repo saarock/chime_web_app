@@ -6,12 +6,12 @@ import { Variant } from "../../types";
 
 describe("Button component", () => {
   it("renders with the given text", () => {
-    render(<Button text="Click Me" onClick={() => {}} />);
+    render(<Button text="Click Me" onClick={() => { }} />);
     expect(screen.getByRole("button", { name: "Click Me" })).toBeDefined();
   });
 
   it("applies primary variant class by default ", () => {
-    render(<Button text="Primary" onClick={() => {}} />);
+    render(<Button text="Primary" onClick={() => { }} />);
     const button = screen.getByRole("button", { name: "Primary" });
     expect(button).toHaveClass("chime-btn-primary");
   });
@@ -20,7 +20,7 @@ describe("Button component", () => {
     render(
       <Button
         text="Secondary"
-        onClick={() => {}}
+        onClick={() => { }}
         variant={Variant.secondary}
       />,
     );
@@ -29,7 +29,7 @@ describe("Button component", () => {
   });
   it("applies secondary ", () => {
     render(
-      <Button text="Ternary" onClick={() => {}} variant={Variant.ternary} />,
+      <Button text="Ternary" onClick={() => { }} variant={Variant.ternary} />,
     );
     const button = screen.getByRole("button", { name: "Ternary" });
     expect(button).toHaveClass("chime-btn-ternary");
@@ -40,7 +40,7 @@ describe("Button component", () => {
       <Button
         type="submit"
         text="Submit"
-        onClick={() => {}}
+        onClick={() => { }}
         variant={Variant.secondary}
       />,
     );

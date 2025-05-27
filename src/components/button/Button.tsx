@@ -23,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   children,
   className,
+  style,
 }): JSX.Element => {
   return (
     <button
@@ -30,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({
       className={`chime-btn chime-btn-${variant} ${className}`} // Dynamically applies styles based on the variant (e.g., 'primary', 'secondary')
       onClick={onClick} // The function to execute when the button is clicked
       disabled={disabled} // Disables the button if true
+      style={style}
     >
       {children}
       {text} {/* The text or icon to display on the button */}

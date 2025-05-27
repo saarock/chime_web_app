@@ -1,3 +1,5 @@
+
+// Import all the necessary dependencies here
 import React, { useCallback, useEffect, useReducer, useRef } from "react";
 import {
   LoadingComponent,
@@ -8,9 +10,9 @@ import {
   VideoTitle,
 } from "../../../components";
 import "../../../styles/pages/VideoCallPage.css";
-import { CallReducer, videoInitialState } from "../../../reducers";
-import { Loader2 } from "lucide-react";
 import { useAuth, useWebRTC } from "../../../hooks";
+import { CallReducer } from "../../../reducers";
+import { videoInitialState } from "../../../types";
 
 /**
  * VideoCallPage
@@ -59,6 +61,37 @@ export default function VideoCallPage() {
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       remoteVideoRef.current.srcObject = remoteStream;
+
+
+      /** Handel the remote audio */
+      remoteStream.getAudioTracks().forEach((track) => {
+        track.onmute = () => {
+          dispatch(
+            {
+              type: "REMOTE_AUDIO",
+              payload: false
+            }
+          )
+        };
+        track.onunmute = () => {
+          dispatch(
+            {
+              type: "REMOTE_AUDIO",
+              payload: true
+            }
+          )
+        }
+      });
+
+      /** Handel the remote video */
+      remoteStream.getVideoTracks().forEach((track) => {
+        track.onmute = () => {
+          dispatch({ type: "REMOTE_VIDEO", payload: false })
+        };
+        track.onunmute = () => {
+          dispatch({ type: "REMOTE_VIDEO", payload: true })
+        }
+      })
       dispatch({ type: "SET_IN_CALL", payload: true });
       dispatch({ type: "SET_CONNECTING", payload: false });
     } else {
@@ -165,7 +198,7 @@ export default function VideoCallPage() {
   const toggleFullScreenElem = useCallback(
     (ref: React.RefObject<HTMLVideoElement>) => {
       if (!ref.current) return;
-    ref.current.requestFullscreen?.();
+      ref.current.requestFullscreen?.();
     },
     [],
   );
@@ -189,13 +222,13 @@ export default function VideoCallPage() {
   return (
     <div className={`chime-video-call-page ${state.isMaximized ? "maximized" : ""}`}>
       <div className="chime-video-call-container">
-        <VideoTitle 
-        errorMessage={errorMessage}
-         successMessage={successMessage} 
-         setErrorMessage={setErrorMessage} 
-         setSuccessMessage={setSuccessMessage}
-         onlineUsersCount={onlineUsersCount}
-          />
+        <VideoTitle
+          errorMessage={errorMessage}
+          successMessage={successMessage}
+          setErrorMessage={setErrorMessage}
+          setSuccessMessage={setSuccessMessage}
+          onlineUsersCount={onlineUsersCount}
+        />
         <div className={`chime-video-grid layout-${state.layout}`}>
           <VideoBox
             stream={localStream}
@@ -203,6 +236,7 @@ export default function VideoCallPage() {
             label="You"
             isActive={true}
             isLocalVideoEnabled={state.isVideoEnabled}
+            isLocalAudioEnabled={state.isAudioEnabled}
             isConnecting={false}
             isInCall={state.isInCall}
             zoomLevel={state.zoomLevel}
@@ -210,6 +244,8 @@ export default function VideoCallPage() {
             onFullscreen={() => toggleFullScreenElem(localVideoRef)}
           />
           <VideoBox
+            isRemoteAudioEnable={state.isRemoteAudioEnable}
+            isRemoteVideoEnable={state.isRemoteVideoEnable}
             stream={remoteStream}
             refObject={remoteVideoRef}
             label="Remote User"
@@ -235,7 +271,7 @@ export default function VideoCallPage() {
             handleRandomCall={handleRandomCall}
             isConnecting={state.isConnecting}
           />
-      
+
           <VideoAdvanceController
             toggleMaximize={toggleMaximize}
             isMaximized={state.isMaximized}

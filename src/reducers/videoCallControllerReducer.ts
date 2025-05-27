@@ -1,36 +1,7 @@
-type Layout = "side-by-side" | "focus-remote";
+// Import all the necessary dependencies here
+import { CallAction, CallState } from "../types";
 
-export interface CallState {
-  isVideoEnabled: boolean;
-  isAudioEnabled: boolean;
-  isInCall: boolean;
-  isConnecting: boolean;
-  isMaximized: boolean;
-  zoomLevel: number;
-  layout: Layout;
-  isFullScreen: boolean;
-}
 
-export const videoInitialState: CallState = {
-  isVideoEnabled: true,
-  isAudioEnabled: true,
-  isInCall: false,
-  isConnecting: false,
-  isMaximized: false,
-  zoomLevel: 1,
-  layout: "side-by-side",
-  isFullScreen: false,
-};
-
-type CallAction =
-  | { type: "TOGGLE_VIDEO" }
-  | { type: "TOGGLE_AUDIO" }
-  | { type: "SET_IN_CALL"; payload: boolean }
-  | { type: "SET_CONNECTING"; payload: boolean }
-  | { type: "TOGGLE_MAXIMIZED" }
-  | { type: "SET_ZOOM"; payload: number }
-  | { type: "SET_LAYOUT"; payload: Layout }
-  | { type: "TOGGLE_FULLSCREEN" };
 
 export function CallReducer(state: CallState, action: CallAction) {
   switch (action.type) {
@@ -50,6 +21,10 @@ export function CallReducer(state: CallState, action: CallAction) {
       return { ...state, layout: action.payload };
     case "TOGGLE_FULLSCREEN":
       return { ...state, isFullScreen: !state.isFullScreen };
+    case "REMOTE_AUDIO":
+      return { ...state, isRemoteAudioEnable: action.payload }
+    case "REMOTE_VIDEO":
+      return { ...state, isRemoteVideoEnable: action.payload }
     default:
       return state;
   }

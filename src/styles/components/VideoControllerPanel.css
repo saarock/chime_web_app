@@ -67,7 +67,8 @@
 /* Disabled state for specific buttons */
 .chime-control-disabled {
   opacity: 0.3;
-  background-color: rgb(102, 28, 28) !important;
+  background: var(--social-hover-glow)  !important;
+
 }
 
 /* End call button */
@@ -79,7 +80,7 @@
 .chime-end-call:hover:not(:disabled) {
   background: var(--social-hover-glow); /* #df007e */
   transform: scale(1.15);
-  box-shadow: 0 4px 12px var(--primary-btn-background-color); /* #1b84fc */
+
 }
 
 /* Random call button */
@@ -96,7 +97,6 @@
 .chime-call-button:hover:not(:disabled) {
   background: var(--primary-btn-background-hover-color); /* #1e7fef */
   transform: scale(1.1);
-  box-shadow: 0 4px 12px var(--social-hover-glow); /* #df007e */
 }
 
 /* Connecting state for random call button */

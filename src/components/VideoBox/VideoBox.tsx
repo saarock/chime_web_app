@@ -1,21 +1,12 @@
+// Import all the necessary dependencies here
 import { Fullscreen, Loader2, MicOff, VideoOff } from "lucide-react";
 import { TVStatic } from "../TVStatic/TVStatic";
 import "../../styles/components/VideoBox.css";
+import { VideoBoxProps } from "../../types";
+import Button from "../Button/Button";
 
-// Video Box (Local & Remote)
-interface VideoBoxProps {
-  refObject: React.RefObject<HTMLVideoElement>;
-  label: string;
-  isActive: boolean;
-  isLocalAudioEnabled?: boolean;
-  isConnecting?: boolean;
-  isInCall?: boolean;
-  isLocalVideoEnabled?: boolean;
-  zoomLevel: number;
-  layout: "side-by-side" | "focus-remote";
-  onFullscreen: () => void;
-  stream: MediaStream | null;
-}
+
+// VideoBox component displays local or remote user's video, connection status, and audio/video state
 function VideoBox({
   refObject,
   label,
@@ -28,26 +19,35 @@ function VideoBox({
   layout,
   onFullscreen,
   stream,
+  isRemoteAudioEnable,
+  isRemoteVideoEnable,
 }: VideoBoxProps) {
+
+  // CSS class for when local video is disabled
   const disabledClass = !isLocalVideoEnabled ? "chime-video-box-video-disabled" : "";
+
+  // CSS class for remote user when there is no ongoing call
   const noCallClass = !isInCall && label === "Remote User" ? "chime-video-box-no-call" : "";
+
   return (
     <div
-      className={`chime-video-box ${disabledClass} ${noCallClass} ${
-        isActive ? `chime-video-box-${layout}` : ""
-      }`}
+      className={`chime-video-box ${disabledClass} ${noCallClass} ${isActive ? `chime-video-box-${layout}` : ""}`}
       style={{ transform: `scale(${zoomLevel})` }}
     >
+      {/* Dark gradient overlay for design */}
       <div className="chime-video-gradient-overlay" />
+
+      {/* Render video only if stream exists */}
       {stream && (
         <video
           ref={refObject}
           autoPlay
           playsInline
-          muted={label === "You"}
           className="chime-video-element"
         />
       )}
+
+      {/* Local user's video is disabled */}
       {!isLocalVideoEnabled && label === "You" && (
         <div className="chime-video-disabled-overlay">
           <div className="chime-video-disabled-icon">
@@ -55,13 +55,31 @@ function VideoBox({
           </div>
         </div>
       )}
-      {/* Audio indicator */}
-      {!isLocalAudioEnabled && (
+
+      {/* Remote user's video is disabled */}
+      {!isRemoteVideoEnable && label === "Remote User" && (
+        <div className="chime-video-disabled-overlay">
+          <div className="chime-video-disabled-icon">
+            <VideoOff size={48} />
+          </div>
+        </div>
+      )}
+
+      {/* Show muted audio icon for local user */}
+      {label === "You" && !isLocalAudioEnabled && (
         <div className="chime-audio-disabled-indicator">
           <MicOff size={16} />
         </div>
       )}
 
+      {/* Show muted audio icon for remote user */}
+      {label === "Remote User" && !isRemoteAudioEnable && (
+        <div className="chime-audio-disabled-indicator">
+          <MicOff size={16} />
+        </div>
+      )}
+
+      {/* Display TV static and instructions when there is no active call */}
       {label === "Remote User" && !isInCall && !isConnecting && (
         <div className="chime-static-container">
           <TVStatic />
@@ -72,6 +90,8 @@ function VideoBox({
           </div>
         </div>
       )}
+
+      {/* Show loading overlay while connecting */}
       {isConnecting && (
         <div className="chime-connecting-overlay">
           <div className="chime-connecting-content">
@@ -80,14 +100,18 @@ function VideoBox({
           </div>
         </div>
       )}
+
+      {/* Video label (e.g., "You" or "Remote User") */}
       <div className="chime-video-label">{label}</div>
-      <button
+
+      {/* Fullscreen toggle button */}
+      <Button
         className="chime-fullscreen-button"
         onClick={onFullscreen}
         aria-label={`Toggle fullscreen for ${label.toLowerCase()}`}
       >
         <Fullscreen size={16} />
-      </button>
+      </Button>
     </div>
   );
 }

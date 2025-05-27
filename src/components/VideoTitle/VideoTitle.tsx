@@ -1,15 +1,11 @@
 import React from "react";
 import "../../styles/components/VideoTitle.css";
+import Button from "../Button/Button";
+import { VideoTitleProps } from "../../types";
 
-interface VideoTitleProps {
-  errorMessage: string | null;
-  successMessage: string | null;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
-  setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>;
-  onlineUsersCount: number
-}
 
-const VideoTitle: React.FC<VideoTitleProps> = ({
+
+const VideoTitle: React.ComponentType<VideoTitleProps> = ({
   errorMessage,
   successMessage,
   setErrorMessage,
@@ -24,13 +20,13 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
           <div className="chime-alert chime-error">
             <span className="chime-alert-icon" aria-hidden="true">⚠️</span>
             <span>{errorMessage}</span>
-            <button
+            <Button
               onClick={() => setErrorMessage(null)}
               className="chime-alert-remove"
               aria-label="Dismiss error message"
             >
               ×
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -50,13 +46,13 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
           <div className="chime-alert chime-success">
             <span className="chime-alert-icon" aria-hidden="true">✔️</span>
             <span>{successMessage}</span>
-            <button
+            <Button
               onClick={() => setSuccessMessage(null)}
               className="chime-alert-remove"
               aria-label="Dismiss success message"
             >
               ×
-            </button>
+            </Button>
           </div>
         )}
       </div>
