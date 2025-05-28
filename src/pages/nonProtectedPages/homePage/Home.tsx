@@ -1,9 +1,16 @@
-import React from 'react'
+import { CallToAction, FeatureSection, HowItWorks } from "../../../components";
+import HeroSection from "../../../components/HeroSection/HeroSection";
+import "../../../styles/pages/Home.css";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <>
+      <HeroSection />
+      <FeatureSection />
+      <HowItWorks />
+      <CallToAction />
+    </>
+  );
+};
 
-export default Home
+export default Home;

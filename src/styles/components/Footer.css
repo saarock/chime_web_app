@@ -1,63 +1,61 @@
-
-/* Footer Styling */
 .chime-footer {
-  background-color: var(--primary-background-color);
-  padding: 60px 20px;
-  text-align: center;
-  margin-top: 40px;
-}
-
-.chime-footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
   color: var(--secondary-text-color);
+  padding: 2rem 1rem;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  border-top: 1px solid var(--second-little-color);
+
 }
 
-.chime-footer-text {
-  font-size: 14px;
+.chime-footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.chime-footer-brand {
+  margin-bottom: 1.5rem;
+}
+
+.chime-footer-company {
+  font-size: 1.5rem;
   color: var(--primary-text-color);
-  margin-bottom: 20px;
+  margin-bottom: 0.5rem;
 }
 
-.chime-footer-links {
+.chime-footer-description {
+  font-size: 0.95rem;
+  color: var(--little-color);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chime-footer-socials {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  margin-top: 10px;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
 }
 
-.chime-footer-link {
-  color: var(--secondary-text-color);
-  text-decoration: none;
-  font-size: 16px;
-  transition: color 0.3s ease;
-  padding: 5px;
+.chime-footer-social-link {
+  font-size: 1.2rem;
+  color: var(--primary-text-color);
+  background-color: var(--second-little-color);
+  border-radius: 50%;
+  padding: 0.6rem;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.chime-footer-link:hover {
-  color: var(--primary-btn-background-color);
+.chime-footer-social-link:hover {
+  color: var(--social-hover-glow);
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px var(--social-hover-glow);
 }
 
-.chime-footer-link:active {
-  color: var(--primary-btn-background-hover-color);
-}
-
-.chime-footer-social {
-  margin-top: 20px;
-}
-
-.chime-footer-social-icon {
-  color: var(--secondary-text-color);
-  font-size: 16px;
-  margin: 0 15px;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.chime-footer-social-icon:hover {
-  color: var(--primary-btn-background-color);
-}
-
-.chime-footer-social-icon:active {
-  color: var(--primary-btn-background-hover-color);
+.chime-footer-bottom {
+  font-size: 0.8rem;
+  color: var(--little-color);
+  margin-top: 2rem;
+  border-top: 1px solid var(--second-little-color);
+  padding-top: 1rem;
 }

@@ -1,19 +1,18 @@
+import { Footer, Header, PageWrapContainer } from "./components";
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
-import { Footer, Header, PageWrapper } from './components'
-import { Outlet } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-
-const Layout = () => {  
+const Layout = () => {
   return (
     <>
       <Header />
-      <PageWrapper>
-        <ToastContainer />
+      <PageWrapContainer>
+        <ToastContainer position="top-left" />
         <Outlet />
-      </PageWrapper>
+      </PageWrapContainer>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

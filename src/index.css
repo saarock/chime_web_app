@@ -1,79 +1,50 @@
 @import "tailwindcss";
 
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+}
 
 :root {
-    --primary-btn-background-color: #1B84FC;
-    --secondary-btn-background-color: #df007e;
-    --primary-btn-background-hover-color: #1e7fef;
-    --primary-background-color: #191833;
-    --secondary-background-color: #212137;
-    --secondary-text-color: #dae9f0;
-    --primary-text-color: white;
-    --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    --little-color: #51516a;
-    --primary-hover-color: #7a8084;
+  --primary-btn-background-color: #1b84fc;
+  --secondary-btn-background-color: #df007e;
+  --primary-btn-background-hover-color: #1e7fef;
+  --primary-background-color: #191833;
+  --secondary-background-color: #212137;
+  --secondary-text-color: #dae9f0;
+  --primary-text-color: #f0f2f5;
+  --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --little-color: #51516a;
+  --primary-hover-color: #7a8084;
+  --social-hover-glow: #df007e;
+  --second-little-color: rgba(128, 128, 128, 0.055);
 }
 
 body {
-    background-color: var(--primary-background-color);
-    color: var(--primary-text-color);
-    font-family: 'Nunito', sans-serif;
-    position: relative;
-    min-height: 100vh;
-
-
+  background-color: var(--primary-background-color);
+  color: var(--primary-text-color);
+  position: relative;
+  min-height: 100vh;
 }
 
-.chime-btn {
-    box-shadow: var(--box-shadow-for-btn);
-    border-radius: 0.6rem;
-    text-align: center;
-}
-
-.chime-btn-primary {
-    background-color: var(--primary-btn-background-color);
-    padding: 0.4rem;
-    width: 5rem;
-
-
-
-}
-
-.chime-btn-primary:hover {
-    background-color: var(--primary-btn-background-hover-color) !important;
-}
-
-
-
-.chime-btn-ternary {
-    background-color: var(--secondary-btn-background-color);
-    padding: 0.4rem;
-    width: 7rem;
+#main {
+  min-height: 90vh;
 }
 
 .active {
-    color: var(--secondary-text-color);
-}
-
-.chime-input {
-    width: 100%;
-    height: 100%;
-    text-align: start;
-    padding-left: 1.2rem;
-    border-radius: 1rem;
-}
-
-.chime-input:focus {
-    outline: 2px solid var(--little-color);
-    border: none;
-}
-
-.chime-input-secondary {
-    background-color: var(--secondary-background-color);
-}
-.chime-input-primary {
-    padding: 1rem;
-    margin: 0.2rem;
-    outline: 2px solid var(--little-color);
+  color: var(--primary-btn-background-color);
 }

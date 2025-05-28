@@ -1,14 +1,16 @@
-// Import all the necessary dependencies here 
 import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../constant";
-import { cookieUtil, localStorageUtil } from "../utils"
+import cookieUtil from "./cookieUtil";
+import localStorageUtil from "./localStorageUtil";
 
-const useClientLogout = () => {
+class AuthUtil {
+  static clientSideLogout() {
     // clear the localstorage data
     localStorageUtil.clear();
     // clear the cookies
     cookieUtil.clear(REFRESH_TOKEN_KEY_NAME);
     cookieUtil.clear(ACCESS_TOKEN_KEY_NAME);
-    location.pathname ="/login";
+    location.pathname = "/login";
+  }
 }
 
-export default useClientLogout;
+export default AuthUtil;

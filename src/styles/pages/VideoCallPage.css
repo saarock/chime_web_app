@@ -1,0 +1,121 @@
+/* VideoCallPage.css */
+
+/* Root container */
+.chime-video-call-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-text-color, #eee);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease;
+}
+
+/* Fullscreen/maximized mode */
+
+/* Main container */
+.chime-video-call-container {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Video grid container */
+.chime-video-grid {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+  height: 70vh;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+/* Side-by-side layout: 2 equal columns */
+.chime-video-grid.layout-side-by-side {
+  display: grid;
+  grid-template-columns: calc(50% - 0.5rem) calc(50% - 0.5rem);
+  column-gap: 1rem; /* only gap between children */
+  width: 100%;
+}
+
+
+/* Focus remote layout: remote big, local overlay */
+.chime-video-grid.layout-focus-remote {
+  position: relative;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+/* Controls container */
+.chime-controls-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 24px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+/* Controls container variants for maximized + layout */
+.chime-controls-container.chime-controls-container-side-by-side {
+  flex-direction: row;
+}
+
+/* .chime-controls-container.chime-controls-container-focus-remote {
+
+} */
+
+/* Large screen adjustments */
+@media (min-width: 1200px) {
+  .chime-video-call-container {
+    max-width: 1600px;
+  }
+
+  .chime-video-grid {
+    height: 75vh;
+    gap: 32px;
+    border-radius: 20px;
+  }
+
+  .chime-controls-container {
+    padding: 16px 32px;
+    gap: 32px;
+  }
+}
+
+/* Ultra-wide screens (>= 1600px) */
+@media (min-width: 1600px) {
+  .chime-video-call-container {
+    max-width: 1900px;
+  }
+
+  .chime-video-grid {
+    height: 80vh;
+    gap: 40px;
+    border-radius: 24px;
+  }
+
+  .chime-controls-container {
+    padding: 20px 40px;
+    gap: 40px;
+  }
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .chime-video-grid.layout-side-by-side {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .chime-controls-container {
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px 20px;
+  }
+}

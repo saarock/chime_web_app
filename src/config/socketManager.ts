@@ -1,39 +1,73 @@
 import { io, Socket } from "socket.io-client";
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 
-let socket: Socket<DefaultEventsMap | DefaultEventsMap> | null = null;
-
-
-/**
- * This function helps to initialize the socket after the user login
- * @param accessToken AccessToken for authentication
- * @returns SOCKET
- */
-export const initSocket = (accessToken: string) => {
-    if (!socket) {
-        socket = io("http://localhost:8000/", {
-            auth: { accessToken }
-        })
-    }
-
-    return socket;
-}
+let chatSocket: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
+let videoSocket: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
 
 /**
- * 
- * @returns Socket<DefaultEventsMap | DefaultEventsMap> if the userIsLogin other wise return null
+ * Initialize both sockets with the token after user login
  */
-export const getSocket = () => socket;
+export const initChatSocket = () => {
+  if (!chatSocket) {
+    chatSocket = io("http://localhost:8000/chat", {
+      autoConnect: false,
+      withCredentials: true,
+    });
+  }
 
+  return { chatSocket };
+};
 
+export const initVideoSocket = () => {
+  if (!videoSocket) {
+    videoSocket = io("http://localhost:8000/video", {
+      autoConnect: false,
+      withCredentials: true,
+    });
+  }
+  return { videoSocket };
+};
 
 /**
- * This function helps to disconnect the socket when the user is logout
+ * Get chat socket instance
  */
-export const disconnectSocket = () => {
-    if (socket) {
-        socket.disconnect();
-        socket = null;
-    }
-}
+export const getChatSocket = () => chatSocket;
 
+/**
+ * Get video socket instance
+ */
+export const getVideoSocket = () => videoSocket;
+
+/**
+ * Disconnect all sockets on logout
+ */
+export const disconnectSockets = () => {
+  if (chatSocket) {
+    chatSocket.disconnect();
+    chatSocket = null;
+  }
+  if (videoSocket) {
+    videoSocket.disconnect();
+    videoSocket = null;
+  }
+};
+
+/**
+ * Disconnect video-socket
+ */
+export const disconnectVideoSocket = () => {
+  if (videoSocket) {
+    videoSocket.disconnect();
+    videoSocket = null;
+  }
+};
+
+/**
+ * Disconnect chat-socket
+ */
+export const disconnectChatSocket = () => {
+  if (chatSocket) {
+    chatSocket.disconnect();
+    chatSocket = null;
+  }
+};

@@ -1,11 +1,15 @@
 // import all ncessary dependencies
 import useAuth from "./useAuth";
-import useSocket from "./useSocket";
 import useVerifyTokenAndGetUserData from "./useVerifyTokenAndGetUserData";
-import useClientLogout from "./useClientLogout";
-
+import useChatSocket from "./useChatSocket";
+import useVideoSocket from "./useVideoSocket";
+import useWebRTC from "./useWebRTC";
 
 // export hooks
-export { useAuth, useSocket, useVerifyTokenAndGetUserData,
-    useClientLogout,
+export {
+  useAuth,
+  useVerifyTokenAndGetUserData,
+  useChatSocket,
+  useVideoSocket,
+  useWebRTC,
 };

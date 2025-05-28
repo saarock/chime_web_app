@@ -1,4 +1,5 @@
 // Import all the necessary dependencies
-import AuthService from "./authService"
+import AuthService from "./authService";
+// import peer from "./peer";
 
-export {AuthService}
+export { AuthService };

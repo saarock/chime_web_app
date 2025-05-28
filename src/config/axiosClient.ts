@@ -1,63 +1,107 @@
 // Import All the necessary dependencies
-import axios from "axios";
-import { cookieUtil, localStorageUtil } from "../utils";
-import { ACCESS_TOKEN_KEY_NAME, LOCAL_STORAGE_USER_DATA_KEY, REFRESH_TOKEN_KEY_NAME } from "../constant";
-import { AuthService } from "../services";
-import { useClientLogout } from "../hooks";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { cookieUtil } from "../utils";
+import { ACCESS_TOKEN_KEY_NAME } from "../constant";
+import { refreshTokens } from "../manager";
 
+interface FailedRequest {
+  resolve: (value?: any) => void;
+  reject: (reason?: any) => void;
+  config: InternalAxiosRequestConfig;
+}
 
+let isRefreshing = false;
+let failedQueue: FailedRequest[] = [];
 
 const axiosDefaults = {
-    baseURL: "http://localhost:8000/api/v1/users",
-    withCredentials: true,
-}
-// Creating axios instance 
+  baseURL: "http://localhost:8000/api/v1/users",
+  withCredentials: true,
+  timeout: 15000, // 15sec
+};
+// Creating axios instance
 const axiosClient = axios.create(axiosDefaults);
 
-
+// axios request interceptor
 axiosClient.interceptors.request.use(
-    function (config) {
-        config.headers.Authorization = `Bearer ${cookieUtil.get(ACCESS_TOKEN_KEY_NAME)}`;
-        return config;
-    },
-
-    function (error) {
-        return Promise.reject(error);
+  function (config) {
+    const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
+    return config;
+  },
 
+  function (error) {
+    return Promise.reject(error);
+  },
 );
 
-
+interface ErrorResponse {
+  errorCode: string;
+  data: null;
+  statusCode: number;
+  message: string;
+}
 
 // Response interceptor to handle 401 and refresh the access token
 axiosClient.interceptors.response.use(
-    response => response,  // Return the response if everything is fine
-    async (error) => {
-        if (error.response?.status === 401) {
-            // If the access token is expired, try to refresh it using the refresh token
-            const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
-            if (refreshToken) {
-                try {
-                    const axiosResponseData = await AuthService.refreshTokens();
-                    localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, axiosResponseData.data.userData);
-                    cookieUtil.set(ACCESS_TOKEN_KEY_NAME, axiosResponseData.data.accessToken);
-                    cookieUtil.set(REFRESH_TOKEN_KEY_NAME, axiosResponseData.data.refreshToken);
+  (response) => response, // Return the response if everything is fine
+  async (error: AxiosError<ErrorResponse>) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
-                    // Retry the original request with the new access token
-                    error.config.headers.Authorization = `Bearer ${axiosResponseData.data.accessToken}`;
-                    return axiosClient(error.config);
-                } catch (refreshError) {
-                    // If refresh token request fails, redirect user to login or handle as necessary
-                    console.error("Unable to refresh token:", refreshError);
-                    return Promise.reject(refreshError);
-                }
-            }
-        }
-        return Promise.reject(error);  // Propagate the error if refresh fails
+    if (originalRequest?.headers?.["skipAuthRefresh"])
+      return Promise.reject(error);
+
+    const shouldRefresh =
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      error.response.data &&
+      error.response.data.errorCode === "token_expired" &&
+      !originalRequest._retry;
+
+    if (shouldRefresh) {
+      if (!originalRequest._retry) {
+        originalRequest._retry = true; // Set the request as retried true to avoid the infinite loops;
+      }
+
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject, config: originalRequest });
+        });
+      }
+
+      isRefreshing = true;
+
+      try {
+        const newAccessToken = await refreshTokens();
+        // Set the global default header before retrying
+        axiosClient.defaults.headers.common["Authorization"] =
+          `Bearer ${newAccessToken}`;
+
+        failedQueue.forEach(({ resolve, config }) => {
+          config.headers.Authorization = `Bearer ${newAccessToken}`;
+          resolve(axiosClient(config));
+        });
+
+        failedQueue = [];
+
+        return axiosClient(originalRequest);
+      } catch (refreshError) {
+        failedQueue.forEach(({ reject }) => {
+          reject(refreshError);
+        });
+        failedQueue = [];
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
     }
+
+    return Promise.reject(error); // Propagate the error if refresh fails
+  },
 );
 
-
-
 export default axiosClient;
-

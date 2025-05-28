@@ -1,0 +1,244 @@
+.chime-how-it-works {
+  background-color: var(--primary-background-color);
+  background-image:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(27, 132, 252, 0.1) 0%,
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(223, 0, 126, 0.1) 0%,
+      transparent 25%
+    );
+  padding: 100px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.chime-how-it-works::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(27, 132, 252, 0.3),
+    rgba(223, 0, 126, 0.3),
+    transparent
+  );
+}
+
+.chime-how-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.chime-how-header {
+  text-align: center;
+  margin-bottom: 70px;
+  position: relative;
+}
+
+.chime-how-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--primary-text-color);
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.chime-how-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-btn-background-color),
+    var(--secondary-btn-background-color)
+  );
+  border-radius: 2px;
+}
+
+.chime-how-description {
+  font-size: 18px;
+  color: var(--secondary-text-color);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.chime-steps-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  position: relative;
+}
+
+.chime-steps-container::after {
+  content: "";
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  width: 70%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-btn-background-color),
+    var(--secondary-btn-background-color)
+  );
+  transform: translateX(-50%);
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.chime-step-card {
+  background-color: var(--secondary-background-color);
+  border-radius: 20px;
+  padding: 30px;
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  border: 1px solid rgba(81, 81, 106, 0.3);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chime-step-card:hover {
+  transform: translateY(-10px);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+.chime-step-number {
+  position: absolute;
+  top: -24px;
+  left: 30px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-btn-background-color),
+    var(--secondary-btn-background-color)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-text-color);
+  font-size: 20px;
+  font-weight: 700;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.chime-step-icon {
+  margin-top: 10px;
+  margin-bottom: 24px;
+  font-size: 36px;
+}
+
+.chime-step-icon-primary {
+  color: var(--primary-btn-background-color);
+  filter: drop-shadow(0 2px 5px rgba(27, 132, 252, 0.3));
+}
+
+.chime-step-icon-secondary {
+  color: var(--secondary-btn-background-color);
+  filter: drop-shadow(0 2px 5px rgba(223, 0, 126, 0.3));
+}
+
+.chime-step-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin-bottom: 16px;
+}
+
+.chime-step-description {
+  font-size: 16px;
+  color: var(--secondary-text-color);
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .chime-steps-container::after {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .chime-how-it-works {
+    padding: 80px 20px;
+  }
+
+  .chime-steps-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .chime-how-title {
+    font-size: 36px;
+  }
+
+  .chime-how-description {
+    font-size: 16px;
+  }
+
+  .chime-step-card {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .chime-how-it-works {
+    padding: 60px 16px;
+  }
+
+  .chime-how-header {
+    margin-bottom: 50px;
+  }
+
+  .chime-how-title {
+    font-size: 32px;
+  }
+
+  .chime-how-description {
+    font-size: 15px;
+  }
+
+  .chime-step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    top: -20px;
+  }
+
+  .chime-step-icon {
+    font-size: 32px;
+  }
+
+  .chime-step-title {
+    font-size: 20px;
+  }
+
+  .chime-step-description {
+    font-size: 15px;
+  }
+}

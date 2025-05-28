@@ -1,18 +1,38 @@
-import { getSocket } from '../../config';
-
+import { getChatSocket } from "../../config/socketManager";
+import { AuthUtil, cookieUtil } from "../../utils";
+import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
+import { refreshTokens } from "../../manager";
 
 export const initChatSocketEvents = () => {
-  const socket = getSocket();
+  const chatSocket = getChatSocket();
 
-  if (!socket) return;
+  if (!chatSocket) return;
 
-  socket.on('chat-message', (msg) => {
- 
+  const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
+  chatSocket.auth = { accessToken };
+
+  chatSocket.connect();
+
+  // handel error;
+  chatSocket.on("connect_error", (err) => {
+    if (err.message === "AUTH_EXPIRED") {
+      try {
+        // IIFI function
+        (async () => {
+          const newAccessoken = await refreshTokens();
+          cookieUtil.set(ACCESS_TOKEN_KEY_NAME, newAccessoken);
+          chatSocket.auth = { accessToken: newAccessoken };
+          chatSocket.connect();
+        })();
+      } catch (error) {
+        // AuthUtil.clientSideLogout(); // logout the user if any error arrives
+      }
+    } else {
+      // AuthUtil.clientSideLogout(); // Logout the user from the client side
+    }
   });
 
-  socket.on('user-joined', (user) => {
-    console.log(`${user} joined the chat`);
-  });
-
-  // more chat events...
+  /**
+   * Socket chat events start from here ;
+   */
 };
