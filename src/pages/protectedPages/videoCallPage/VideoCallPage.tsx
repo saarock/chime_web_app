@@ -34,6 +34,7 @@ export default function VideoCallPage() {
     setErrorMessage,
     setSuccessMessage,
     onlineUsersCount,
+    isVideoSocketConnected,
   } = useWebRTC();
 
   // Check the user is login or not from the userAuth hook
@@ -61,37 +62,6 @@ export default function VideoCallPage() {
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       remoteVideoRef.current.srcObject = remoteStream;
-
-
-      /** Handel the remote audio */
-      remoteStream.getAudioTracks().forEach((track) => {
-        track.onmute = () => {
-          dispatch(
-            {
-              type: "REMOTE_AUDIO",
-              payload: false
-            }
-          )
-        };
-        track.onunmute = () => {
-          dispatch(
-            {
-              type: "REMOTE_AUDIO",
-              payload: true
-            }
-          )
-        }
-      });
-
-      /** Handel the remote video */
-      remoteStream.getVideoTracks().forEach((track) => {
-        track.onmute = () => {
-          dispatch({ type: "REMOTE_VIDEO", payload: false })
-        };
-        track.onunmute = () => {
-          dispatch({ type: "REMOTE_VIDEO", payload: true })
-        }
-      })
       dispatch({ type: "SET_IN_CALL", payload: true });
       dispatch({ type: "SET_CONNECTING", payload: false });
     } else {
@@ -270,6 +240,7 @@ export default function VideoCallPage() {
             endRandomCall={endRandomCall}
             handleRandomCall={handleRandomCall}
             isConnecting={state.isConnecting}
+            isSocketIsConnected={isVideoSocketConnected}
           />
 
           <VideoAdvanceController

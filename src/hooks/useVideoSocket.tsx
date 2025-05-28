@@ -10,7 +10,7 @@ import {
 import { initVideoSocketEvents } from "../features";
 import { Socket } from "socket.io-client";
 
-const useVideoSocket = () => {
+const useVideoSocket = ({ isLocalStreamIsOn = false }: { isLocalStreamIsOn?: boolean }) => {
   const [videoSocket, setVideoSocket] = useState<Socket | null>(null);
 
   /**
@@ -18,6 +18,7 @@ const useVideoSocket = () => {
    * @note run when the page mount or reload
    */
   useEffect(() => {
+    if (!isLocalStreamIsOn) return;
     const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
     const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
     if (accessToken && refreshToken) {
@@ -30,7 +31,7 @@ const useVideoSocket = () => {
     return () => {
       disconnectVideoSocket();
     };
-  }, []);
+  }, [isLocalStreamIsOn]);
 
   return { videoSocket };
 };

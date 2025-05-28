@@ -19,8 +19,6 @@ function VideoBox({
   layout,
   onFullscreen,
   stream,
-  isRemoteAudioEnable,
-  isRemoteVideoEnable,
 }: VideoBoxProps) {
 
   // CSS class for when local video is disabled
@@ -56,24 +54,9 @@ function VideoBox({
         </div>
       )}
 
-      {/* Remote user's video is disabled */}
-      {!isRemoteVideoEnable && label === "Remote User" && (
-        <div className="chime-video-disabled-overlay">
-          <div className="chime-video-disabled-icon">
-            <VideoOff size={48} />
-          </div>
-        </div>
-      )}
 
       {/* Show muted audio icon for local user */}
       {label === "You" && !isLocalAudioEnabled && (
-        <div className="chime-audio-disabled-indicator">
-          <MicOff size={16} />
-        </div>
-      )}
-
-      {/* Show muted audio icon for remote user */}
-      {label === "Remote User" && !isRemoteAudioEnable && (
         <div className="chime-audio-disabled-indicator">
           <MicOff size={16} />
         </div>

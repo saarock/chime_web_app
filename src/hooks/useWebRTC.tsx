@@ -7,15 +7,17 @@ const useWebRTC = () => {
   // 1) SETUP
   // ─────────────────────────────────────────────────────────────────────────────
 
-  // Get our pre‑configured Socket.IO namespace
-  const { videoSocket } = useVideoSocket();
-
   // Keep a single RTCPeerConnection instance over renders
   const peerConnection = useRef<RTCPeerConnection | null>(null);
 
   // Local/remote media streams in state
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+
+
+  // Setup socket connection based on local stream availability
+  const { videoSocket } = useVideoSocket({ isLocalStreamIsOn: !!localStream });
+
 
   // Errors in state
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -30,6 +32,10 @@ const useWebRTC = () => {
 
   // Store the current partner’s userId for signaling
   const partnerIdRef = useRef<string | null>(null);
+
+  const [isVideoSocketConnected, setIsVideoSocketConnected] = useState<boolean>(false);
+
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 2) CAPTURE LOCAL MEDIA
@@ -318,12 +324,41 @@ const useWebRTC = () => {
    */
   const handleOnlineUsersCount = useCallback(({ count }: { count: number }) => {
     setOnlineUsersCount(count);
+  }, [videoSocket]);
+
+
+  /**
+   * Handle global error
+   */
+
+  const handleGlobalError = useCallback(({ message }: { message: string }) => {
+    setIsVideoSocketConnected(false);
+    setErrorMessage(message);
+    cleanupPeerConnection();
+    partnerIdRef.current = null;
+    setOnlineUsersCount(0);
   }, []);
+
+
 
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 5) ATTACH SOCKET LISTENERS
   // ─────────────────────────────────────────────────────────────────────────────
+
+
+  useEffect(() => {
+    if (!videoSocket) return;
+    setIsVideoSocketConnected(true); // set the videoSocket connected true
+    videoSocket.emit("onlineUsersCount");
+
+
+    return () => {
+      videoSocket.off("onlineUsersCount");
+    }
+
+  }, [videoSocket]);
+
 
   useEffect(() => {
     if (!videoSocket) return;
@@ -331,9 +366,7 @@ const useWebRTC = () => {
     videoSocket.on("self-loop", sendSelfLoop);
     videoSocket.on("wait", sendWait);
     videoSocket.on("user:not-found", sendNotFound);
-    videoSocket.on("video:global:error", ({ message }: { message: string }) =>
-      sendError(message || "Match error"),
-    );
+    videoSocket.on("video:global:error", handleGlobalError);
     videoSocket.on("user:match-found", handleMatchFound);
     videoSocket.on("receive-call", handleReceiveCall);
     videoSocket.on("call-accepted", handleCallAccepted);
@@ -341,6 +374,7 @@ const useWebRTC = () => {
     videoSocket.on("user:call-ended", handleUserCallEnded);
     videoSocket.on("user:call-ended:try:for:other", handleNextTry);
     videoSocket.on("onlineUsersCount", handleOnlineUsersCount);
+    videoSocket.on("duplicate:connection", handleGlobalError);
 
     return () => {
       videoSocket.off("self-loop", sendSelfLoop);
@@ -354,6 +388,10 @@ const useWebRTC = () => {
       videoSocket.off("user:call-ended", handleUserCallEnded);
       videoSocket.off("user:call-ended:try:for:other", handleNextTry);
       videoSocket.off("onlineUsersCount", handleOnlineUsersCount);
+      videoSocket.off("video:global:error", handleGlobalError);
+      videoSocket.off("duplicate:connection", handleGlobalError);
+
+
 
     };
   }, [
@@ -423,6 +461,7 @@ const useWebRTC = () => {
     setErrorMessage,
     setSuccessMessage,
     onlineUsersCount,
+    isVideoSocketConnected,
   };
 };
 
