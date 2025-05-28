@@ -20,7 +20,6 @@ const VideoAdvanceController: React.ComponentType<
   increaseZoom,
   decreaseZoom,
   cycleLayout,
-  layout,
 }) => {
     return (
       <div className="chime-advanced-controls">

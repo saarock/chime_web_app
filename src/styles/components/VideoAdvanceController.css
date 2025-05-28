@@ -1,145 +1,116 @@
-/* styles/components/VideoAdvanceController.css */
 
-/* Container for the control buttons */
 .chime-advanced-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px;
-  background: var(--primary-background-color); /* #191833 */
-  border-radius: 12px;
-  box-shadow: var(--box-shadow-for-btn); /* rgba(0, 0, 0, 0.24) 0px 3px 8px */
-  backdrop-filter: blur(8px);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  border: 1px solid var(--second-little-color);
-
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, var(--secondary-background-color), var(--primary-background-color));
+  border-radius: 16px;
+  border: 1px solid var(--little-color);
+  box-shadow: var(--box-shadow-for-btn);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Hover effect for the container */
-.chime-advanced-controls:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+
+
+.chime-advanced-controls::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
 }
 
-/* Button styling */
 .chime-advanced-control-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  border: none;
-  border-radius: 50%;
-  background: var(--secondary-background-color); /* #212137 */
-  color: var(--primary-text-color); /* #f0f2f5 */
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--secondary-text-color);
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
 }
 
-/* Hover effect for buttons */
+.chime-advanced-control-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.chime-advanced-control-button:hover::before {
+  left: 100%;
+}
+
 .chime-advanced-control-button:hover {
-  background: var(--primary-btn-background-color); /* #1b84fc */
-  color: var(--primary-text-color); /* #f0f2f5 */
-  transform: scale(1.15) rotate(5deg);
-
+  transform: translateY(-2px) scale(1.05);
+  background: linear-gradient(135deg, var(--primary-btn-background-color), var(--primary-btn-background-hover-color));
+  border-color: var(--primary-btn-background-color);
+  box-shadow: 0 8px 25px rgba(27, 132, 252, 0.3);
+  color: white;
 }
 
-/* Active state for buttons */
 .chime-advanced-control-button:active {
-  transform: scale(0.95);
-  background: var(--primary-btn-background-hover-color); /* #1e7fef */
+  transform: translateY(0) scale(0.98);
+  transition: transform 0.1s ease;
 }
 
-/* Focus state for accessibility */
-.chime-advanced-control-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--second-little-color); /* rgba(128, 128, 128, 0.055) */
-}
-.chime-call-button {
-    width: 10rem;
-    margin-left: 1rem;
+.chime-advanced-control-button svg {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.1));
 }
 
-/* Layout button specific styling */
-.layout-button {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 16px;
-  border-radius: 24px;
-  background: var(--secondary-btn-background-color); /* #df007e */
+.chime-advanced-control-button:hover svg {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
-/* Hover effect for layout button */
-.layout-button:hover {
-  background: var(--social-hover-glow); /* #df007e */
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px var(--primary-btn-background-color); /* #1b84fc */
-}
-
-/* Layout name text */
-.chime-layout-name {
-  margin-left: 6px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--secondary-text-color); /* #dae9f0 */
-  text-transform: capitalize;
-  animation: slideIn 0.5s ease-in-out;
-}
-
-/* Slide-in animation for layout name */
-@keyframes slideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-
-
-
-
-/* Responsive design for smaller screens */
-@media (max-width: 640px) {
+/* Responsive Design */
+@media (max-width: 768px) {
   .chime-advanced-controls {
-    flex-direction: column;
-    gap: 8px;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 8px 12px;
+    gap: 6px;
   }
 
   .chime-advanced-control-button {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
 
-  .layout-button {
-    width: 100%;
-    justify-content: center;
-    padding: 10px 16px;
-  }
-
-  .chime-layout-name {
-    font-size: 13px;
+  .chime-advanced-control-button svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
-/* Dark mode adjustments */
-@media (prefers-color-scheme: dark) {
+@media (max-width: 480px) {
   .chime-advanced-controls {
-    background: var(--primary-background-color); /* #191833 */
+    padding: 6px 8px;
+    gap: 4px;
   }
 
   .chime-advanced-control-button {
-    background: var(--secondary-background-color); /* #212137 */
-    color: var(--primary-text-color); /* #f0f2f5 */
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
   }
 
-  .layout-button {
-    background: var(--secondary-btn-background-color); /* #df007e */
+  .chime-advanced-control-button svg {
+    width: 16px;
+    height: 16px;
   }
 }

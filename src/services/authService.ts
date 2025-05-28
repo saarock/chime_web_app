@@ -43,6 +43,8 @@ class AuthService {
     try {
       const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
       if (!refreshToken) {
+        alert("logout while refgreshgin the token")
+
         AuthUtil.clientSideLogout();
         throw new Error("No accessToken available");
       }

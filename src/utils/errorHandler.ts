@@ -19,6 +19,8 @@ const errorhandler = (error: unknown): never => {
           error.response.data?.errorCode === "token_expired")
       ) {
         // logout the user if the status code is 401 or 403
+        alert("logout because the error comes 401 or 403")
+
         AuthUtil.clientSideLogout();
       }
 

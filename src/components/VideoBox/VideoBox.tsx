@@ -31,7 +31,7 @@ function VideoBox({
 
   return (
     <div
-      className={`chime-video-box ${disabledClass} ${noCallClass} ${isActive ? `chime-video-box-${layout}` : ""}`}
+      className={`chime-video-box ${disabledClass} ${noCallClass} ${isActive ? `chime-video-box-${layout}` : ""} ${(label === "You" && layout === "focus-remote") && "chime-remove-the-stream-now"}`}
       style={{ transform: `scale(${zoomLevel})` }}
     >
       {/* Dark gradient overlay for design */}
@@ -43,7 +43,7 @@ function VideoBox({
           ref={refObject}
           autoPlay
           playsInline
-          className="chime-video-element"
+          className={`chime-video-element`}
         />
       )}
 

@@ -7,7 +7,6 @@
   align-items: center;
   color: var(--primary-text-color, #eee);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  overflow: hidden;
   padding: 20px;
   box-sizing: border-box;
   transition: background-color 0.3s ease;
@@ -67,10 +66,9 @@
   flex-direction: row;
 }
 
-.chime-controls-container.chime-controls-container-focus-remote {
-  flex-direction: column;
-  gap: 12px;
-}
+/* .chime-controls-container.chime-controls-container-focus-remote {
+
+} */
 
 /* Large screen adjustments */
 @media (min-width: 1200px) {

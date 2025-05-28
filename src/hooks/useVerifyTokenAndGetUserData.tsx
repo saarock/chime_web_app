@@ -39,10 +39,12 @@ const useVerifyTokenAndGetUserData = () => {
     useCallback(async (): Promise<void> => {
       const accessToken = cookieUtil.checkCookie(ACCESS_TOKEN_KEY_NAME);
       const refreshToken = cookieUtil.checkCookie(REFRESH_TOKEN_KEY_NAME);
-      const userData = localStorageUtil.checkItem(LOCAL_STORAGE_USER_DATA_KEY);
+      // const userData = localStorageUtil.checkItem(LOCAL_STORAGE_USER_DATA_KEY);
 
-      if (!accessToken || !refreshToken || !userData) {
+      if (!accessToken || !refreshToken) {
         // If both tokens and userData from the localStorage are missing, log out the client.
+        alert("logout white getting the token userVerifyToken hook")
+
         AuthUtil.clientSideLogout();
         return;
       }
