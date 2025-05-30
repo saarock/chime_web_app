@@ -6,7 +6,7 @@ export interface User {
   email: string;
   phoneNumber?: string;
   profilePicture?: string;
-  age?: string;
+  age?: number;
   gender?: string;
   relationShipStatus?: boolean;
   active: boolean;
@@ -18,7 +18,7 @@ export interface User {
 // User interface for login
 export interface UserLoginWithGoogleDetils {
   clientId: string;
-  credentials: string;
+  credential: string;
 }
 
 // User interface for redux-auth-state
@@ -43,4 +43,12 @@ export interface AuthResponseData {
 
 export interface UserData {
   userData: User;
+}
+
+
+export interface UserImpDetails {
+  age: number;
+  country: string;
+  gender: string;
+  userId: string;
 }

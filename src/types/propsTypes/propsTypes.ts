@@ -40,7 +40,7 @@ export interface ButtonProps {
 // input props
 
 export interface InputProps {
-  placeHolder: React.InputHTMLAttributes<HTMLInputElement>["placeholder"];
+  placeholder: React.InputHTMLAttributes<HTMLInputElement>["placeholder"];
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   variant?: Variant;
@@ -49,6 +49,7 @@ export interface InputProps {
   onMouseLeave?: () => void;
   value?: string;
   className?: string;
+  id: string;
 }
 
 //ComponentForLoginAndResgisterComponentForTop component props

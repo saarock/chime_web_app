@@ -30,16 +30,19 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       return;
     }
     try {
+
+
+
       // after checking the credentials loginFromTheGoogle
       await dispatch(
         serverLoginWithGoogle({
-          credentials: credentialsResponse.credential,
+          credential: credentialsResponse.credential,
           clientId: credentialsResponse.clientId,
         }),
       ).unwrap();
 
       // if user login successfully navigate to the chats
-      window.location.replace("/chats"); // dont show the prev history before login and after login to the user
+      window.location.replace("/video-calls"); // dont show the prev history before login and after login to the user
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Login failed");
       console.error(
@@ -58,6 +61,7 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
           <LoadingComponent />
         ) : (
           <GoogleLogin
+            useOneTap={true}
             onSuccess={(e) => loginWithGoogle(e)}
             onError={() => {
               console.error("Login Failed");

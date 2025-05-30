@@ -6,6 +6,7 @@ import cookieUtil from "./cookieUtil";
 import errorhandler from "./errorHandler";
 import checkTheErrorWithTheStatusCode from "./checkTheErrorWithStatusCode";
 import AuthUtil from "./authUtil";
+import getCountry from "./getCountry";
 
 // exports
 export {
@@ -15,4 +16,5 @@ export {
   errorhandler,
   checkTheErrorWithTheStatusCode,
   AuthUtil,
+  getCountry
 };

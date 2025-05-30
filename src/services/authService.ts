@@ -1,5 +1,5 @@
 // Import dependencies
-import AuthEndPoint from "../apis";
+import { AuthEndPoint } from "../apis";
 import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../constant";
 import { AuthResponseData, UserLoginWithGoogleDetils } from "../types";
 import { AuthUtil, cookieUtil, errorhandler } from "../utils";

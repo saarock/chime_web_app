@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useVideoSocket from "./useVideoSocket";
 import { toast } from "react-toastify";
+import useAuth from "./useAuth";
 
 const useWebRTC = () => {
   // ─────────────────────────────────────────────────────────────────────────────
@@ -10,13 +11,17 @@ const useWebRTC = () => {
   // Keep a single RTCPeerConnection instance over renders
   const peerConnection = useRef<RTCPeerConnection | null>(null);
 
+
+
   // Local/remote media streams in state
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
 
+  const { isAuthenticated, user } = useAuth();
+
 
   // Setup socket connection based on local stream availability
-  const { videoSocket } = useVideoSocket({ isLocalStreamIsOn: !!localStream });
+  const { videoSocket } = useVideoSocket({ isLocalStreamIsOn: !!localStream, isUserVerify: isAuthenticated });
 
 
   // Errors in state
@@ -34,6 +39,10 @@ const useWebRTC = () => {
   const partnerIdRef = useRef<string | null>(null);
 
   const [isVideoSocketConnected, setIsVideoSocketConnected] = useState<boolean>(false);
+
+
+
+
 
 
 
@@ -442,9 +451,10 @@ const useWebRTC = () => {
       // alert("I am starting the random call")
       videoSocket.emit("start:random-video-call", {
         filters: { age: "", gender: "", country: "" },
+        userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
       });
     }
-  }, [videoSocket, getOrCreatePeerConnection, remoteStream]);
+  }, [videoSocket, getOrCreatePeerConnection, remoteStream, user]);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 7) return states on Video page

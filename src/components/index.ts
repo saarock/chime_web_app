@@ -32,6 +32,8 @@ import VideoControllerPanel from "./VideoControllerPanel/VideoControllerPanel";
 import VideoBox from "./VideoBox/VideoBox";
 import VideoTitle from "./VideoTitle/VideoTitle";
 import StreamWarnComponent from "./StreamWarnComponent/StreamWarnComponent";
+import VideoFilters from "./VideoFilters/VideoFilters";
+import ChimeUserInfoModal from "./ChimeUserInfoModal/ChimeUserInfoModal";
 
 // Export all the dependencies here
 export {
@@ -67,4 +69,6 @@ export {
   VideoBox,
   VideoTitle,
   StreamWarnComponent,
+  VideoFilters,
+  ChimeUserInfoModal,
 };
