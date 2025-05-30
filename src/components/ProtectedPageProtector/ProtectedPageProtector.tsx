@@ -25,7 +25,7 @@ const ProtectedPageProtector: React.FC<PageProtectorProps> = ({
   // All the hooks goes here
   const { isError, errorMessage } = useVerifyTokenAndGetUserData();
   // Initilize the chat socket on whole page
-  useChatSocket();
+  // useChatSocket(); // Keep for the future
 
   // If an error is present (e.g., invalid/expired token), render the error message.
   if (isError && errorMessage) {

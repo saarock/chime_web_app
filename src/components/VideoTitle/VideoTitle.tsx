@@ -1,9 +1,9 @@
 // Import all the necessary dependencies here 
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import "../../styles/components/VideoTitle.css"
 import Button from "../Button/Button"
-import type { VideoTitleProps } from "../../types";
-import { ChevronDown, Users } from "lucide-react"
+import { Variant, type VideoTitleProps } from "../../types";
+import { ChevronDown, Plus, Users } from "lucide-react"
 import VideoFilters from "../VideoFilters/VideoFilters";
 import { useAuth } from "../../hooks";
 import ChimeUserInfoModal from "../ChimeUserInfoModal/ChimeUserInfoModal";
@@ -71,7 +71,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
     <div className="chime-video-title-wrapper">
       {isHaveToFillDetails && <ChimeUserInfoModal isOpen={isHaveToFillDetails} onClose={() => setIsHaveToFillDetails(false)} onSubmit={handleSubmitAndAddImpDetails} key={"a"} />}
       <div className="chime-video-title-container">
-   
+
         {/* Left error message */}
         <div className="chime-message chime-message-left">
           {errorMessage && (
@@ -89,7 +89,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
               </Button>
             </div>
           )}
-               <button onClick={() => setIsHaveToFillDetails(true)}>open</button>
+
         </div>
 
         {/* Center title */}
@@ -108,10 +108,15 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
               </span>
             </div>
 
-            <Button className="chime-filter-toggle" onClick={() => handleToggleFilter()}>
+            <Button className='secondary' variant={Variant.secondary} onClick={() => handleToggleFilter()}>
               Filters
               <ChevronDown className={`chime-chevron ${showFilters ? "chime-chevron-up" : ""}`} size={16} />
             </Button>
+            <Button className='secondary' variant={Variant.secondary} onClick={() => setIsHaveToFillDetails(true)}>
+              Change details
+              <Plus size={16} />
+            </Button>
+
           </div>
         </div>
 

@@ -39,6 +39,26 @@ export interface AuthResponseData {
   data: userDataWithRefreshAnAccessToken;
 }
 
+export interface UserVideoFilter {
+  age: string;
+  country: string;
+  gender: string;
+  isStrict: boolean;
+}
+export interface UserVideoFilterFromProps {
+  age: string;
+  country: string;
+  gender: string;
+  isStrict: string;
+}
+
+
+
+export interface UserReduxRootState {
+  auth: UserAuthState;
+  videoFilters: UserVideoFilter;
+}
+
 // User data interface types while veryfying user and getting new refresh data
 
 export interface UserData {

@@ -1,7 +1,6 @@
 // Import all the dependencies here
 import React, { JSX } from "react";
 import { ComponentForLoginAndResgisterComponentForTopProps } from "../../types";
-import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import "../../styles/components/ComponentForLoginAndResgisterComponentForTop.css";
 
@@ -19,35 +18,42 @@ const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<
   ComponentForLoginAndResgisterComponentForTopProps
 > = ({
   title,
-  secondTitle,
-  path,
-  name,
   LoginWithGoogleComponent,
 }): JSX.Element => {
-  return (
-    <div className="chime-login-register-top-component">
-      <div className="chime-login-register-top-component-logo-container">
-        <img
-          src={logo}
-          alt="logo"
-          className="chime-login-register-top-component-logo"
-        />
+    return (
+      <div className="chime-login-register-top-component">
+        <div className="chime-login-register-top-component-logo-container">
+          <img
+            src={logo}
+            alt="logo"
+            className="chime-login-register-top-component-logo"
+          />
+        </div>
+        <div className="chime-login-register-top-component-title-wrapper">
+          <h1>{title}</h1>
+        </div>
+        {/* Render the LoginWithGoogleComponent as a component */}
+        <LoginWithGoogleComponent />
       </div>
-      <div className="chime-login-register-top-component-title-wrapper">
-        <h1>{title}</h1>
-      </div>
-      <div className="chime-login-register-top-component-second-title">
+    );
+  };
+
+export default ComponentForLoginAndResgisterComponentForTop;
+
+
+
+/**
+ * For the future
+ */
+
+{/* <div className="chime-login-register-top-component-second-title">
         <span>{secondTitle}</span>{" "}
         <span>
           <NavLink to={path} className="chime-link">
             {name}
           </NavLink>
         </span>
-      </div>
-      {/* Render the LoginWithGoogleComponent as a component */}
-      <LoginWithGoogleComponent />
-    </div>
-  );
-};
+      </div> */}
 
-export default ComponentForLoginAndResgisterComponentForTop;
+
+

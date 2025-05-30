@@ -1,17 +1,22 @@
+import type React from "react"
 // Import all the necessary dependencies
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight } from "react-icons/fi"
 import {
   FaVideo,
   FaMicrophone,
   FaTimes,
   FaRandom,
   FaUsers,
-} from "react-icons/fa";
-import { JSX } from "react";
-import "../../styles/components/HeroSection.css";
+  FaShieldAlt,
+  FaFilter,
+  FaMale,
+  FaFemale,
+} from "react-icons/fa"
+import type { JSX } from "react"
+import "../../styles/components/HeroSection.css"
 
 /**
- * Chime hero section component
+ * Chime hero section component for random video calls with filters
  * @returns {JSX.Element}
  */
 const HeroSection: React.ComponentType = (): JSX.Element => {
@@ -22,23 +27,32 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
           <div className="chime-hero-content">
             <div className="chime-hero-text">
               <h1 className="chime-hero-title">
-                Random Video Chats &{" "}
-                <span className="chime-text-secondary">
-                  Group Conversations
-                </span>
+                Random Video Calls with <span className="chime-text-secondary">Smart Filters</span>
               </h1>
               <p className="chime-hero-description">
-                Connect with strangers worldwide through random video chats or
-                join group conversations with people who share your interests.
+                Connect instantly with people worldwide through random video calls. Use gender filters, strict mode, and
+                safety features to find the perfect conversation partner.
               </p>
             </div>
             <div className="chime-hero-buttons">
               <button className="chime-button chime-button-primary chime-button-large">
-                Start Chatting <FiArrowRight className="chime-button-icon" />
+                Start Video Chat <FiArrowRight className="chime-button-icon" />
               </button>
-              <button className="chime-button chime-button-secondary chime-button-large">
-                Create Profile
-              </button>
+              <button className="chime-button chime-button-secondary chime-button-large">Browse Filters</button>
+            </div>
+            <div className="chime-hero-features">
+              <div className="chime-feature-item">
+                <FaFilter className="chime-feature-icon" />
+                <span>Gender Filters</span>
+              </div>
+              <div className="chime-feature-item">
+                <FaShieldAlt className="chime-feature-icon" />
+                <span>Strict Mode</span>
+              </div>
+              <div className="chime-feature-item">
+                <FaVideo className="chime-feature-icon" />
+                <span>HD Video</span>
+              </div>
             </div>
             <div className="chime-hero-users">
               <div className="chime-user-avatars">
@@ -47,8 +61,7 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
                 ))}
               </div>
               <p className="chime-user-count">
-                Join <span className="chime-text-highlight">5,000+</span> users
-                already connected
+                Join <span className="chime-text-highlight">12,000+</span> users online now
               </p>
             </div>
           </div>
@@ -58,12 +71,34 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
             <div className="chime-video-chat">
               <div className="chime-video-status">
                 <div className="chime-status-indicator"></div>
-                Random Chat • Online: 1,243
+                Random Video Chat • Online: 2,847
+              </div>
+
+              {/* Filter Panel */}
+              <div className="chime-filter-panel">
+                <div className="chime-filter-title">
+                  <FaFilter className="chime-filter-icon" />
+                  Filters
+                </div>
+                <div className="chime-filter-options">
+                  <button className="chime-filter-btn chime-filter-active">
+                    <FaMale /> Male
+                  </button>
+                  <button className="chime-filter-btn">
+                    <FaFemale /> Female
+                  </button>
+                  <button className="chime-filter-btn chime-filter-strict">
+                    <FaShieldAlt /> Strict Mode
+                  </button>
+                </div>
               </div>
 
               {/* Random User */}
               <div className="chime-video-user">
-                <FaUsers className="chime-user-icon" />
+                <div className="chime-user-placeholder">
+                  <FaUsers className="chime-user-icon" />
+                  <p>Looking for someone...</p>
+                </div>
               </div>
 
               {/* Controls */}
@@ -83,76 +118,55 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
               </div>
             </div>
 
-            {/* Group Chat Window */}
-            <div className="chime-group-chat">
-              <div className="chime-group-header">
-                <div className="chime-group-title">
-                  <FaUsers className="chime-group-icon" />
-                  <h3 className="chime-group-name">Travel Enthusiasts</h3>
-                </div>
-                <div className="chime-group-status">24 online</div>
+            {/* Safety Features Panel */}
+            <div className="chime-safety-panel">
+              <div className="chime-safety-header">
+                <FaShieldAlt className="chime-safety-icon" />
+                <h3 className="chime-safety-title">Safety First</h3>
               </div>
 
-              <div className="chime-chat-messages">
-                <div className="chime-chat-message">
-                  <div className="chime-message-avatar chime-avatar-primary">
-                    J
-                  </div>
-                  <div className="chime-message-content">
-                    <p className="chime-message-author chime-text-primary">
-                      Jake
-                    </p>
-                    <p className="chime-message-text">
-                      Has anyone been to Bali recently?
-                    </p>
+              <div className="chime-safety-features">
+                <div className="chime-safety-feature">
+                  <div className="chime-safety-indicator chime-indicator-active"></div>
+                  <div className="chime-safety-content">
+                    <p className="chime-safety-label">Strict Mode</p>
+                    <p className="chime-safety-description">Enhanced content filtering</p>
                   </div>
                 </div>
 
-                <div className="chime-chat-message">
-                  <div className="chime-message-avatar chime-avatar-secondary">
-                    S
-                  </div>
-                  <div className="chime-message-content">
-                    <p className="chime-message-author chime-text-secondary">
-                      Sarah
-                    </p>
-                    <p className="chime-message-text">
-                      I was there last month! The beaches are amazing.
-                    </p>
+                <div className="chime-safety-feature">
+                  <div className="chime-safety-indicator chime-indicator-active"></div>
+                  <div className="chime-safety-content">
+                    <p className="chime-safety-label">Gender Filter</p>
+                    <p className="chime-safety-description">Male connections only</p>
                   </div>
                 </div>
 
-                <div className="chime-chat-message">
-                  <div className="chime-message-avatar chime-avatar-neutral">
-                    M
-                  </div>
-                  <div className="chime-message-content">
-                    <p className="chime-message-author chime-text-primary">
-                      Mike
-                    </p>
-                    <p className="chime-message-text">
-                      I'm planning to go in December. Any recommendations?
-                    </p>
+                <div className="chime-safety-feature">
+                  <div className="chime-safety-indicator chime-indicator-warning"></div>
+                  <div className="chime-safety-content">
+                    <p className="chime-safety-label">Report System</p>
+                    <p className="chime-safety-description">One-click reporting</p>
                   </div>
                 </div>
               </div>
 
-              <div className="chime-chat-input-container">
-                <input
-                  type="text"
-                  placeholder="Type a message..."
-                  className="chime-chat-input"
-                />
-                <button className="chime-chat-send">
-                  <FiArrowRight />
-                </button>
+              <div className="chime-safety-stats">
+                <div className="chime-stat">
+                  <span className="chime-stat-number">99.2%</span>
+                  <span className="chime-stat-label">Safe Connections</span>
+                </div>
+                <div className="chime-stat">
+                  <span className="chime-stat-number">24/7</span>
+                  <span className="chime-stat-label">Moderation</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HeroSection;
+export default HeroSection

@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import useVideoSocket from "./useVideoSocket";
 import { toast } from "react-toastify";
 import useAuth from "./useAuth";
+import { useSelector } from "react-redux";
+import { UserReduxRootState } from "../types";
 
 const useWebRTC = () => {
   // ─────────────────────────────────────────────────────────────────────────────
@@ -40,6 +42,8 @@ const useWebRTC = () => {
 
   const [isVideoSocketConnected, setIsVideoSocketConnected] = useState<boolean>(false);
 
+
+  const userVideoFilter = useSelector((state: UserReduxRootState) => state.videoFilters);
 
 
 
@@ -289,7 +293,8 @@ const useWebRTC = () => {
           getOrCreatePeerConnection(); // Create new peer connection
           if (partnerIdRef.current) {
             videoSocket.emit("start:random-video-call", {
-              filters: { age: "", gender: "", country: "" },
+              filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
+              userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
             });
           }
         } else {
@@ -302,7 +307,7 @@ const useWebRTC = () => {
         sendError(error instanceof Error ? error.message : "Failed to end the call try again.")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter],
   );
 
   /** Handler for retry event when both agreed to try someone else */
@@ -317,14 +322,15 @@ const useWebRTC = () => {
         getOrCreatePeerConnection();
 
         videoSocket?.emit("start:random-video-call", {
-          filters: { age: "", gender: "", country: "" },
+          filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
+          userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
         });
       } catch (error) {
         console.error(error);
         sendError(error instanceof Error ? error.message : "Failed to try again pleased try again..")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter],
   );
 
 
@@ -399,9 +405,6 @@ const useWebRTC = () => {
       videoSocket.off("onlineUsersCount", handleOnlineUsersCount);
       videoSocket.off("video:global:error", handleGlobalError);
       videoSocket.off("duplicate:connection", handleGlobalError);
-
-
-
     };
   }, [
     videoSocket,
@@ -450,11 +453,11 @@ const useWebRTC = () => {
       getOrCreatePeerConnection();
       // alert("I am starting the random call")
       videoSocket.emit("start:random-video-call", {
-        filters: { age: "", gender: "", country: "" },
+        filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
         userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
       });
     }
-  }, [videoSocket, getOrCreatePeerConnection, remoteStream, user]);
+  }, [videoSocket, getOrCreatePeerConnection, remoteStream, user, userVideoFilter]);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 7) return states on Video page

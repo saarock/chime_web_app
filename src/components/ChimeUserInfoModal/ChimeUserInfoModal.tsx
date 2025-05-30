@@ -5,6 +5,7 @@ import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { X } from "lucide-react"
 import "../../styles/components/ChimeUserInfoModal.css";
+import { Variant } from "../../types";
 
 
 interface ChimeUserInfoFormData {
@@ -19,7 +20,7 @@ interface ChimeUserInfoModalProps {
     onSubmit: (data: ChimeUserInfoFormData) => void
 }
 
-const genders = ["Male", "Female", "Non-binary"]
+const genders = ["Male", "Female", "Non-binary", "Bubble-tea"]
 
 export default function ChimeUserInfoModal({ isOpen, onClose, onSubmit }: ChimeUserInfoModalProps) {
 
@@ -111,7 +112,7 @@ export default function ChimeUserInfoModal({ isOpen, onClose, onSubmit }: ChimeU
                                 <Button type="button" onClick={onClose} className="chime-btn-secondary" disabled={isSubmitting}>
                                     Cancel
                                 </Button>
-                                <Button type="submit" className="chime-btn-primary" disabled={isSubmitting} onClick={() => {}}>
+                                <Button type="submit" className="primary" variant={Variant.primary} disabled={isSubmitting} onClick={() => {}}>
                                     {isSubmitting ? "Saving..." : "Save Information"}
                                 </Button>
                             </div>

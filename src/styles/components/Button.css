@@ -1,10 +1,12 @@
 .chime-btn {
-  border-radius: 8px;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.5rem !important;
 }
 
 .chime-btn:disabled {
@@ -24,31 +26,28 @@
 }
 
 .chime-btn-secondary {
-  background-color: transparent;
-  color: var(--secondary-btn-background-color);
-  border: 2px solid var(--secondary-btn-background-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--secondary-btn-background-color), #e91e63);
+  box-shadow: 0 4px 12px rgba(223, 0, 126, 0.3);
 }
 
-.chime-btn-secondary .active {
-  color: white !important;
+.chime-btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(223, 0, 126, 0.4);
 }
 
-.chime-btn-secondary:hover:not(:disabled) {
-  background-color: var(--secondary-btn-background-color);
-  color: var(--primary-text-color);
-}
-
-/* Additional button variants can be added here */
 .chime-btn-ternary {
-  /* background-color: var(--little-color); */
-  color: var(--primary-text-color);
-  border: none;
+  background-color: transparent;
+  border: 1px solid var(--primary-btn-background-color);
+  color: var(--primary-btn-background-color);
+  box-shadow: 0 4px 12px rgba(0, 63, 223, 0.3);
+
 }
 
-.chime-btn-ternary .active {
+.chime-btn-ternary:hover {
+  background-color: var(--primary-btn-background-color);
   color: var(--primary-text-color);
-}
-
-.chime-btn-ternary:hover:not(:disabled) {
-  background-color: var(--primary-hover-color);
+  transform: translateY(-1px);
 }

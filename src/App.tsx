@@ -20,11 +20,7 @@ const LoginPage = React.lazy(() =>
     default: module.default.LoginPage,
   })),
 );
-const RegisterPage = React.lazy(() =>
-  import("./pages/nonProtectedIndex").then((module) => ({
-    default: module.default.RegisterPage,
-  })),
-);
+
 const ContactPage = React.lazy(() =>
   import("./pages/nonProtectedIndex").then((module) => ({
     default: module.default.ContactPage,
@@ -32,11 +28,11 @@ const ContactPage = React.lazy(() =>
 );
 
 // Lazy loading protected page
-const ChatsPage = React.lazy(() =>
-  import("./pages/protectedIndex").then((module) => ({
-    default: module.default.ChatsPage,
-  })),
-);
+// const ChatsPage = React.lazy(() =>
+//   import("./pages/protectedIndex").then((module) => ({
+//     default: module.default.ChatsPage,
+//   })),
+// );
 const ChimeProfilePage = React.lazy(() =>
   import("./pages/protectedIndex").then((module) => ({
     default: module.default.ChimeProfilePage,
@@ -78,23 +74,15 @@ const App = () => {
               </NonProtectedPageProtector>
             }
           />
-          <Route
-            path="/register"
-            element={
-              <NonProtectedPageProtector>
-                <RegisterPage />
-              </NonProtectedPageProtector>
-            }
-          />
           // Protected page
-          <Route
+          {/* <Route
             path="/chats"
             element={
               <ProtectedPageProtector>
                 <ChatsPage />
               </ProtectedPageProtector>
             }
-          />
+          /> */}
           <Route
             path="/video-calls"
             element={

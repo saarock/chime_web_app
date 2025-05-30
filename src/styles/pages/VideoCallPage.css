@@ -53,7 +53,7 @@
 /* Controls container */
 .chime-controls-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 20px;
   padding: 12px 24px;

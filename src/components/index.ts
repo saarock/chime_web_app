@@ -9,7 +9,6 @@ import PageWrapContainer from "./PageWrapContainer/PageWrapContainer";
 import LoginComponent from "./LoginComponent/LoginComponent";
 import LoginWithGoogleComponent from "./LoginWithGoogleComponent/LoginWithGoogleComponent";
 import ComponentForLoginAndResgisterComponentForTop from "./ComponentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop";
-import RegisterComponent from "./RegisterComponent/RegisterComponent";
 import SplashScreen from "./SplashScreen/SplashScreen";
 import NonProtectedPageProtector from "./NotProtectedPageProtector/NonProtectedPageProtector";
 import SearchComponent from "./SearchComponent/SearchComponent";
@@ -46,7 +45,6 @@ export {
   PageWrapContainer,
   LoginComponent,
   ComponentForLoginAndResgisterComponentForTop,
-  RegisterComponent,
   SplashScreen,
   NonProtectedPageProtector,
   SearchComponent,
