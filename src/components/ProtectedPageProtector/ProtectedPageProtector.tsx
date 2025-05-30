@@ -1,7 +1,7 @@
 // Import all the necessary dependencies here
 import React, { JSX, lazy, Suspense } from "react";
 import { PageProtectorProps } from "../../types";
-import { useChatSocket, useVerifyTokenAndGetUserData } from "../../hooks";
+import { useVerifyTokenAndGetUserData } from "../../hooks";
 
 // lazy imports
 const LoadingComponent = lazy(

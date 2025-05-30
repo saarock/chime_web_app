@@ -20,7 +20,7 @@ export const initChatSocket = () => {
 
 export const initVideoSocket = () => {
   if (!videoSocket) {
-    videoSocket = io("http://localhost:8000/video", {
+    videoSocket = io("http://192.168.101.9:8000/video", {
       autoConnect: false,
       withCredentials: true,
     });
