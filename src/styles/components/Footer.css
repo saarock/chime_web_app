@@ -4,7 +4,8 @@
   text-align: center;
   font-family: "Segoe UI", sans-serif;
   border-top: 1px solid var(--second-little-color);
-
+  background-color: var(--secondary-background-color);
+  border-top: 1px solid var(--little-color);
 }
 
 .chime-footer-container {

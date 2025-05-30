@@ -1,12 +1,14 @@
 // Import all necessary dependencies from react-redux-toolkit and features folder to maintain the code
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "./index";
+import { videoFilterReducer } from "../features";
 
 // Create the store to store all the states
 const store = configureStore({
   reducer: {
     // Add the generated reducers [key]: [value]
     auth: userReducer,
+    videoFilters: videoFilterReducer
   },
 });
 

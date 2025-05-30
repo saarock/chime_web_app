@@ -25,6 +25,7 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
   handleRandomCall,    // Starts a new random call
   isConnecting,        // Whether the app is currently trying to connect
   isRemoteStream,      // Whether a remote stream is active (i.e., in a call)
+  isSocketIsConnected, // Whether a socket is connected
 }) => {
   return (
     <div className="chime-controls-panel">
@@ -62,7 +63,7 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
       {/* Start Random Call Button (disabled while connecting) */}
       <Button
         onClick={handleRandomCall}
-        disabled={isConnecting}
+        disabled={isConnecting || !isSocketIsConnected}
         className={`chime-control-button chime-call-button ${isConnecting ? "connecting" : ""}`}
         aria-label="Start random call"
       >

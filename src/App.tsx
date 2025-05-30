@@ -20,11 +20,7 @@ const LoginPage = React.lazy(() =>
     default: module.default.LoginPage,
   })),
 );
-const RegisterPage = React.lazy(() =>
-  import("./pages/nonProtectedIndex").then((module) => ({
-    default: module.default.RegisterPage,
-  })),
-);
+
 const ContactPage = React.lazy(() =>
   import("./pages/nonProtectedIndex").then((module) => ({
     default: module.default.ContactPage,
@@ -32,11 +28,11 @@ const ContactPage = React.lazy(() =>
 );
 
 // Lazy loading protected page
-const ChatsPage = React.lazy(() =>
-  import("./pages/protectedIndex").then((module) => ({
-    default: module.default.ChatsPage,
-  })),
-);
+// const ChatsPage = React.lazy(() =>
+//   import("./pages/protectedIndex").then((module) => ({
+//     default: module.default.ChatsPage,
+//   })),
+// );
 const ChimeProfilePage = React.lazy(() =>
   import("./pages/protectedIndex").then((module) => ({
     default: module.default.ChimeProfilePage,
@@ -50,70 +46,60 @@ const VideoCallPage = React.lazy(() =>
 
 const App = () => {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Layout />}>
+    <Routes>
+      <Route path="/" element={<Layout />}>
           // Non-Protected page
-          <Route
-            index
-            element={
-              <NonProtectedPageProtector>
-                <HomePage />
-              </NonProtectedPageProtector>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <NonProtectedPageProtector>
-                <ContactPage />
-              </NonProtectedPageProtector>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <NonProtectedPageProtector>
-                <LoginPage />
-              </NonProtectedPageProtector>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <NonProtectedPageProtector>
-                <RegisterPage />
-              </NonProtectedPageProtector>
-            }
-          />
+        <Route
+          index
+          element={
+            <NonProtectedPageProtector>
+              <HomePage />
+            </NonProtectedPageProtector>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <NonProtectedPageProtector>
+              <ContactPage />
+            </NonProtectedPageProtector>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <NonProtectedPageProtector>
+              <LoginPage />
+            </NonProtectedPageProtector>
+          }
+        />
           // Protected page
-          <Route
+        {/* <Route
             path="/chats"
             element={
               <ProtectedPageProtector>
                 <ChatsPage />
               </ProtectedPageProtector>
             }
-          />
-          <Route
-            path="/video-calls"
-            element={
-              <ProtectedPageProtector>
-                <VideoCallPage />
-              </ProtectedPageProtector>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedPageProtector>
-                <ChimeProfilePage />
-              </ProtectedPageProtector>
-            }
-          />
-        </Route>
-      </Routes>
-    </div>
+          /> */}
+        <Route
+          path="/video-calls"
+          element={
+            <ProtectedPageProtector>
+              <VideoCallPage />
+            </ProtectedPageProtector>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedPageProtector>
+              <ChimeProfilePage />
+            </ProtectedPageProtector>
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
 

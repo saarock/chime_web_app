@@ -9,7 +9,6 @@ import PageWrapContainer from "./PageWrapContainer/PageWrapContainer";
 import LoginComponent from "./LoginComponent/LoginComponent";
 import LoginWithGoogleComponent from "./LoginWithGoogleComponent/LoginWithGoogleComponent";
 import ComponentForLoginAndResgisterComponentForTop from "./ComponentForLoginAndResgisterComponentForTop/ComponentForLoginAndResgisterComponentForTop";
-import RegisterComponent from "./RegisterComponent/RegisterComponent";
 import SplashScreen from "./SplashScreen/SplashScreen";
 import NonProtectedPageProtector from "./NotProtectedPageProtector/NonProtectedPageProtector";
 import SearchComponent from "./SearchComponent/SearchComponent";
@@ -32,6 +31,8 @@ import VideoControllerPanel from "./VideoControllerPanel/VideoControllerPanel";
 import VideoBox from "./VideoBox/VideoBox";
 import VideoTitle from "./VideoTitle/VideoTitle";
 import StreamWarnComponent from "./StreamWarnComponent/StreamWarnComponent";
+import VideoFilters from "./VideoFilters/VideoFilters";
+import ChimeUserInfoModal from "./ChimeUserInfoModal/ChimeUserInfoModal";
 
 // Export all the dependencies here
 export {
@@ -44,7 +45,6 @@ export {
   PageWrapContainer,
   LoginComponent,
   ComponentForLoginAndResgisterComponentForTop,
-  RegisterComponent,
   SplashScreen,
   NonProtectedPageProtector,
   SearchComponent,
@@ -67,4 +67,6 @@ export {
   VideoBox,
   VideoTitle,
   StreamWarnComponent,
+  VideoFilters,
+  ChimeUserInfoModal,
 };

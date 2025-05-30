@@ -15,14 +15,9 @@ import { LOCAL_STORAGE_USER_DATA_KEY } from "../../constant";
 import {
   FaHome,
   FaPhoneAlt,
-  FaSignInAlt,
   FaUserPlus,
-  FaComments,
   FaVideo,
 } from "react-icons/fa";
-import { IoIosNotifications } from "react-icons/io";
-import SearchComponent from "../SearchComponent/SearchComponent";
-import { CiSearch } from "react-icons/ci";
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { tabInitialState, tabReducer } from "../../reducers";
 import "../../styles/components/Header.css";
@@ -103,24 +98,17 @@ const Header: React.ComponentType = (): JSX.Element => {
     {
       path: "/login",
       name: "Login",
-      icon: <FaSignInAlt />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
-      className: "chime-btn chime-btn-ternary",
-    },
-    {
-      path: "/register",
-      name: "Register",
       icon: <FaUserPlus />,
       isProtected: !isAuthenticated && !localStorageUtilCacheUserData, // if the user is not authenticated and there is not data at localstorge then only show the nav
-      className: "chime-btn chime-btn-secondary",
+      className: "chime-btn chime-btn-secondary-link",
     },
-    {
-      path: "/chats",
-      name: "Chats",
-      icon: <FaComments />,
-      isProtected: isAuthenticated || localStorageUtilCacheUserData, // if the user is authenticated or there is data at localstorge then only show the nav
-      className: "chime-just-link",
-    },
+    // {
+    //   path: "/chats",
+    //   name: "Chats",
+    //   icon: <FaComments />,
+    //   isProtected: isAuthenticated || localStorageUtilCacheUserData, // if the user is authenticated or there is data at localstorge then only show the nav
+    //   className: "chime-just-link",
+    // },
     {
       path: "/video-calls",
       name: "Video",
@@ -128,13 +116,13 @@ const Header: React.ComponentType = (): JSX.Element => {
       isProtected: isAuthenticated || localStorageUtilCacheUserData, // if the user is authenticated or there is data at localstorge then only show the nav
       className: "chime-just-link",
     },
-    {
-      path: "/notifications",
-      name: "Notifications",
-      icon: <IoIosNotifications />,
-      isProtected: isAuthenticated || localStorageUtilCacheUserData, // if the user is authenticated or there is data at localstorge then only show the nav
-      className: "chime-just-link",
-    },
+    // {
+    //   path: "/notifications",
+    //   name: "Notifications",
+    //   icon: <IoIosNotifications />,
+    //   isProtected: isAuthenticated || localStorageUtilCacheUserData, // if the user is authenticated or there is data at localstorge then only show the nav
+    //   className: "chime-just-link",
+    // },
   ];
 
   // chime image nav which only show the navs as a container at user clicked
@@ -164,15 +152,7 @@ const Header: React.ComponentType = (): JSX.Element => {
           </ul>
         </NavLink>
 
-        {/* Chime search-bar */}
-        {(isAuthenticated || localStorageUtilCacheUserData) && (
-          <div className="chime-header-nav-search-bar">
-            <SearchComponent />
-            <span className="chime-header-nav-search-bar-icon">
-              {<CiSearch />}
-            </span>
-          </div>
-        )}
+
 
         {/* Chime navs */}
         <ul className="chime-header-navbar-navs">
@@ -244,3 +224,15 @@ const Header: React.ComponentType = (): JSX.Element => {
 };
 
 export default Header;
+
+
+/** Future use */
+// {/* Chime search-bar */}
+// {(isAuthenticated || localStorageUtilCacheUserData) && (
+//   <div className="chime-header-nav-search-bar">
+//     <SearchComponent />
+//     <span className="chime-header-nav-search-bar-icon">
+//       {<CiSearch />}
+//     </span>
+//   </div>
+// )}

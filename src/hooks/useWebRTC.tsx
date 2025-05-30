@@ -1,21 +1,30 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useVideoSocket from "./useVideoSocket";
 import { toast } from "react-toastify";
+import useAuth from "./useAuth";
+import { useSelector } from "react-redux";
+import { UserReduxRootState } from "../types";
 
 const useWebRTC = () => {
   // ─────────────────────────────────────────────────────────────────────────────
   // 1) SETUP
   // ─────────────────────────────────────────────────────────────────────────────
 
-  // Get our pre‑configured Socket.IO namespace
-  const { videoSocket } = useVideoSocket();
-
   // Keep a single RTCPeerConnection instance over renders
   const peerConnection = useRef<RTCPeerConnection | null>(null);
+
+
 
   // Local/remote media streams in state
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+
+  const { isAuthenticated, user } = useAuth();
+
+
+  // Setup socket connection based on local stream availability
+  const { videoSocket } = useVideoSocket({ isLocalStreamIsOn: !!localStream, isUserVerify: isAuthenticated });
+
 
   // Errors in state
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -30,6 +39,16 @@ const useWebRTC = () => {
 
   // Store the current partner’s userId for signaling
   const partnerIdRef = useRef<string | null>(null);
+
+  const [isVideoSocketConnected, setIsVideoSocketConnected] = useState<boolean>(false);
+
+
+  const userVideoFilter = useSelector((state: UserReduxRootState) => state.videoFilters);
+
+
+
+
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 2) CAPTURE LOCAL MEDIA
@@ -274,7 +293,8 @@ const useWebRTC = () => {
           getOrCreatePeerConnection(); // Create new peer connection
           if (partnerIdRef.current) {
             videoSocket.emit("start:random-video-call", {
-              filters: { age: "", gender: "", country: "" },
+              filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
+              userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
             });
           }
         } else {
@@ -287,7 +307,7 @@ const useWebRTC = () => {
         sendError(error instanceof Error ? error.message : "Failed to end the call try again.")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter],
   );
 
   /** Handler for retry event when both agreed to try someone else */
@@ -302,14 +322,15 @@ const useWebRTC = () => {
         getOrCreatePeerConnection();
 
         videoSocket?.emit("start:random-video-call", {
-          filters: { age: "", gender: "", country: "" },
+          filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
+          userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
         });
       } catch (error) {
         console.error(error);
         sendError(error instanceof Error ? error.message : "Failed to try again pleased try again..")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter],
   );
 
 
@@ -318,12 +339,41 @@ const useWebRTC = () => {
    */
   const handleOnlineUsersCount = useCallback(({ count }: { count: number }) => {
     setOnlineUsersCount(count);
+  }, [videoSocket]);
+
+
+  /**
+   * Handle global error
+   */
+
+  const handleGlobalError = useCallback(({ message }: { message: string }) => {
+    setIsVideoSocketConnected(false);
+    setErrorMessage(message);
+    cleanupPeerConnection();
+    partnerIdRef.current = null;
+    setOnlineUsersCount(0);
   }, []);
+
+
 
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 5) ATTACH SOCKET LISTENERS
   // ─────────────────────────────────────────────────────────────────────────────
+
+
+  useEffect(() => {
+    if (!videoSocket) return;
+    setIsVideoSocketConnected(true); // set the videoSocket connected true
+    videoSocket.emit("onlineUsersCount");
+
+
+    return () => {
+      videoSocket.off("onlineUsersCount");
+    }
+
+  }, [videoSocket]);
+
 
   useEffect(() => {
     if (!videoSocket) return;
@@ -331,9 +381,7 @@ const useWebRTC = () => {
     videoSocket.on("self-loop", sendSelfLoop);
     videoSocket.on("wait", sendWait);
     videoSocket.on("user:not-found", sendNotFound);
-    videoSocket.on("video:global:error", ({ message }: { message: string }) =>
-      sendError(message || "Match error"),
-    );
+    videoSocket.on("video:global:error", handleGlobalError);
     videoSocket.on("user:match-found", handleMatchFound);
     videoSocket.on("receive-call", handleReceiveCall);
     videoSocket.on("call-accepted", handleCallAccepted);
@@ -341,6 +389,7 @@ const useWebRTC = () => {
     videoSocket.on("user:call-ended", handleUserCallEnded);
     videoSocket.on("user:call-ended:try:for:other", handleNextTry);
     videoSocket.on("onlineUsersCount", handleOnlineUsersCount);
+    videoSocket.on("duplicate:connection", handleGlobalError);
 
     return () => {
       videoSocket.off("self-loop", sendSelfLoop);
@@ -354,7 +403,8 @@ const useWebRTC = () => {
       videoSocket.off("user:call-ended", handleUserCallEnded);
       videoSocket.off("user:call-ended:try:for:other", handleNextTry);
       videoSocket.off("onlineUsersCount", handleOnlineUsersCount);
-
+      videoSocket.off("video:global:error", handleGlobalError);
+      videoSocket.off("duplicate:connection", handleGlobalError);
     };
   }, [
     videoSocket,
@@ -403,10 +453,11 @@ const useWebRTC = () => {
       getOrCreatePeerConnection();
       // alert("I am starting the random call")
       videoSocket.emit("start:random-video-call", {
-        filters: { age: "", gender: "", country: "" },
+        filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
+        userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
       });
     }
-  }, [videoSocket, getOrCreatePeerConnection, remoteStream]);
+  }, [videoSocket, getOrCreatePeerConnection, remoteStream, user, userVideoFilter]);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 7) return states on Video page
@@ -423,6 +474,7 @@ const useWebRTC = () => {
     setErrorMessage,
     setSuccessMessage,
     onlineUsersCount,
+    isVideoSocketConnected,
   };
 };
 

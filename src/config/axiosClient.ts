@@ -14,7 +14,7 @@ let isRefreshing = false;
 let failedQueue: FailedRequest[] = [];
 
 const axiosDefaults = {
-  baseURL: "http://localhost:8000/api/v1/users",
+   baseURL: "  https://ae4a-2404-7c00-43-f59c-e840-da70-cdff-4bb2.ngrok-free.app/api/v1/users",
   withCredentials: true,
   timeout: 15000, // 15sec
 };

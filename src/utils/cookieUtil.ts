@@ -15,17 +15,22 @@ class CookieUtil {
       return null;
     }
 
-    const cookies = decodedCookie.split(";"); // Split cookies by semicolon
+    const cookies = decodedCookie.split(";");
+
     for (let cookie of cookies) {
-      // Trim space before checking
-      const [cookieName, cookieValue] = cookie.trim().split("=");
-      if (cookieName === key) {
-        return cookieValue;
+      const index = cookie.indexOf("=");
+      if (index > -1) {
+        const cookieName = cookie.slice(0, index).trim();
+        const cookieValue = cookie.slice(index + 1).trim();
+        if (cookieName === key) {
+          return cookieValue;
+        }
       }
     }
 
     return null;
   }
+
 
   // Clear a specific cookie
   clear(key: string) {

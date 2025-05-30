@@ -6,7 +6,7 @@ export interface User {
   email: string;
   phoneNumber?: string;
   profilePicture?: string;
-  age?: string;
+  age?: number;
   gender?: string;
   relationShipStatus?: boolean;
   active: boolean;
@@ -18,7 +18,7 @@ export interface User {
 // User interface for login
 export interface UserLoginWithGoogleDetils {
   clientId: string;
-  credentials: string;
+  credential: string;
 }
 
 // User interface for redux-auth-state
@@ -39,8 +39,36 @@ export interface AuthResponseData {
   data: userDataWithRefreshAnAccessToken;
 }
 
+export interface UserVideoFilter {
+  age: string;
+  country: string;
+  gender: string;
+  isStrict: boolean;
+}
+export interface UserVideoFilterFromProps {
+  age: string;
+  country: string;
+  gender: string;
+  isStrict: string;
+}
+
+
+
+export interface UserReduxRootState {
+  auth: UserAuthState;
+  videoFilters: UserVideoFilter;
+}
+
 // User data interface types while veryfying user and getting new refresh data
 
 export interface UserData {
   userData: User;
+}
+
+
+export interface UserImpDetails {
+  age: number;
+  country: string;
+  gender: string;
+  userId: string;
 }

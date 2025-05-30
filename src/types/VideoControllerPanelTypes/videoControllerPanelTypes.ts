@@ -8,4 +8,5 @@ export interface VideoControllerPanelProps {
   handleRandomCall: () => void;     // Function to initiate a random call
   isConnecting: boolean;            // Indicates if the system is currently connecting
   isRemoteStream: boolean;          // Indicates if there's a remote stream (i.e., an active call)
+  isSocketIsConnected: boolean;     // Indicates if there is socket connected or not 
 }

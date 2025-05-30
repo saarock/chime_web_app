@@ -1,24 +1,267 @@
+
+/* Main Container */
 .chime-login-register-top-component {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: var(--secondary-background-color);
+  position: relative;
+  overflow: hidden;
 }
 
+.chime-login-register-top-component::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-btn-background-color), var(--secondary-btn-background-color));
+}
+
+.chime-login-register-top-component::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(27, 132, 252, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(10px, -10px) rotate(1deg); }
+  66% { transform: translate(-5px, 5px) rotate(-1deg); }
+}
+
+/* Logo Container */
 .chime-login-register-top-component-logo-container {
-  height: 10rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
 }
+
 .chime-login-register-top-component-logo {
-  height: 100%;
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 8px 32px rgba(27, 132, 252, 0.3);
+  border: 3px solid var(--primary-btn-background-color);
+  transition: all 0.4s ease;
+  animation: logoGlow 3s ease-in-out infinite alternate;
 }
+
+@keyframes logoGlow {
+  0% { box-shadow: 0 8px 32px rgba(27, 132, 252, 0.3); }
+  100% { box-shadow: 0 12px 40px rgba(27, 132, 252, 0.5); }
+}
+
+.chime-login-register-top-component-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 16px 48px rgba(27, 132, 252, 0.6);
+}
+
+/* Title Wrapper */
+.chime-login-register-top-component-title-wrapper {
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
 .chime-login-register-top-component-title-wrapper h1 {
   font-size: 2rem;
-}
-.chime-login-register-top-component-second-title {
-  margin: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, var(--primary-text-color), var(--secondary-text-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: titleShine 4s ease-in-out infinite;
 }
 
+@keyframes titleShine {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Second Title */
+.chime-login-register-top-component-second-title {
+  font-size: 1rem;
+  color: var(--secondary-text-color);
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+  line-height: 1.5;
+}
+
+.chime-login-register-top-component-second-title span:first-child {
+  opacity: 0.9;
+}
+
+/* Link Styling */
 .chime-link {
-  text-decoration: underline;
-  font-weight: 500;
+  color: var(--primary-btn-background-color);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  margin-left: 0.25rem;
+}
+
+.chime-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-btn-background-color), var(--secondary-btn-background-color));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.chime-link:hover {
+  color: var(--primary-btn-background-hover-color);
+  background-color: rgba(27, 132, 252, 0.1);
+  transform: translateY(-1px);
+}
+
+.chime-link:hover::before {
+  width: 100%;
+}
+
+.chime-link:focus-visible {
+  outline: 2px solid var(--primary-btn-background-color);
+  outline-offset: 2px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chime-login-register-top-component {
+    padding: 1.5rem 1rem;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .chime-login-register-top-component-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+  }
+
+  .chime-login-register-top-component-title-wrapper h1 {
+    font-size: 1.75rem;
+  }
+
+  .chime-login-register-top-component-second-title {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .chime-login-register-top-component {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .chime-login-register-top-component-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+  }
+
+  .chime-login-register-top-component-title-wrapper h1 {
+    font-size: 1.5rem;
+  }
+
+  .chime-login-register-top-component-second-title {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .chime-login-register-top-component {
+    padding: 1rem 0.5rem;
+  }
+
+  .chime-login-register-top-component-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .chime-login-register-top-component-title-wrapper h1 {
+    font-size: 1.375rem;
+  }
+
+  .chime-login-register-top-component-second-title {
+    font-size: 0.8rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .chime-link {
+    padding: 0.125rem 0.375rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .chime-login-register-top-component {
+    padding: 0.75rem 0.375rem;
+  }
+
+  .chime-login-register-top-component-logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .chime-login-register-top-component-title-wrapper h1 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .chime-login-register-top-component::after,
+  .chime-login-register-top-component-logo,
+  .chime-login-register-top-component-title-wrapper h1 {
+    animation: none;
+  }
+
+  .chime-login-register-top-component-logo:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .chime-link {
+    border: 1px solid var(--primary-btn-background-color);
+  }
+
+  .chime-login-register-top-component-logo {
+    border-width: 4px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .chime-login-register-top-component {
+    background: white;
+    color: black;
+  }
+
+  .chime-login-register-top-component::before,
+  .chime-login-register-top-component::after {
+    display: none;
+  }
 }

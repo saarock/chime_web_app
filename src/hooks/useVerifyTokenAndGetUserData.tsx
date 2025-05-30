@@ -42,6 +42,8 @@ const useVerifyTokenAndGetUserData = () => {
       // const userData = localStorageUtil.checkItem(LOCAL_STORAGE_USER_DATA_KEY);
 
       if (!accessToken || !refreshToken) {
+        alert(accessToken);
+        alert(refreshToken)
         // If both tokens and userData from the localStorage are missing, log out the client.
         alert("logout white getting the token userVerifyToken hook")
 

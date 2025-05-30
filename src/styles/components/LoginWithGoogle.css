@@ -1,8 +1,123 @@
-.chime-login-with-google-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+
+/* Google Login Component */
+.chime-google-login-component {
+  width: 100%;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 2;
 }
-.chime-login-with-google-child-container {
-  width: 23rem;
+
+.chime-google-login-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  background: var(--second-little-color);
+  border: 1px solid var(--little-color);
+  border-radius: 12px;
+  color: var(--secondary-text-color);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.chime-google-login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.chime-google-login-button:hover {
+  background: var(--little-color);
+  color: var(--primary-text-color);
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-for-btn);
+  border-color: #4285f4;
+}
+
+.chime-google-login-button:hover::before {
+  left: 100%;
+}
+
+.chime-google-login-icon {
+  font-size: 1.25rem;
+  color: #4285f4;
+}
+
+/* Divider */
+.chime-auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: var(--little-color);
+  font-size: 0.875rem;
+}
+
+.chime-auth-divider::before,
+.chime-auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--little-color);
+}
+
+.chime-auth-divider span {
+  padding: 0 1rem;
+  background: var(--secondary-background-color);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .chime-google-login-button {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .chime-google-login-icon {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chime-google-login-button {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .chime-auth-divider {
+    margin: 1.25rem 0;
+  }
+}
+
+/* Focus styles */
+.chime-google-login-button:focus-visible {
+  outline: 2px solid var(--primary-btn-background-color);
+  outline-offset: 2px;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .chime-google-login-button {
+    transition: none;
+  }
+
+  .chime-google-login-button:hover {
+    transform: none;
+  }
+
+  .chime-google-login-button::before {
+    display: none;
+  }
 }

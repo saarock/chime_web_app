@@ -8,7 +8,6 @@ const Home = () => {
       <HeroSection />
       <FeatureSection />
       <HowItWorks />
-      <CallToAction />
     </>
   );
 };

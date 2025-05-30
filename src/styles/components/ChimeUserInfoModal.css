@@ -1,0 +1,181 @@
+.chime-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
+        }
+
+        .chime-modal-backdrop {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(4px);
+        }
+
+        .chime-modal-container {
+          position: relative;
+          width: 100%;
+          max-width: 500px;
+          max-height: 90vh;
+          overflow-y: auto;
+        }
+
+        .chime-modal-content {
+          background-color: var(--secondary-background-color);
+          border-radius: 12px;
+          box-shadow: var(--box-shadow-for-btn);
+          border: 1px solid var(--little-color);
+        }
+
+        .chime-modal-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 1.5rem 1.5rem 0 1.5rem;
+        }
+
+        .chime-modal-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: var(--primary-text-color);
+          margin: 0;
+        }
+
+        .chime-modal-close-btn {
+          background: none;
+          border: none;
+          color: var(--secondary-text-color);
+          cursor: pointer;
+          padding: 0.5rem;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+        }
+
+        .chime-modal-close-btn:hover {
+          background-color: var(--primary-background-color);
+          color: var(--primary-text-color);
+        }
+
+        .chime-close-icon {
+          width: 1.25rem;
+          height: 1.25rem;
+        }
+
+        .chime-modal-body {
+          padding: 1.5rem;
+        }
+
+        .chime-modal-description {
+          color: var(--secondary-text-color);
+          margin-bottom: 1.5rem;
+          line-height: 1.5;
+        }
+
+        .chime-form {
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+
+        .chime-form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .chime-form-label {
+          color: var(--primary-text-color);
+          font-weight: 500;
+          font-size: 0.875rem;
+        }
+
+        .chime-input {
+          background-color: var(--primary-background-color);
+          border: 1px solid var(--little-color);
+          color: var(--primary-text-color);
+          padding: 0.75rem;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+        }
+
+        .chime-input:focus {
+          outline: none;
+          border-color: var(--primary-btn-background-color);
+          box-shadow: 0 0 0 3px rgba(27, 132, 252, 0.1);
+        }
+
+        .chime-input::placeholder {
+          color: var(--little-color);
+        }
+
+        .chime-select {
+          background-color: var(--primary-background-color);
+          border: 1px solid var(--little-color);
+          color: var(--primary-text-color);
+          padding: 0.75rem;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+          cursor: pointer;
+        }
+
+        .chime-select:focus {
+          outline: none;
+          border-color: var(--primary-btn-background-color);
+          box-shadow: 0 0 0 3px rgba(27, 132, 252, 0.1);
+        }
+
+        .chime-select option {
+          background-color: var(--secondary-background-color);
+          color: var(--primary-text-color);
+        }
+
+        .chime-error-message {
+          color: #ef4444;
+          font-size: 0.75rem;
+          margin-top: 0.25rem;
+        }
+
+        .chime-form-actions {
+          display: flex;
+          gap: 0.75rem;
+          margin-top: 1rem;
+          flex-direction: column;
+        }
+
+
+
+      
+
+        @media (min-width: 640px) {
+          .chime-form-actions {
+            flex-direction: row;
+            justify-content: flex-end;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .chime-modal-container {
+            margin: 0.5rem;
+          }
+
+          .chime-modal-header {
+            padding: 1rem 1rem 0 1rem;
+          }
+
+          .chime-modal-body {
+            padding: 1rem;
+          }
+
+          .chime-modal-title {
+            font-size: 1.25rem;
+          }
+        }

@@ -1,6 +1,504 @@
-.chime-controls-container {
+/* CSS Variables - Your existing color scheme */
+:root {
+  --primary-btn-background-color: #1b84fc;
+  --secondary-btn-background-color: #df007e;
+  --primary-btn-background-hover-color: #1e7fef;
+  --primary-background-color: #191833;
+  --secondary-background-color: #212137;
+  --secondary-text-color: #dae9f0;
+  --primary-text-color: #f0f2f5;
+  --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --little-color: #51516a;
+  --primary-hover-color: #7a8084;
+  --social-hover-glow: #df007e;
+  --second-little-color: rgba(128, 128, 128, 0.055);
+}
+
+/* Profile Section Base */
+.chime-profile-section {
+  background-color: var(--primary-background-color);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Profile Container */
+.chime-profile-child-container {
+  background: var(--secondary-background-color);
+  border-radius: 20px;
+  box-shadow: var(--box-shadow-for-btn);
+  border: 1px solid var(--little-color);
+  padding: 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.chime-profile-child-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-btn-background-color), var(--secondary-btn-background-color));
+  border-radius: 20px 20px 0 0;
+}
+
+/* Profile Header */
+.chime-profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.chime-profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--primary-btn-background-color);
+  box-shadow: 0 8px 24px rgba(27, 132, 252, 0.3);
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.chime-profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(27, 132, 252, 0.4);
+}
+
+.chime-profile-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary-text-color);
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.chime-profile-username {
+  font-size: 1.125rem;
+  color: var(--secondary-text-color);
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Profile Status */
+.chime-profile-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.chime-profile-status::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.chime-profile-status.active {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.chime-profile-status.active::before {
+  background-color: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.chime-profile-status.inactive {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.chime-profile-status.inactive::before {
+  background-color: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+/* Profile Details */
+.chime-profile-details {
+  margin-bottom: 2rem;
+}
+
+.chime-profile-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--second-little-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chime-profile-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.chime-profile-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chime-profile-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.chime-profile-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--little-color);
+  vertical-align: middle;
+}
+
+.chime-profile-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.chime-profile-table td:first-child {
+  color: var(--secondary-text-color);
+  font-weight: 600;
+  width: 40%;
+  position: relative;
+}
+
+.chime-profile-table td:first-child::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 60%;
+  background: var(--primary-btn-background-color);
+  border-radius: 1px;
+  opacity: 0.3;
+}
+
+.chime-profile-table td:last-child {
+  color: var(--primary-text-color);
+  font-weight: 500;
+}
+
+/* Profile Buttons */
+.chime-profile-edit-btn,
+.chime-profile-edit-cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.chime-profile-edit-btn {
+  background: linear-gradient(135deg, var(--primary-btn-background-color), var(--primary-btn-background-hover-color));
+  color: var(--primary-text-color);
+  box-shadow: var(--box-shadow-for-btn);
+}
+
+.chime-profile-edit-btn:hover {
+  background: linear-gradient(135deg, var(--primary-btn-background-hover-color), var(--primary-btn-background-color));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(27, 132, 252, 0.4);
+}
+
+.chime-profile-edit-cancel-btn {
+  background: linear-gradient(135deg, var(--secondary-btn-background-color), #c5006b);
+  color: var(--primary-text-color);
+  box-shadow: var(--box-shadow-for-btn);
+}
+
+.chime-profile-edit-cancel-btn:hover {
+  background: linear-gradient(135deg, #c5006b, var(--secondary-btn-background-color));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(223, 0, 126, 0.4);
+}
+
+.chime-profile-edit-btn::before,
+.chime-profile-edit-cancel-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.chime-profile-edit-btn:hover::before,
+.chime-profile-edit-cancel-btn:hover::before {
+  left: 100%;
+}
+
+/* Input Styling for Edit Mode */
+.chime-profile-header input {
+  background: var(--primary-background-color);
+  border: 2px solid var(--primary-btn-background-color);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--primary-text-color);
+  font-size: 1.125rem;
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+  transition: all 0.3s ease;
+  margin: 0.5rem 0 1rem 0;
+  width: 100%;
+  max-width: 250px;
+}
+
+.chime-profile-header input:focus {
+  border-color: var(--secondary-btn-background-color);
+  box-shadow: 0 0 0 3px rgba(223, 0, 126, 0.2);
+  transform: scale(1.02);
+}
+
+.chime-profile-header input::placeholder {
+  color: var(--little-color);
+  opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chime-profile-section {
+    padding: 1rem 0.5rem;
+  }
+
+  .chime-profile-child-container {
+    padding: 2rem 1.5rem;
+    margin: 0.5rem;
+  }
+
+  .chime-profile-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .chime-profile-name {
+    font-size: 1.5rem;
+  }
+
+  .chime-profile-table td {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .chime-profile-table td:first-child {
+    width: 45%;
+  }
+}
+
+@media (max-width: 640px) {
+  .chime-profile-child-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .chime-profile-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .chime-profile-name {
+    font-size: 1.375rem;
+  }
+
+  .chime-profile-username {
+    font-size: 1rem;
+  }
+
+  .chime-profile-table {
+    font-size: 0.875rem;
+  }
+
+  .chime-profile-table td {
+    padding: 0.625rem 0.75rem;
+  }
+
+  .chime-profile-edit-btn,
+  .chime-profile-edit-cancel-btn {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chime-profile-section {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .chime-profile-child-container {
+    padding: 1.25rem 0.75rem;
+    border-radius: 16px;
+  }
+
+  .chime-profile-image {
+    width: 70px;
+    height: 70px;
+  }
+
+  .chime-profile-name {
+    font-size: 1.25rem;
+  }
+
+  .chime-profile-table td:first-child {
+    width: 50%;
+  }
+
+  .chime-profile-status {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .chime-profile-child-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .chime-profile-table td {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .chime-profile-edit-btn,
+  .chime-profile-edit-cancel-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    gap: 0.5rem;
+  }
+}
+
+/* Animation for profile load */
+@keyframes profileFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chime-profile-child-container {
+  animation: profileFadeIn 0.6s ease-out;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .chime-profile-image,
+  .chime-profile-edit-btn,
+  .chime-profile-edit-cancel-btn,
+  .chime-profile-header input {
+    transition: none;
+  }
+
+  .chime-profile-child-container {
+    animation: none;
+  }
+
+  .chime-profile-image:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .chime-profile-table {
+    border: 2px solid var(--primary-text-color);
+  }
+
+  .chime-profile-table td {
+    border-bottom-width: 2px;
+  }
+
+  .chime-profile-edit-btn,
+  .chime-profile-edit-cancel-btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Focus styles for accessibility */
+.chime-profile-edit-btn:focus-visible,
+.chime-profile-edit-cancel-btn:focus-visible {
+  outline: 3px solid var(--primary-btn-background-color);
+  outline-offset: 2px;
+}
+
+.chime-profile-header input:focus-visible {
+  outline: 3px solid var(--secondary-btn-background-color);
+  outline-offset: 2px;
+}
+
+/* Loading state (if needed) */
+.chime-profile-loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  min-height: 400px;
+  color: var(--secondary-text-color);
+  font-size: 1.125rem;
+}
+
+.chime-profile-loading::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--little-color);
+  border-top: 3px solid var(--primary-btn-background-color);
+  border-radius: 50%;
+  margin-left: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Print styles */
+@media print {
+  .chime-profile-section {
+    background: white;
+    color: black;
+  }
+
+  .chime-profile-child-container {
+    background: white;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .chime-profile-edit-btn,
+  .chime-profile-edit-cancel-btn {
+    display: none;
+  }
 }

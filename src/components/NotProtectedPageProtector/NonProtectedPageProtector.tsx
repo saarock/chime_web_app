@@ -28,7 +28,7 @@ const NonProtectedPageProtector: React.ComponentType<
     const userData = localStorageUtil.getItems(LOCAL_STORAGE_USER_DATA_KEY);
 
     if (accessToken && refreshToken) {
-      navigate("/chats");
+      navigate("/video-calls");
       return;
     }
 

@@ -3,9 +3,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   AuthResponseData,
   UserAuthState,
+  UserImpDetails,
   UserLoginWithGoogleDetils,
 } from "../../types";
-import { AuthService } from "../../services";
+import { AuthService, userService } from "../../services";
 import { AuthUtil, cookieUtil, localStorageUtil } from "../../utils";
 import {
   ACCESS_TOKEN_KEY_NAME,
@@ -18,6 +19,7 @@ export const serverLoginWithGoogle = createAsyncThunk(
   "login-user", // Action type name
   async (userDetails: UserLoginWithGoogleDetils, thunkAPI) => {
     try {
+
       const userData: AuthResponseData =
         await AuthService.loginWithGoogle(userDetails);
       // saved the data and cookie in the localstorage and cookie
@@ -48,6 +50,31 @@ export const logoutUserFromServer = createAsyncThunk(
       return thunkAPI.rejectWithValue(error);
     }
   },
+);
+
+
+
+
+// Add the details country, age gender etc
+export const addImportantDetails = createAsyncThunk<
+  UserImpDetails,                // ✅ Return type
+  UserImpDetails,                // ✅ Argument type
+  { rejectValue: string }        // ✅ Rejection payload type
+>(
+  "user/addImportantDetails",
+  async (userImpDetails, thunkAPI) => {
+    try {
+      const userImportantData = await userService.addUserImportantData(userImpDetails);
+      if (!userImportantData) {
+        return thunkAPI.rejectWithValue("Failed to add user important details");
+      }
+      return userImportantData.data;
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error?.message || "Unknown error";
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
 );
 
 // Define the initial state structure for user authentication
@@ -89,6 +116,21 @@ const userSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
     });
+
+    builder.addCase(addImportantDetails.fulfilled, (state, action) => {
+      if (state.user) {
+        state.user.country = action.payload.country;
+        state.user.gender = action.payload.gender;
+        state.user.age = Number(action.payload.age);
+      }
+    });
+
+    builder.addCase(addImportantDetails.rejected, (state, action) => {
+      console.log(action.error);
+
+    });
+
+
   },
 });
 

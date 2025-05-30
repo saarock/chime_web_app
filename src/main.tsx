@@ -6,8 +6,7 @@ import { Provider } from "react-redux";
 import store from "./apps/store.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { BrowserRouter } from "react-router-dom";
-import { ErrorBoundary, FallbackComponent } from "./components/index.ts";
-import { PeerProvider } from "./providers/Peer.tsx";
+import { ErrorBoundary } from "./components/index.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

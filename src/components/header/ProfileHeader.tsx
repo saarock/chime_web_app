@@ -1,6 +1,6 @@
 // Import all the necessary
 import "../../styles/components/ProfileHeader.css";
-import { FaCog, FaUser } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import LogoutComponent from "../LogoutComponent/LogoutComponent";
 import { useNavigate } from "react-router-dom";
 import { JSX } from "react";
@@ -15,11 +15,11 @@ const ProfileHeader: React.ComponentType = (): JSX.Element => {
 
   // chime container navs
   const navItems = [
-    {
-      name: "Setting",
-      icon: <FaCog />,
-      classSuffix: "setting",
-    },
+    // {
+    //   name: "Setting",
+    //   icon: <FaCog />,
+    //   classSuffix: "setting",
+    // },
     {
       name: "Profile",
       icon: <FaUser />,
