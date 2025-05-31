@@ -1,7 +1,6 @@
-import React from "react";
 
 const ContactPage = () => {
-  return <div>ContactPage</div>;
+  return <div>Is in progress</div>;
 };
 
 export default ContactPage;

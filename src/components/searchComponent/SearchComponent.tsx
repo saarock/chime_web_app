@@ -37,7 +37,8 @@ const SearchComponent: React.ComponentType = () => {
   return (
     <>
       <Input
-        placeHolder="Search by userName..."
+        id="chime-search"
+        placeholder="Search by userName..."
         variant={Variant.secondary}
         type="search"
         onChange={handleSearchChange}

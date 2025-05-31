@@ -5,7 +5,7 @@ class CookieUtil {
   set(key: string, value: string, expiresInSeconds: number = 3600) {
     const expires = new Date();
     expires.setSeconds(expires.getSeconds() + expiresInSeconds); // Set the expiration time
-    document.cookie = `${key}=${value}; path=/; expires=${expires.toUTCString()}; secure; samesite=strict`;
+    document.cookie = `${key}=${value}; path=/; secure; samesite=strict`;
   }
 
   // Get the cookie value by its name

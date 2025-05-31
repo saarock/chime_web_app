@@ -1,5 +1,5 @@
-import { describe, it, vi, beforeEach, afterEach, expect } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { describe, it, vi, afterEach, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
 import LoginWithGoogleComponent from "./LoginWithGoogleComponent";
 import { Provider } from "react-redux";
 import store from "../../apps/store";

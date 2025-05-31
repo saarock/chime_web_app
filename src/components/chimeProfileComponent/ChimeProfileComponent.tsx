@@ -1,25 +1,14 @@
 import { useAuth } from "../../hooks";
-import { useCallback, useState } from "react";
-import Input from "../Input/Input";
-import { GiCancel } from "react-icons/gi";
-import { FaEdit } from "react-icons/fa";
-import { useForm } from "react-hook-form";
 
 export const ChimeProfileComponent = () => {
   const { user, isAuthenticated } = useAuth();
-  const [isHaveToEdit, setIsHaveToEdit] = useState<boolean>(false);
-  const { register, handleSubmit } = useForm<{ userName: string }>({});
-
-  const changeUserName = useCallback((data: any) => {
-    console.log(data);
-  }, []);
 
   return (
     <section className="chime-profile-section">
       {isAuthenticated && user && (
         <form
           className="chime-profile-child-container"
-          onSubmit={handleSubmit(changeUserName)}
+          
         >
           <div className="chime-profile-header">
             <img
@@ -32,17 +21,7 @@ export const ChimeProfileComponent = () => {
               className="chime-profile-image"
             />
             <h2 className="chime-profile-name">{user.fullName}</h2>
-            {isHaveToEdit ? (
-              <Input
-                type="text"
-                placeHolder="Enter username..."
-                {...register("userName")}
-              />
-            ) : (
-              <p className="chime-profile-username">
-                @{user.userName?.toLowerCase() || "unknown"}
-              </p>
-            )}
+
             <span
               className={`chime-profile-status ${user.active ? "active" : "inactive"}`}
             >
@@ -101,23 +80,6 @@ export const ChimeProfileComponent = () => {
               </tbody>
             </table>
           </div>
-
-          {isHaveToEdit ? (
-            <button
-              className="chime-profile-edit-cancel-btn"
-              onClick={() => setIsHaveToEdit(false)}
-            >
-              <GiCancel /> Cancel Edit UserName
-            </button>
-          ) : (
-            <button
-              className="chime-profile-edit-btn"
-              onClick={() => setIsHaveToEdit(true)}
-              type="submit"
-            >
-              <FaEdit /> Edit UserName
-            </button>
-          )}
         </form>
       )}
     </section>

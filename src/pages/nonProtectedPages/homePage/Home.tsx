@@ -1,4 +1,4 @@
-import { CallToAction, FeatureSection, HowItWorks } from "../../../components";
+import {  FeatureSection, HowItWorks } from "../../../components";
 import HeroSection from "../../../components/HeroSection/HeroSection";
 import "../../../styles/pages/Home.css";
 

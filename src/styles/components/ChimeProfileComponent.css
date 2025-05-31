@@ -2,8 +2,6 @@
 
 /* Profile Container */
 .chime-profile-child-container {
-  max-width: 100%;
-  width: 30%;
   margin: 1.5rem auto;
   padding: 1.5rem;
   background: linear-gradient(
@@ -21,7 +19,6 @@
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  color: var(--primary-text-color);
 }
 
 .chime-profile-child-container:hover {
