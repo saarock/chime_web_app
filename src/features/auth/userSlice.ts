@@ -4,7 +4,7 @@ import {
   AuthResponseData,
   UserAuthState,
   UserImpDetails,
-  UserLoginWithGoogleDetils,
+  UserLoginWithGoogleDetials,
 } from "../../types";
 import { AuthService, userService } from "../../services";
 import { AuthUtil, cookieUtil, localStorageUtil } from "../../utils";
@@ -17,7 +17,7 @@ import {
 // Create an asyncThunk for handling user login asynchronously
 export const serverLoginWithGoogle = createAsyncThunk(
   "login-user", // Action type name
-  async (userDetails: UserLoginWithGoogleDetils, thunkAPI) => {
+  async (userDetails: UserLoginWithGoogleDetials, thunkAPI) => {
     try {
 
       const userData: AuthResponseData =

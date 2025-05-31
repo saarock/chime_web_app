@@ -1,10 +1,10 @@
 // Export all the interface types
 
-export * from "./userTypes/user";
-export * from "./socketTypes/socket";
-export * from "./reduxTypes/reduxTypes";
+export * from  "./UserTypes/user";
+export * from "./SocketTypes/socket";
+export * from "./ReduxTypes/reduxTypes";
 export * from "./PropsTypes/propsTypes";
-export * from "./errorTypes/errorTypes";
+export * from "./ErrorTypes/errorTypes";
 export * from "./ErrorBoundrayTypes/ErrorBoundrayTypes";
 export * from "./FallBackComponentTypes/FallBackComponentTypes";
 export * from "./FooterTypes/FooterTypes";

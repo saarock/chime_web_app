@@ -16,7 +16,7 @@ export interface User {
 }
 
 // User interface for login
-export interface UserLoginWithGoogleDetils {
+export interface UserLoginWithGoogleDetials {
   clientId: string;
   credential: string;
 }

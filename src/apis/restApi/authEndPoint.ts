@@ -1,6 +1,6 @@
 //Import all the necessaray dependencies
 import { axiosClient } from "../../config";
-import { UserLoginWithGoogleDetils } from "../../types";
+import { UserLoginWithGoogleDetials } from "../../types";
 
 // Auth End points class that helps to follow the abstaraction [means hidding the unnecessary details]
 class AuthEndPoint {
@@ -18,7 +18,7 @@ class AuthEndPoint {
    * @param googleData - includes [credentials, apiKey]
    * @returns Axios Response
    */
-  static async login(googleData: UserLoginWithGoogleDetils) {
+  static async login(googleData: UserLoginWithGoogleDetials) {
     const response = await axiosClient.post("/login-with-google", googleData);
     return response;
   }

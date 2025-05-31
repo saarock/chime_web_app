@@ -20,7 +20,7 @@ import ChimeProfileComponent from "./ChimeProfileComponent/ChimeProfileComponent
 import ErrorUiComponent from "./ErrorUiComponent/ErrorUiComponent";
 import FallBackComponent from "./FallBackComponent/FallBackComponent";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
-import HeroSection from "../pages/nonProtectedPages/homePage/Home";
+import HeroSection from "./HeroSection/HeroSection";
 import FeatureSection from "./FeatureSection/FeatureSection";
 import CallToAction from "./CallToAction/CallToAction";
 import HowItWorks from "./HowItWork/HowItWork";

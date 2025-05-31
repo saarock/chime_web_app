@@ -1,7 +1,7 @@
 // Import all the dependencies here
-import Home from "./nonProtectedPages/homePage/Home";
-import ContactPage from "./nonProtectedPages/contactPage/ContactPage";
-import LoginPage from "./nonProtectedPages/loginPage/LoginPage";
+import Home from "./nonProtectedPages/HomePage/Home";
+import ContactPage from "./nonProtectedPages/ContactPage/ContactPage";
+import LoginPage from "./nonProtectedPages/LoginPage/LoginPage";
 
 
 // Export all the dependencie here
