@@ -45,6 +45,7 @@ const useWebRTC = () => {
 
   const userVideoFilter = useSelector((state: UserReduxRootState) => state.videoFilters);
 
+  const pendingCandidatesRef = useRef<RTCIceCandidateInit[]>([]);
 
 
 
@@ -120,7 +121,6 @@ const useWebRTC = () => {
     // When remote tracks arrive, show them
     pc.ontrack = (e) => {
       setRemoteStream(e.streams[0])
-      setSuccessMessage(` Connected to new user...`)
     };
 
     // Watch ICE connection state (checking → connected → disconnected, etc.)
@@ -218,6 +218,13 @@ const useWebRTC = () => {
 
       try {
         await pc.setRemoteDescription(new RTCSessionDescription(offer));
+
+        // FLUSH any queued ICE candidates now that remoteDescription is set:
+        for (const candicate of pendingCandidatesRef.current) {
+          await pc.addIceCandidate(new RTCIceCandidate(candicate));
+        }
+        pendingCandidatesRef.current = [];
+
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
         videoSocket.emit("call-accepted", { to: from, answer });
@@ -231,7 +238,7 @@ const useWebRTC = () => {
   );
 
   /** When an answer arrives:
-   *  - set as remote description if we indeed created the offer
+   *  Set as remote description if we indeed created the offer
    */
   const handleCallAccepted = useCallback(
     async ({ answer }: any) => {
@@ -243,6 +250,10 @@ const useWebRTC = () => {
           await pc.setRemoteDescription(new RTCSessionDescription(answer));
         } else {
           console.warn("Unexpected signaling state; ignoring answer");
+        }
+
+        for (const candidate of pendingCandidatesRef.current) {
+          await pc.addIceCandidate(new RTCIceCandidate(candidate));
         }
       } catch (err) {
         console.error(err);
@@ -258,11 +269,19 @@ const useWebRTC = () => {
     const pc = peerConnection.current;
     if (!pc) return;
 
+
+    // If remoteDescription is not set yet, queue this candidate:
+    if (!pc.remoteDescription) {
+      pendingCandidatesRef.current.push(candidate);
+      return;
+    }
+
+    // Otherwise, add it
     try {
       await pc.addIceCandidate(new RTCIceCandidate(candidate));
     } catch (err) {
       console.error("ICE candidate add failed:", err);
-      sendError("Failed to show the root to the user or provide root to the user. But no matter, happens some time so enjoy.")
+      sendError("Failed to show the root to the user or provide root to the user. Refresh your page and try again.")
     }
   }, []);
 
@@ -371,6 +390,13 @@ const useWebRTC = () => {
   }, [videoSocket, userVideoFilter, user]);
 
 
+
+  /**
+   * Handle global succcess Message
+   */
+
+
+
   // ─────────────────────────────────────────────────────────────────────────────
   // 5) ATTACH SOCKET LISTENERS
   // ─────────────────────────────────────────────────────────────────────────────
@@ -389,6 +415,12 @@ const useWebRTC = () => {
   }, [videoSocket]);
 
 
+  const handleGlobalSuccessMessage = useCallback(({ message }: { message: string }) => {
+    setSuccessMessage(message);
+  }, []);
+
+
+
   useEffect(() => {
     if (!videoSocket) return;
 
@@ -404,7 +436,9 @@ const useWebRTC = () => {
     videoSocket.on("user:call-ended:try:for:other", handleNextTry);
     videoSocket.on("onlineUsersCount", handleOnlineUsersCount);
     videoSocket.on("duplicate:connection", handleGlobalError);
+    videoSocket.on("global:success:message", handleGlobalSuccessMessage);
     videoSocket.on("match-busy", handleMatchBusy);
+    videoSocket.on("call-error", handleGlobalError);
 
     return () => {
       videoSocket.off("self-loop", sendSelfLoop);
@@ -421,6 +455,10 @@ const useWebRTC = () => {
       videoSocket.off("video:global:error", handleGlobalError);
       videoSocket.off("duplicate:connection", handleGlobalError);
       videoSocket.off("match-busy", handleMatchBusy);
+      videoSocket.off("global:success:message", handleGlobalSuccessMessage);
+      videoSocket.off("call-error", handleGlobalError);
+
+
 
     };
   }, [
