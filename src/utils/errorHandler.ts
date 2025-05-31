@@ -5,6 +5,7 @@ import AuthUtil from "./authUtil";
 /**
  * Error handler method to handle all types of errors
  * @param error
+ * 
  */
 const errorhandler = (error: unknown): never => {
   if (isAxiosError(error)) {
