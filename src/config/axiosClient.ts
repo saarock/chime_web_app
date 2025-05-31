@@ -13,6 +13,7 @@ interface FailedRequest {
 let isRefreshing = false;
 let failedQueue: FailedRequest[] = [];
 
+alert(import.meta.env.VITE_API_BASE_URL)
 const axiosDefaults = {
   // baseURL: "http://localhost:8000/api/v1/users",
   baseURL: import.meta.env.VITE_API_BASE_URL,
