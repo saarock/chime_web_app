@@ -6,7 +6,7 @@ import { CustomErrorFallbackProps } from "../../types";
 /**
  * ErrorBoundry fallback custom component to show the error to the user
  */
-class FallbackComponent extends Component<CustomErrorFallbackProps> {
+class FallBackComponent extends Component<CustomErrorFallbackProps> {
   /**
  * Function within the callBackhook [Provide options to the user to refresh the page if any error arrives during the server-request]
 
@@ -54,4 +54,4 @@ class FallbackComponent extends Component<CustomErrorFallbackProps> {
   }
 }
 
-export default FallbackComponent;
+export default FallBackComponent;

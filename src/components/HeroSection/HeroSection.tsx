@@ -15,6 +15,7 @@ import {
 import type { JSX } from "react"
 import "../../styles/components/HeroSection.css"
 
+
 /**
  * Chime hero section component for random video calls with filters
  * @returns {JSX.Element}

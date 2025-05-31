@@ -18,7 +18,7 @@ import WarnedHoverMessage from "./WarnedHoverMessage/WarnedHoverMessage";
 import LogoutComponent from "./LogoutComponent/LogoutComponent";
 import ChimeProfileComponent from "./ChimeProfileComponent/ChimeProfileComponent";
 import ErrorUiComponent from "./ErrorUiComponent/ErrorUiComponent";
-import FallbackComponent from "./FallBackComponent/FallBackComponent";
+import FallBackComponent from "./FallBackComponent/FallBackComponent";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 import HeroSection from "../pages/nonProtectedPages/homePage/Home";
 import FeatureSection from "./FeatureSection/FeatureSection";
@@ -54,7 +54,7 @@ export {
   LogoutComponent,
   ChimeProfileComponent,
   ErrorUiComponent,
-  FallbackComponent,
+  FallBackComponent,
   ErrorBoundary,
   ChimiSectionsHowHeader,
   CallToAction,

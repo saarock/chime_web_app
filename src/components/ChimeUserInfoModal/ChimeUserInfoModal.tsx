@@ -1,5 +1,3 @@
-"use client"
-
 import { useForm } from "react-hook-form"
 import Button from "../Button/Button";
 import Input from "../Input/Input";
