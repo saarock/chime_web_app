@@ -1,3 +1,4 @@
+// Import all the necessary dependencies here
 import React, { JSX } from "react";
 import "../../styles/components/WarnedHoverMessage.css";
 import { FaLock } from "react-icons/fa";

@@ -224,7 +224,7 @@ const useWebRTC = () => {
         partnerIdRef.current = from;
       } catch (e) {
         console.error(e);
-        sendError("Error handling incoming call");
+        sendError("Error while handling incoming call. Refresh your page and try again.");
       }
     },
     [videoSocket, sendError],
@@ -246,7 +246,7 @@ const useWebRTC = () => {
         }
       } catch (err) {
         console.error(err);
-        sendError("Error setting remote description");
+        sendError("Error while accepting the call try to refresh the page and try again.");
       }
     },
     [sendError],
@@ -260,9 +260,9 @@ const useWebRTC = () => {
 
     try {
       await pc.addIceCandidate(new RTCIceCandidate(candidate));
-    } catch {
-      console.error("ICE candidate add failed");
-      sendError("ICE candidate add failed")
+    } catch (err) {
+      console.error("ICE candidate add failed:", err);
+      sendError("Failed to show the root to the user or provide root to the user. But no matter, happens some time so enjoy.")
     }
   }, []);
 
@@ -275,10 +275,10 @@ const useWebRTC = () => {
       }
       setRemoteStream(null);
     } catch (error) {
-      console.error(error);
-      sendError("Failed to close the peer connection.")
+      console.error("Failed to cleanup the connection: ", error);
+      sendError("Failed to close the peer connection if something wrong refresh your page and try again if the call is working then nothing to worrie.")
     }
-  }, []);
+  }, [sendError]);
 
   /** Handler for remote “end-call” event */
   const handleUserCallEnded = useCallback(
@@ -303,11 +303,11 @@ const useWebRTC = () => {
 
         partnerIdRef.current = null; // Clean-up the previous userId after all the events
       } catch (error) {
-        console.log(error);
-        sendError(error instanceof Error ? error.message : "Failed to end the call try again.")
+        console.error(error);
+        sendError("Failed to end the call try again or refresh the page.")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter, sendError],
   );
 
   /** Handler for retry event when both agreed to try someone else */
@@ -327,10 +327,10 @@ const useWebRTC = () => {
         });
       } catch (error) {
         console.error(error);
-        sendError(error instanceof Error ? error.message : "Failed to try again pleased try again..")
+        sendError("Failed while trying for next call.")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter, sendError],
   );
 
 
@@ -345,8 +345,8 @@ const useWebRTC = () => {
   /**
    * Handle global error
    */
-
   const handleGlobalError = useCallback(({ message }: { message: string }) => {
+    // If the unexpected behaviour happens then immediately disconnected the socket and cleanup all the connection
     setIsVideoSocketConnected(false);
     setErrorMessage(message);
     cleanupPeerConnection();
@@ -355,6 +355,20 @@ const useWebRTC = () => {
   }, []);
 
 
+  /**
+   * Handle the case  where choosen user is busy
+   */
+
+  const handleMatchBusy = useCallback(() => {
+    if (!videoSocket || !user) return;
+    setTimeout(() => {
+      videoSocket.emit("start:random-video-call", {
+        filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
+        userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
+      });
+    }, 1000); // retry after 1 sec 
+
+  }, [videoSocket, userVideoFilter, user]);
 
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -390,6 +404,7 @@ const useWebRTC = () => {
     videoSocket.on("user:call-ended:try:for:other", handleNextTry);
     videoSocket.on("onlineUsersCount", handleOnlineUsersCount);
     videoSocket.on("duplicate:connection", handleGlobalError);
+    videoSocket.on("match-busy", handleMatchBusy);
 
     return () => {
       videoSocket.off("self-loop", sendSelfLoop);
@@ -405,6 +420,8 @@ const useWebRTC = () => {
       videoSocket.off("onlineUsersCount", handleOnlineUsersCount);
       videoSocket.off("video:global:error", handleGlobalError);
       videoSocket.off("duplicate:connection", handleGlobalError);
+      videoSocket.off("match-busy", handleMatchBusy);
+
     };
   }, [
     videoSocket,

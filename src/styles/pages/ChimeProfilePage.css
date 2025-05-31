@@ -31,7 +31,6 @@
   box-shadow: var(--box-shadow-for-btn);
   border: 1px solid var(--little-color);
   padding: 2.5rem;
-  max-width: 600px;
   width: 100%;
   position: relative;
   overflow: hidden;

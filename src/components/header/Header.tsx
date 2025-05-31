@@ -21,6 +21,7 @@ import {
 import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { tabInitialState, tabReducer } from "../../reducers";
 import "../../styles/components/Header.css";
+import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
 // Laxy imports goes here
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
@@ -34,7 +35,7 @@ const Header: React.ComponentType = (): JSX.Element => {
   const location = useLocation();
   const navigate = useNavigate();
   const localStorageUtilCacheUserData = useMemo(
-    () => localStorageUtil.checkItem<boolean>(LOCAL_STORAGE_USER_DATA_KEY),
+    () => localStorageUtil.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
     [location.pathname, navigate],
   );
   const { user, isAuthenticated } = useAuth();
@@ -210,7 +211,7 @@ const Header: React.ComponentType = (): JSX.Element => {
                     key={tabId}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <Suspense fallback="loading...">
+                    <Suspense fallback={<LoadingComponent />}>
                       {/* Chime pofile navs container */}
                       <ProfileHeader />
                     </Suspense>

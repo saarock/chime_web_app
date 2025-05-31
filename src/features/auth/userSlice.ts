@@ -125,9 +125,8 @@ const userSlice = createSlice({
       }
     });
 
-    builder.addCase(addImportantDetails.rejected, (state, action) => {
+    builder.addCase(addImportantDetails.rejected, (_, action) => {
       console.log(action.error);
-
     });
 
 

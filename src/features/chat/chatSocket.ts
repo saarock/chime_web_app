@@ -1,5 +1,5 @@
 import { getChatSocket } from "../../config/socketManager";
-import { AuthUtil, cookieUtil } from "../../utils";
+import { cookieUtil } from "../../utils";
 import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
 import { refreshTokens } from "../../manager";
 

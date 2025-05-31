@@ -1,4 +1,4 @@
-import React, { forwardRef, JSX } from "react";
+import  { forwardRef, JSX } from "react";
 import { InputProps, Variant } from "../../types";
 import "../../styles/components/Input.css";
 

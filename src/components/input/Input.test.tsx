@@ -7,7 +7,7 @@ import { Variant } from "../../types";
 describe("Input test", () => {
   it("should render with the give placeholder", () => {
     render(
-      <Input type="text" placeHolder="Enter name..." onChange={() => {}} />,
+      <Input type="text" placeholder="Enter name..." onChange={() => {}} id=""/>,
     );
     const input = screen.getByRole("textbox");
     expect(input).toHaveProperty("placeholder", "Enter name...");
@@ -15,7 +15,7 @@ describe("Input test", () => {
 
   it("should render the primary input by default", () => {
     render(
-      <Input type="text" placeHolder="Enter name..." onChange={() => {}} />,
+      <Input type="text" id="" placeholder="Enter name..." onChange={() => {}} />,
     );
     const input = screen.getByRole("textbox");
     expect(input).toHaveClass("chime-input-primary");
@@ -25,8 +25,9 @@ describe("Input test", () => {
     render(
       <Input
         type="text"
-        placeHolder="Enter name..."
+        placeholder="Enter name..."
         onChange={() => {}}
+        id=""
         variant={Variant.secondary}
       />,
     );
@@ -38,9 +39,10 @@ describe("Input test", () => {
     render(
       <Input
         type="text"
-        placeHolder="Enter name..."
+        placeholder="Enter name..."
         onChange={() => {}}
         variant={Variant.ternary}
+        id=""
       />,
     );
     const input = screen.getByRole("textbox");
@@ -51,9 +53,10 @@ describe("Input test", () => {
     render(
       <Input
         type="number"
-        placeHolder="Enter name..."
+        placeholder="Enter name..."
         onChange={() => {}}
         variant={Variant.secondary}
+        id=""
       />,
     );
     const input = screen.getByRole("spinbutton");

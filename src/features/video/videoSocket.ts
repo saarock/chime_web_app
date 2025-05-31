@@ -1,7 +1,7 @@
 import { getVideoSocket } from "../../config/socketManager";
 import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
 import { refreshTokens } from "../../manager";
-import { AuthUtil, cookieUtil } from "../../utils";
+import {  cookieUtil } from "../../utils";
 
 export const initVideoSocketEvents = () => {
   const videoSocket = getVideoSocket();

@@ -6,6 +6,8 @@ import { applyFilters } from '../../features';
 import { resetFilters } from '../../features/videoFilter/videoFilter';
 import { UserReduxRootState, UserVideoFilterFromProps } from '../../types';
 import { toast } from 'react-toastify';
+import "../../styles/components/VideoFilters.css";
+
 
 // Define the shape of our form data
 
@@ -21,7 +23,6 @@ const VideoFilters: React.FC<VideoFiltersProps> = ({ showFilters }) => {
         register,
         handleSubmit,
         reset,
-        formState: { errors }
     } = useForm<UserVideoFilterFromProps>({
         defaultValues: {
             country: 'any',

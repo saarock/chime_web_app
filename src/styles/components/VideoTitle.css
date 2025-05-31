@@ -1,7 +1,6 @@
-
 /* Main Container */
 .chime-video-title-wrapper {
-    width: 100%;
+  width: 100%;
 }
 
 .chime-video-title-container {
@@ -43,7 +42,7 @@
 
 .chime-title-emoji {
   font-size: 2rem;
-  filter: drop-shadow(0 0 8px var(--social-hover-glow));
+
 }
 
 .chime-title-actions {
@@ -261,21 +260,26 @@
 }
 
 .chime-mode {
-  background-color: #8c193f;
-  padding: 0.4rem;
-  min-width: 2rem;
-  border-radius: 0.4rem;
-  text-align: center;
-  border: 1px solid wheat;
+  margin-left: auto;
+  padding: 0.25rem 0.75rem;
+  background: linear-gradient(135deg, var(--primary-btn-background-color), var(--secondary-btn-background-color));
+  color: white;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* Animations */
 @keyframes chime-pulse {
+
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.2);
@@ -287,6 +291,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
