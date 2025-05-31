@@ -14,8 +14,8 @@ let isRefreshing = false;
 let failedQueue: FailedRequest[] = [];
 
 const axiosDefaults = {
-  baseURL: "http://localhost:8000/api/v1/users",
-  // baseURL: import.meta.env.VITE_API_BASE_URL,
+  // baseURL: "http://localhost:8000/api/v1/users",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
   timeout: 15000, // 15sec
 };
