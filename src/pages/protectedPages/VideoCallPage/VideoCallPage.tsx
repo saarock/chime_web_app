@@ -103,8 +103,7 @@ export default function VideoCallPage() {
   // ─────────────────────────────────────────────────────────────────────────────
   // Hook that will silently retry random call when user not found on 4s
   // ─────────────────────────────────────────────────────────────────────────────
-
-
+  
   const silentlyRetry = useCallback(() => {
     if (!state.isConnecting) return;
     if (state.retryNumber >= 3) {
