@@ -20,7 +20,7 @@ export const initChatSocket = () => {
 
 export const initVideoSocket = () => {
   if (!videoSocket) {
-    videoSocket = io("https://25c4-2404-7c00-43-c7da-a1fb-ef8b-bb6c-da93.ngrok-free.app/video", {
+    videoSocket = io("http://localhost:8000/video", {
       autoConnect: false,
       withCredentials: true,
     });

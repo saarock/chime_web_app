@@ -59,19 +59,32 @@ const useWebRTC = () => {
   const setLocalStreamFunction = useCallback(() => {
     (async () => {
       try {
+        // alert(videoSocket?.connected)
+        // if (!videoSocket || !videoSocket.connected) return;
+
+        // Request user media (camera + mic)
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
           audio: true,
         });
+
+        // Store in state (e.g., React state or context)
         setLocalStream(stream);
-      } catch {
+      } catch (error) {
+        // Display error to the user
         toast.error("Failed to access camera/mic");
+
+        // Optionally log error for debugging
+        console.error("Error accessing media devices:", error);
       }
     })();
-  }, []);
+  }, [setLocalStream]);
+
 
   // Run once on mount
   useEffect(() => {
+    // Ensure prerequisites are met
+    if (!user) return;  // don’t run until “user” is truthy
     setLocalStreamFunction();
     return () => {
       // Turn off all tracks if they exist
@@ -81,7 +94,7 @@ const useWebRTC = () => {
         });
       }
     };
-  }, [setLocalStreamFunction]);
+  }, [setLocalStreamFunction, user]);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 3) PEER CONNECTION MANAGEMENT
@@ -226,11 +239,12 @@ const useWebRTC = () => {
         pendingCandidatesRef.current = [];
 
         const answer = await pc.createAnswer();
-        await pc.setLocalDescription(answer);
+
+        await pc.setLocalDescription(new RTCSessionDescription(answer));
         videoSocket.emit("call-accepted", { to: from, answer });
         partnerIdRef.current = from;
       } catch (e) {
-        console.error(e);
+        console.error("Error in receiving call: ", e);
         sendError("Error while handling incoming call. Refresh your page and try again.");
       }
     },
@@ -316,10 +330,9 @@ const useWebRTC = () => {
               userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
             });
           }
-        } else {
-          toast.info(" call ended from isEnder");
+        } {
+          setSuccessMessage("You end the call.")
         }
-
         partnerIdRef.current = null; // Clean-up the previous userId after all the events
       } catch (error) {
         console.error(error);
@@ -329,27 +342,35 @@ const useWebRTC = () => {
     [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter, sendError],
   );
 
+  const delay = useCallback(async (ms: number) => new Promise(resolve => setTimeout(resolve, ms)), []);
   /** Handler for retry event when both agreed to try someone else */
   const handleNextTry = useCallback(
-    ({ isEnder }: { isEnder: boolean }) => {
+    async ({ isEnder }: { isEnder: boolean }) => {
       try {
+        if (!videoSocket || !user || !user._id || !userVideoFilter) return;
+
         cleanupPeerConnection();
         if (!isEnder && partnerIdRef.current) {
+          // IF not ender
           setIsPartnerCallEnded(true); // partner ended the call automatically try for others so show the connecting screen with the helps of this state
+        } else {
+          // delay for the caller
+          await delay(200);
         }
+
         partnerIdRef.current = null; // Clean-up the previous userId
         getOrCreatePeerConnection();
 
         videoSocket?.emit("start:random-video-call", {
           filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
-          userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
+          userDetails: { age: user?.age || "any", gender: user?.gender || "any", country: user?.country || "any" },
         });
       } catch (error) {
         console.error(error);
         sendError("Failed while trying for next call.")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter, sendError],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, userVideoFilter, sendError, delay],
   );
 
 
@@ -457,9 +478,6 @@ const useWebRTC = () => {
       videoSocket.off("match-busy", handleMatchBusy);
       videoSocket.off("global:success:message", handleGlobalSuccessMessage);
       videoSocket.off("call-error", handleGlobalError);
-
-
-
     };
   }, [
     videoSocket,
@@ -473,6 +491,11 @@ const useWebRTC = () => {
     handleICE,
     handleUserCallEnded,
     handleNextTry,
+    handleOnlineUsersCount,
+    handleGlobalError,
+    handleMatchBusy,
+    handleGlobalSuccessMessage,
+    handleGlobalError,
   ]);
 
 

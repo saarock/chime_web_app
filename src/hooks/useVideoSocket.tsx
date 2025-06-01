@@ -25,6 +25,7 @@ const useVideoSocket = ({ isLocalStreamIsOn = false, isUserVerify = false }: { i
       initVideoSocket();
       initVideoSocketEvents();
       setVideoSocket(getVideoSocket());
+
     }
 
     // cleanup the video socket

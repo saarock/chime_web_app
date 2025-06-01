@@ -1,7 +1,7 @@
 import { getVideoSocket } from "../../config/socketManager";
 import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
 import { refreshTokens } from "../../manager";
-import {  cookieUtil } from "../../utils";
+import {  AuthUtil, cookieUtil } from "../../utils";
 
 export const initVideoSocketEvents = () => {
   const videoSocket = getVideoSocket();
@@ -13,6 +13,8 @@ export const initVideoSocketEvents = () => {
 
   // self connection
   videoSocket.connect();
+
+  
 
   // handel error;
   videoSocket.on("connect_error", (err) => {
@@ -26,7 +28,7 @@ export const initVideoSocketEvents = () => {
           videoSocket.connect();
         })();
       } catch (error) {
-        // AuthUtil.clientSideLogout(); // logout the user if any error arrives
+        //AuthUtil.clientSideLogout(); // logout the user if any error arrives
       }
     } else {
       // AuthUtil.clientSideLogout(); // Logout the user from the client side

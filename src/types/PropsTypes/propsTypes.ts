@@ -29,7 +29,7 @@ export enum Variant {
 export interface ButtonProps {
   text?: string;
   type?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
-  onClick: () => void;
+  onClick?: () => void;
   variant?: Variant;
   disabled?: boolean;
   children?: ReactNode; // specially for icons

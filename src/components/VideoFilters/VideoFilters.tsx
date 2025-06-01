@@ -7,6 +7,7 @@ import { resetFilters } from '../../features/videoFilter/videoFilter';
 import { UserReduxRootState, UserVideoFilterFromProps } from '../../types';
 import { toast } from 'react-toastify';
 import "../../styles/components/VideoFilters.css";
+import Button from '../Button/Button';
 
 
 // Define the shape of our form data
@@ -78,15 +79,15 @@ const VideoFilters: React.FC<VideoFiltersProps> = ({ showFilters }) => {
                 <div className="chime-filter-group">
                     <label htmlFor="ageRange" className="chime-filter-label">
                         <Calendar size={16} className="chime-filter-icon" />
-                        Age Range: <span className='chime-mode'>{userVideoFilter.age}</span>
+                        Age Range: <span className='chime-mode'>{userVideoFilter.age}+</span>
                     </label>
                     <select id="ageRange" {...register('age')} className="chime-filter-select">
                         <option value="any">Any Age</option>
-                        <option value="18-25">18-25</option>
-                        <option value="26-35">26-35</option>
-                        <option value="36-45">36-45</option>
-                        <option value="46-55">46-55</option>
-                        <option value="55+">55+</option>
+                        <option value="18">18+</option>
+                        <option value="26">26+</option>
+                        <option value="36">36+</option>
+                        <option value="46">46+</option>
+                        <option value="55">55+</option>
                     </select>
                 </div>
 
@@ -116,12 +117,12 @@ const VideoFilters: React.FC<VideoFiltersProps> = ({ showFilters }) => {
                 </div>
 
                 <div className="chime-filter-actions">
-                    <button type="button" onClick={handleReset} className="chime-filter-reset">
+                    <Button type="button" onClick={handleReset} className="chime-filter-reset">
                         Reset
-                    </button>
-                    <button type="submit" className="chime-filter-apply">
+                    </Button>
+                    <Button type="submit" className="chime-filter-apply">
                         Apply Filters
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>
