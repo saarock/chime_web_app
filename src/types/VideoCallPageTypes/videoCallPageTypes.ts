@@ -9,8 +9,9 @@ export interface CallState {
   zoomLevel: number;
   layout: Layout;
   isFullScreen: boolean;
-   isRemoteAudioEnable: boolean;
-   isRemoteVideoEnable: boolean;
+  isRemoteAudioEnable: boolean;
+  isRemoteVideoEnable: boolean;
+  retryNumber: number;
 }
 
 export const videoInitialState: CallState = {
@@ -24,6 +25,7 @@ export const videoInitialState: CallState = {
   isFullScreen: false,
   isRemoteAudioEnable: true,
   isRemoteVideoEnable: true,
+  retryNumber: 0,
 };
 
 
@@ -38,3 +40,5 @@ export type CallAction =
   | { type: "TOGGLE_FULLSCREEN" }
   | { type: "REMOTE_AUDIO", payload: boolean }
   | { type: "REMOTE_VIDEO", payload: boolean }
+  | { type: "INCREMENT_RETRY" }
+  | { type: "RESET_RETRY"};

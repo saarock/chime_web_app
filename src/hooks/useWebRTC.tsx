@@ -399,16 +399,16 @@ const useWebRTC = () => {
    * Handle the case  where choosen user is busy
    */
 
-  const handleMatchBusy = useCallback(() => {
-    if (!videoSocket || !user) return;
-    setTimeout(() => {
-      videoSocket.emit("start:random-video-call", {
-        filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
-        userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
-      });
-    }, 1000); // retry after 1 sec 
+  // const handleMatchBusy = useCallback(() => {
+  //   if (!videoSocket || !user) return;
+  //   setTimeout(() => {
+  //     videoSocket.emit("start:random-video-call", {
+  //       filters: { age: userVideoFilter.age, gender: userVideoFilter.gender, country: userVideoFilter.country, isStrict: userVideoFilter.isStrict },
+  //       userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
+  //     });
+  //   }, 1000); // retry after 1 sec 
 
-  }, [videoSocket, userVideoFilter, user]);
+  // }, [videoSocket, userVideoFilter, user]);
 
 
 
@@ -458,7 +458,7 @@ const useWebRTC = () => {
     videoSocket.on("onlineUsersCount", handleOnlineUsersCount);
     videoSocket.on("duplicate:connection", handleGlobalError);
     videoSocket.on("global:success:message", handleGlobalSuccessMessage);
-    videoSocket.on("match-busy", handleMatchBusy);
+    // videoSocket.on("match-busy", handleMatchBusy);
     videoSocket.on("call-error", handleGlobalError);
 
     return () => {
@@ -475,7 +475,7 @@ const useWebRTC = () => {
       videoSocket.off("onlineUsersCount", handleOnlineUsersCount);
       videoSocket.off("video:global:error", handleGlobalError);
       videoSocket.off("duplicate:connection", handleGlobalError);
-      videoSocket.off("match-busy", handleMatchBusy);
+      // videoSocket.off("match-busy", handleMatchBusy);
       videoSocket.off("global:success:message", handleGlobalSuccessMessage);
       videoSocket.off("call-error", handleGlobalError);
     };
@@ -493,7 +493,7 @@ const useWebRTC = () => {
     handleNextTry,
     handleOnlineUsersCount,
     handleGlobalError,
-    handleMatchBusy,
+    // handleMatchBusy,
     handleGlobalSuccessMessage,
     handleGlobalError,
   ]);

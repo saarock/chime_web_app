@@ -13,6 +13,7 @@ import "../../../styles/pages/VideoCallPage.css";
 import { useAuth, useWebRTC } from "../../../hooks";
 import { CallReducer } from "../../../reducers";
 import { videoInitialState } from "../../../types";
+import { toast } from "react-toastify";
 
 /**
  * VideoCallPage
@@ -97,6 +98,37 @@ export default function VideoCallPage() {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [endCall]);
+
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Hook that will silently retry random call when user not found on 4s
+  // ─────────────────────────────────────────────────────────────────────────────
+
+
+  const silentlyRetry = useCallback(() => {
+    if (!state.isConnecting) return;
+    if (state.retryNumber >= 3) {
+      endCall();
+      dispatch({ type: "RESET_RETRY" });
+      dispatch({ type: "SET_IN_CALL", payload: false });
+      dispatch({ type: "SET_CONNECTING", payload: false });
+    } else {
+      endCall(); // First always end the call then 
+      randomCall(); // Retry for another call
+      dispatch({ type: "INCREMENT_RETRY" });
+    }
+  }, [state.retryNumber, state.isConnecting]);
+
+  useEffect(() => {
+    if (!state.isConnecting || state.retryNumber > 4 || state.retryNumber < 0) return;
+    const retry = setTimeout(silentlyRetry, 10000);
+
+    return () => {
+      clearTimeout(retry);
+    }
+  }, [silentlyRetry]);
+
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Call control callbacks

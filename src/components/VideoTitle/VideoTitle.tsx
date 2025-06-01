@@ -25,11 +25,6 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   const [isHaveToFillDetails, setIsHaveToFillDetails] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
 
-
-
-
-
-
   /**
    * Function that helps to check the important details [country, age, gender] 
    */

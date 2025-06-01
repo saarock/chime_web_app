@@ -25,6 +25,10 @@ export function CallReducer(state: CallState, action: CallAction) {
       return { ...state, isRemoteAudioEnable: action.payload }
     case "REMOTE_VIDEO":
       return { ...state, isRemoteVideoEnable: action.payload }
+    case "INCREMENT_RETRY":
+      return {...state,  retryNumber: state.retryNumber++}
+    case "RESET_RETRY":
+      return {...state,  retryNumber: 0}
     default:
       return state;
   }
