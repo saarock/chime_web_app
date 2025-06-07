@@ -18,6 +18,7 @@ import VideoErrorToast from "../VideoErrorToast/VideoErrorToast";
 import Title from "./Title";
 import VideoOnline from "./VideoOnline";
 import VideoSuccessToast from "../VideoSuccessToast/VideoSuccessToast";
+import ReportUser from "../ReportUser/ReportUser";
 
 // Functional component to render the video chat title section with filters, feedback, and user info modals
 const VideoTitle: React.FC<VideoTitleProps> = ({
@@ -26,6 +27,8 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   setErrorMessage,
   setSuccessMessage,
   onlineUsersCount,
+  isInCall,
+  userId,
 }) => {
   const [showFilters, setShowFilters] = useState(false); // Controls visibility of filter dropdown
   const { user } = useAuth(); // Custom hook to get authenticated user
@@ -153,6 +156,8 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
               Give feedback
               <MessageSquare size={16} />
             </Button>
+
+            { isInCall && <ReportUser onReport={() => { }} username="" />}
           </div>
         </div>
 

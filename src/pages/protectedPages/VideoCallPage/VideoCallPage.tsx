@@ -232,6 +232,8 @@ export default function VideoCallPage() {
           setErrorMessage={reSetErrorMessage}
           setSuccessMessage={reSetSuccessMessage}
           onlineUsersCount={onlineUsersCount}
+          isInCall={state.isInCall}
+          userId={user._id}
         />
         <div className={`chime-video-grid layout-${state.layout}`}>
           <VideoBox
@@ -241,7 +243,7 @@ export default function VideoCallPage() {
             isActive={true}
             isLocalVideoEnabled={state.isVideoEnabled}
             isLocalAudioEnabled={state.isAudioEnabled}
-            isConnecting={false}
+            isConnecting={false} // Set always false because this is the localStream
             isInCall={state.isInCall}
             zoomLevel={state.zoomLevel}
             layout={state.layout}

@@ -15,3 +15,4 @@ export * from "./VideoBoxTypes/videoBoxTypes";
 export * from "./VideoCallPageTypes/videoCallPageTypes";
 export * from "./VideoControllerPanelTypes/videoControllerPanelTypes";
 export * from "./VideoTitleTypes/VideoTitleTypes";
+export * from "./ReportTypes/ReportTypes";

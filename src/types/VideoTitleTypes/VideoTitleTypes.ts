@@ -3,5 +3,7 @@ export interface VideoTitleProps {
   successMessage: string | null;
   setErrorMessage: React.Dispatch<React.SetStateAction<string | null>>;
   setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>;
-  onlineUsersCount: number
+  onlineUsersCount: number;
+  isInCall: boolean;
+  userId: string;
 }
