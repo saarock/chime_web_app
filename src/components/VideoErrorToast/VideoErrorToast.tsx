@@ -1,11 +1,15 @@
+
+// Import all the necessary dependencies here
 import React from "react";
 import Button from "../Button/Button";
+import { VideoErrorToastProps } from "../../types";
 
-export interface VideoErrorToastProps {
-  errorMessage: string | null;
-  setErrorMessage: (msg: string | null) => void;
-}
 
+/**
+ * 
+ * @param {string} param0.errorMessage - Error message that may be occur during the random-video chat
+ * @returns {React.FC}
+ */
 const VideoErrorToast: React.FC<VideoErrorToastProps> = ({
   errorMessage,
   setErrorMessage,

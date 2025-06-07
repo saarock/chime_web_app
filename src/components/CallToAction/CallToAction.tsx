@@ -8,7 +8,7 @@ import "../../styles/components/CallToAction.css";
  * // Chime call-to-action section
  * @returns {JSX.Element}
  */
-const CallToAction: React.ComponentType = (): JSX.Element => {
+const CallToAction: React.FC = (): JSX.Element => {
   const handleGetStarted = (): void => {
     console.log("Get started clicked");
     // Add your logic here

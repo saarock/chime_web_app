@@ -7,3 +7,10 @@ export interface VideoTitleProps {
   isInCall: boolean;
   userId: string;
 }
+
+
+
+export interface VideoOnlineProps {
+    onlineUsersCount: number;  // Online user count reveived form the server via the socket
+
+}

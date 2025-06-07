@@ -16,7 +16,7 @@ import Button from "../Button/Button";
 // VideoControllerPanel displays control buttons for mic, camera, call, and random match.
 // It uses icons from lucide-react and accepts various props to handle UI logic.
 
-const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
+const VideoControllerPanel: React.FC<VideoControllerPanelProps> = ({
   toggleAudio,         // Toggles the microphone on/off
   isAudioEnabled,      // Current state of microphone (true = unmuted)
   isVideoEnabled,      // Current state of video (true = enabled)

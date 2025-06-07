@@ -3,15 +3,11 @@
 import { Layout, Maximize2, Minimize2, ZoomIn, ZoomOut } from "lucide-react";
 import React from "react";
 import "../../styles/components/VideoAdvanceController.css";
+import Button from "../Button/Button";
+import { VideoAdvanceControllerProps } from "../../types";
 
-interface VideoAdvanceControllerProps {
-  toggleMaximize: () => void;
-  isMaximized: boolean;
-  increaseZoom: () => void;
-  decreaseZoom: () => void;
-  cycleLayout: () => void;
-  layout: string;
-}
+
+
 const VideoAdvanceController: React.ComponentType<
   VideoAdvanceControllerProps
 > = ({
@@ -20,42 +16,41 @@ const VideoAdvanceController: React.ComponentType<
   increaseZoom,
   decreaseZoom,
   cycleLayout,
-  layout,
 }) => {
     return (
       <div className="chime-advanced-controls">
-        <button
+        <Button
           onClick={toggleMaximize}
           className="chime-advanced-control-button"
           aria-label={isMaximized ? "Minimize" : "Maximize"}
         >
           {isMaximized ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={increaseZoom}
           className="chime-advanced-control-button"
           aria-label="Zoom in"
         >
           <ZoomIn size={20} />
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={decreaseZoom}
           className="chime-advanced-control-button"
           aria-label="Zoom out"
         >
           <ZoomOut size={20} />
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={cycleLayout}
           className="chime-advanced-control-button"
           aria-label="Change layout"
         >
           <Layout size={20} />
           {/* <span className="chime-layout-name">{layout.replace(/-/g, " ")}</span> */}
-        </button>
+        </Button>
       </div>
 
     );

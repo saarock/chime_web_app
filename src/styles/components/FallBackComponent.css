@@ -1,0 +1,65 @@
+/* fallback-component.css */
+
+.chime-error-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.chime-error-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 28rem;
+  width: 100%;
+  text-align: center;
+}
+
+.chime-error-title {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+  color: #dc2626; /* red-600 */
+  margin-bottom: 1rem;
+}
+
+.chime-error-message {
+  color: #4b5563; /* gray-600 */
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.chime-error-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.chime-error-btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  color: #fff;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.chime-error-btn:first-child {
+  background: linear-gradient(to right, #2563eb, #1d4ed8); /* blue-600 to blue-700 */
+}
+
+.chime-error-btn:first-child:hover {
+  background: linear-gradient(to right, #1d4ed8, #1e40af); /* blue-700 to blue-800 */
+}
+
+.chime-error-btn:last-child {
+  background: linear-gradient(to right, #1f2937, #111827); /* gray-800 to gray-900 */
+}
+
+.chime-error-btn:last-child:hover {
+  background: linear-gradient(to right, #111827, #000000); /* dark hover */
+}

@@ -1,10 +1,15 @@
+// Import all the necessary dependencies here
 import { Users } from 'lucide-react'
 import React from 'react'
+import { VideoOnlineProps } from '../../types'
 
-interface VideoOnlineProps {
-    onlineUsersCount: number
-}
-const VideoOnline: React.ComponentType<VideoOnlineProps> = (
+
+/**
+ * 
+ * @param {number} param0.onlineUsersCount - Hold the number of that how many users are there online now
+ * @returns {React.FC}
+ */
+const VideoOnline: React.FC<VideoOnlineProps> = (
     {
         onlineUsersCount,
     }
