@@ -14,6 +14,7 @@ import Button from "../Button/Button";
 import { connectingMessages } from './message';
 
 
+
 function VideoBox({
   refObject,
   label,
@@ -175,6 +176,7 @@ function VideoBox({
 
       {/* Name label below each video box */}
       <div className="chime-video-label">{label}</div>
+      {/* <VideoLabel label={label} isLocalStreamIsOn={label === "You" && stream ? true : false} /> */}
 
       {/* Fullscreen toggle button */}
       <Button

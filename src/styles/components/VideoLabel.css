@@ -1,0 +1,214 @@
+.chime-video-label-overlay {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 10;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.chime-video-label-text-display {
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+.chime-video-you-controls-container {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  position: relative;
+}
+
+.chime-video-action-btn {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 20px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.chime-video-action-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.chime-video-action-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.chime-video-btn-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.chime-video-btn-text {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.chime-video-message-popup {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 12px;
+  padding: 12px;
+  min-width: 280px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: chime-video-slide-up 0.2s ease-out;
+}
+
+.chime-video-input-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.chime-video-text-input {
+  flex: 1;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  background: white;
+}
+
+.chime-video-text-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.chime-video-text-input::placeholder {
+  color: #9ca3af;
+}
+
+.chime-video-send-btn {
+  background: #3b82f6;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chime-video-send-btn:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.chime-video-send-btn:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.chime-video-send-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+
+.chime-video-emoji-popup {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 8px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 12px;
+  padding: 16px;
+  min-width: 240px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: chime-video-slide-up 0.2s ease-out;
+}
+
+.chime-video-emoji-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.chime-video-emoji-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.chime-video-emoji-btn {
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+}
+
+.chime-video-emoji-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  transform: scale(1.1);
+}
+
+.chime-video-emoji-btn:active {
+  transform: scale(0.95);
+}
+
+@keyframes chime-video-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .chime-video-message-popup {
+    min-width: 240px;
+  }
+
+  .chime-video-emoji-popup {
+    min-width: 200px;
+  }
+
+  .chime-video-emoji-grid-layout {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
