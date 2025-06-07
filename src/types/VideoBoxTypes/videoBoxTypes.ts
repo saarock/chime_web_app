@@ -13,4 +13,5 @@ export interface VideoBoxProps {
   stream: MediaStream | null;                     // The video/audio stream to attach to <video>
   isRemoteAudioEnable?: boolean;                  // Whether remote user's audio is enabled
   isRemoteVideoEnable?: boolean;                  // Whether remote user's video is enabled
+  connectedTo?: string;                           // Partner
 }

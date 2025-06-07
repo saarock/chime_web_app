@@ -54,10 +54,7 @@ export interface UserVideoFilterFromProps {
 
 
 
-export interface UserReduxRootState {
-  auth: UserAuthState;
-  videoFilters: UserVideoFilter;
-}
+
 
 // User data interface types while veryfying user and getting new refresh data
 

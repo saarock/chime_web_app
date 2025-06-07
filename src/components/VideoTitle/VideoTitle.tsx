@@ -1,9 +1,9 @@
-// Import all the necessary dependencies here 
-import React, { useCallback, useState } from "react"
-import "../../styles/components/VideoTitle.css"
-import Button from "../Button/Button"
+// Import necessary libraries, hooks, styles, components, icons, and utilities
+import React, { useCallback, useState } from "react";
+import "../../styles/components/VideoTitle.css";
+import Button from "../Button/Button";
 import { Variant, type VideoTitleProps } from "../../types";
-import { ChevronDown, Plus, Users } from "lucide-react"
+import { ChevronDown, MessageSquare } from "lucide-react";
 import VideoFilters from "../VideoFilters/VideoFilters";
 import { useAuth } from "../../hooks";
 import ChimeUserInfoModal from "../ChimeUserInfoModal/ChimeUserInfoModal";
@@ -12,7 +12,14 @@ import { AppDispatch } from "../../apps/store";
 import { addImportantDetails } from "../../features/auth/userSlice";
 import { getCountry } from "../../utils";
 import { toast } from "react-toastify";
+import { FeedbackForm, FeedbackFormData } from "../FeedBackForm/FeedBackForm";
+import { feedBackService } from "../../services";
+import VideoErrorToast from "../VideoErrorToast/VideoErrorToast";
+import Title from "./Title";
+import VideoOnline from "./VideoOnline";
+import VideoSuccessToast from "../VideoSuccessToast/VideoSuccessToast";
 
+// Functional component to render the video chat title section with filters, feedback, and user info modals
 const VideoTitle: React.FC<VideoTitleProps> = ({
   errorMessage,
   successMessage,
@@ -20,15 +27,17 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   setSuccessMessage,
   onlineUsersCount,
 }) => {
-  const [showFilters, setShowFilters] = React.useState(false);
-  const { user } = useAuth();
-  const [isHaveToFillDetails, setIsHaveToFillDetails] = useState<boolean>(false);
-  const dispatch = useDispatch<AppDispatch>();
+  const [showFilters, setShowFilters] = useState(false); // Controls visibility of filter dropdown
+  const { user } = useAuth(); // Custom hook to get authenticated user
+  const [isHaveToFillDetails, setIsHaveToFillDetails] = useState<boolean>(false); // Show modal if required user info is missing
+  const dispatch = useDispatch<AppDispatch>(); // Redux dispatcher
+  const [isUserWantToGiveFeedBack, setIsUserWantToGiveFeedBack] = useState<boolean>(false); // Toggle feedback form
 
   /**
-   * Function that helps to check the important details [country, age, gender] 
+   * Handles filter toggle visibility.
+   * Checks if the user has completed mandatory info (age, gender, country).
+   * If not, prompts modal to collect these details.
    */
-
   const handleToggleFilter = useCallback(() => {
     if (!user?.gender || !user.country || !user.age) {
       setIsHaveToFillDetails(true);
@@ -37,15 +46,17 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
     setShowFilters((prev) => !prev);
   }, [user]);
 
-
-
+  /**
+   * Handles submission of important user details (age, gender, country).
+   * Uses IP-based country fetch and dispatches Redux action.
+   */
   const handleSubmitAndAddImpDetails = useCallback(async (data: any) => {
-
-    if (!user?._id) return;
-    const country = await getCountry.scanAndGet();
-    if (!country) {
-      return;
+    if (!user || !user?._id) {
+      throw new Error("User id is required pleased refresh your page.");
     }
+
+    const country = await getCountry.scanAndGet();
+    if (!country) return;
 
     try {
       await dispatch(addImportantDetails({
@@ -54,91 +65,105 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
         gender: data.gender,
         userId: user._id
       })).unwrap();
-      toast.success("Details added successfully.")
+      toast.success("Details added successfully.");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : String(error));
     }
-
   }, [user?._id]);
 
+  /**
+   * Cancels feedback form display.
+   * Closes feedback form if it's currently open.
+   */
+  const handleUserDonotWantToGivesFeedBakc = useCallback(() => {
+    if (isUserWantToGiveFeedBack) {
+      setIsUserWantToGiveFeedBack(false);
+    }
+  }, [isUserWantToGiveFeedBack]);
+
+  /**
+   * Submits user feedback to the server.
+   * Associates the feedback with the current user.
+   */
+  const submitFeedBack = useCallback(async (feedBackFormData: FeedbackFormData) => {
+    if (!user || !user?._id) {
+      throw new Error("User id is required pleased refresh your page.");
+    }
+
+    feedBackFormData.userId = user._id;
+
+    const data = await feedBackService.saveFeedBack(feedBackFormData); // Save the data 
+    console.log(data);
+    if (!data.isFeedbackSaved) {
+      throw new Error("Failed to save the feedback pleased try agian");
+    }
+  }, [user]);
 
   return (
     <div className="chime-video-title-wrapper">
-      {isHaveToFillDetails && <ChimeUserInfoModal isOpen={isHaveToFillDetails} onClose={() => setIsHaveToFillDetails(false)} onSubmit={handleSubmitAndAddImpDetails} key={"a"} />}
+      {/* Modal to collect user info if not filled */}
+      {isHaveToFillDetails && (
+        <ChimeUserInfoModal
+          isOpen={isHaveToFillDetails}
+          onClose={() => setIsHaveToFillDetails(false)}
+          onSubmit={handleSubmitAndAddImpDetails}
+          key={"a"}
+        />
+      )}
+
+      {/* Feedback form modal */}
+      {isUserWantToGiveFeedBack && (
+        <FeedbackForm
+          onCancel={handleUserDonotWantToGivesFeedBakc}
+          onSubmit={submitFeedBack}
+        />
+      )}
+
+      {/* Main video chat title section */}
       <div className="chime-video-title-container">
 
-        {/* Left error message */}
-        <div className="chime-message chime-message-left">
-          {errorMessage && (
-            <div className="chime-alert chime-error">
-              <span className="chime-alert-icon" aria-hidden="true">
-                ⚠️
-              </span>
-              <span>{errorMessage}</span>
-              <Button
-                onClick={() => setErrorMessage(null)}
-                className="chime-alert-remove"
-                aria-label="Dismiss error message"
-              >
-                ×
-              </Button>
-            </div>
-          )}
+        {/* Display error messages (left-aligned) */}
+        <VideoErrorToast errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
 
-        </div>
-
-        {/* Center title */}
+        {/* Centered title and action buttons */}
         <div className="chime-video-title-content">
-          <h1 className="chime-video-title-heading">
-            <span className="chime-title-emoji">🎥</span>
-            Random Video Chat
-          </h1>
-
+          <Title />
+          {/* Action buttons: online count, filter toggle, feedback */}
           <div className="chime-title-actions">
-            <div className="chime-online-indicator">
-              <span className="chime-online-dot"></span>
-              <span className="chime-online-count">
-                <Users size={14} />
-                {onlineUsersCount} online
-              </span>
-            </div>
 
-            <Button className='secondary' variant={Variant.secondary} onClick={() => handleToggleFilter()}>
+            <VideoOnline onlineUsersCount={onlineUsersCount} />
+
+            <Button
+              className='secondary'
+              variant={Variant.secondary}
+              onClick={() => handleToggleFilter()}
+            >
               Filters
-              <ChevronDown className={`chime-chevron ${showFilters ? "chime-chevron-up" : ""}`} size={16} />
-            </Button>
-            <Button className='secondary' variant={Variant.secondary} onClick={() => setIsHaveToFillDetails(true)}>
-              Change details
-              <Plus size={16} />
+              <ChevronDown
+                className={`chime-chevron ${showFilters ? "chime-chevron-up" : ""}`}
+                size={16}
+              />
             </Button>
 
+            <Button
+              className='secondary'
+              variant={Variant.secondary}
+              onClick={() => setIsUserWantToGiveFeedBack(true)}
+            >
+              Give feedback
+              <MessageSquare size={16} />
+            </Button>
           </div>
         </div>
 
-        {/* Right success message */}
-        <div className="chime-message chime-message-right">
-          {successMessage && (
-            <div className="chime-alert chime-success">
-              <span className="chime-alert-icon" aria-hidden="true">
-                ✔️
-              </span>
-              <span>{successMessage}</span>
-              <Button
-                onClick={() => setSuccessMessage(null)}
-                className="chime-alert-remove"
-                aria-label="Dismiss success message"
-              >
-                ×
-              </Button>
-            </div>
-          )}
-        </div>
+        {/* Display success messages (right-aligned) */}
+        <VideoSuccessToast setSuccessMessage={setSuccessMessage} successMessage={successMessage} />
       </div>
 
+      {/* Filters dropdown section */}
       <VideoFilters showFilters={showFilters} />
-
     </div>
-  )
-}
+  );
+};
 
-export default VideoTitle
+export default VideoTitle;

@@ -61,12 +61,22 @@ export default function VideoCallPage() {
   // Sync remote media stream with <video> element and update call flags
   // ─────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
-    if (remoteVideoRef.current && remoteStream) {
-      remoteVideoRef.current.srcObject = remoteStream;
-      dispatch({ type: "SET_IN_CALL", payload: true });
-      dispatch({ type: "SET_CONNECTING", payload: false });
+    const videoElement = remoteVideoRef.current;
+
+    if (videoElement && remoteStream) {
+      // Attach the remote stream to the video element
+      videoElement.srcObject = remoteStream;
+
+      // Delay marking the call as active to ensure stream is fully loaded
+      const timeoutId = setTimeout(() => {
+        dispatch({ type: "SET_IN_CALL", payload: true });
+        dispatch({ type: "SET_CONNECTING", payload: false });
+      }, 1500);
+
+      // Cleanup timeout if the component unmounts early
+      return () => clearTimeout(timeoutId);
     } else {
-      // No remote stream means no ongoing call
+      // No stream means call has ended or failed
       dispatch({ type: "SET_IN_CALL", payload: false });
     }
   }, [remoteStream]);
@@ -103,29 +113,30 @@ export default function VideoCallPage() {
   // ─────────────────────────────────────────────────────────────────────────────
   // Hook that will silently retry random call when user not found on 4s
   // ─────────────────────────────────────────────────────────────────────────────
-  
-  const silentlyRetry = useCallback(() => {
-    if (!state.isConnecting) return;
-    if (state.retryNumber >= 3) {
-      endCall();
-      dispatch({ type: "RESET_RETRY" });
-      dispatch({ type: "SET_IN_CALL", payload: false });
-      dispatch({ type: "SET_CONNECTING", payload: false });
-    } else {
-      endCall(); // First always end the call then 
-      randomCall(); // Retry for another call
-      dispatch({ type: "INCREMENT_RETRY" });
-    }
-  }, [state.retryNumber, state.isConnecting]);
 
-  useEffect(() => {
-    if (!state.isConnecting || state.retryNumber > 4 || state.retryNumber < 0) return;
-    const retry = setTimeout(silentlyRetry, 10000);
+  // const silentlyRetry = useCallback(() => {
+  //   if (!state.isConnecting) return;
+  //   if (state.retryNumber >= 3) {
+  //     endCall();
+  //     dispatch({ type: "RESET_RETRY" });
+  //     dispatch({ type: "SET_IN_CALL", payload: false });
+  //     dispatch({ type: "SET_CONNECTING", payload: false });
+  //   } else {
+  //     toast.info("running again")
+  //     endCall(); // First always end the call then 
+  //     randomCall(); // Retry for another call
+  //     dispatch({ type: "INCREMENT_RETRY" });
+  //   }
+  // }, [state.retryNumber, state.isConnecting]);
 
-    return () => {
-      clearTimeout(retry);
-    }
-  }, [silentlyRetry]);
+  // useEffect(() => {
+  //   if (!state.isConnecting || state.retryNumber > 4 || state.retryNumber < 0) return;
+  //   const retry = setTimeout(silentlyRetry, 7000);
+
+  //   return () => {
+  //     clearTimeout(retry);
+  //   }
+  // }, [silentlyRetry]);
 
 
 
@@ -135,6 +146,10 @@ export default function VideoCallPage() {
 
   // Initiates or retries random call search
   const handleRandomCall = useCallback(() => {
+    // Before starting the call first cleanup the success and errorMessages
+    setSuccessMessage(null);
+    setErrorMessage(null);
+
     dispatch({ type: "SET_CONNECTING", payload: true });
     randomCall();
   }, [randomCall]);
@@ -159,6 +174,8 @@ export default function VideoCallPage() {
   // Toggle local audio tracks
   const toggleAudio = useCallback(() => {
     if (localStream) {
+      console.log("trun off audio");
+
       localStream
         .getAudioTracks()
         .forEach((t) => (t.enabled = !state.isAudioEnabled));
@@ -257,6 +274,7 @@ export default function VideoCallPage() {
             zoomLevel={state.zoomLevel}
             layout={state.layout}
             onFullscreen={() => toggleFullScreenElem(remoteVideoRef)}
+            connectedTo={successMessage ? successMessage : undefined}
           />
         </div>
         <div

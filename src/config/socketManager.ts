@@ -9,7 +9,7 @@ let videoSocket: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
  */
 export const initChatSocket = () => {
   if (!chatSocket) {
-    chatSocket = io("http://localhost:8000/chat", {
+    chatSocket = io("http://10.15.26.239:8000/chat", {
       autoConnect: false,
       withCredentials: true,
     });

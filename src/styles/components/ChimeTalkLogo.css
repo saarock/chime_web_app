@@ -1,0 +1,537 @@
+/* Advanced ChimeTalk Logo Styles with Sophisticated Animations */
+
+.chime-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Icon Container */
+.chime-logo-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chime-logo-icon-hovered {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(27, 132, 252, 0.4), 0 0 60px rgba(223, 0, 126, 0.2);
+}
+
+/* Canvas for advanced animations */
+.chime-logo-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* Icon Overlay Elements */
+.chime-logo-icon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.chime-logo-icon-center {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(27, 132, 252, 0.9) 0%, rgba(223, 0, 126, 0.9) 100%);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  animation: chime-logo-pulse 3s ease-in-out infinite;
+}
+
+.chime-logo-camera-icon {
+  color: #fff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  animation: chime-logo-camera-pulse 2s ease-in-out infinite;
+}
+
+/* Pulsing rings */
+.chime-logo-icon-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border: 2px solid rgba(27, 132, 252, 0.7);
+  border-radius: 50%;
+  opacity: 0;
+  animation: chime-logo-ring-pulse 3s ease-out infinite;
+}
+
+.chime-logo-icon-pulse-2 {
+  width: 85%;
+  height: 85%;
+  border-color: rgba(223, 0, 126, 0.7);
+  animation-delay: 1.5s;
+}
+
+/* Connection dots around the icon */
+.chime-logo-connection-dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.chime-logo-connection-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(1px);
+  animation: chime-logo-dot-pulse 3s ease-in-out infinite;
+}
+
+/* Random flash effect */
+.chime-logo-random-flash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  animation: chime-logo-random-flash 5s ease-out infinite;
+}
+
+/* Text Container */
+.chime-logo-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chime-logo-text {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: -0.02em;
+}
+
+.chime-logo-sm .chime-logo-text {
+  font-size: 18px;
+}
+
+.chime-logo-md .chime-logo-text {
+  font-size: 24px;
+}
+
+.chime-logo-lg .chime-logo-text {
+  font-size: 32px;
+}
+
+.chime-logo-xl .chime-logo-text {
+  font-size: 40px;
+}
+
+/* Individual letter animations */
+.chime-logo-text-animated .chime-logo-c,
+.chime-logo-text-animated .chime-logo-h,
+.chime-logo-text-animated .chime-logo-i,
+.chime-logo-text-animated .chime-logo-m,
+.chime-logo-text-animated .chime-logo-e {
+  display: inline-block;
+  animation: chime-logo-letter-wave 3s ease-in-out infinite;
+}
+
+.chime-logo-text-animated .chime-logo-h {
+  animation-delay: 0.1s;
+}
+
+.chime-logo-text-animated .chime-logo-i {
+  animation-delay: 0.2s;
+}
+
+.chime-logo-text-animated .chime-logo-m {
+  animation-delay: 0.3s;
+}
+
+.chime-logo-text-animated .chime-logo-e {
+  animation-delay: 0.4s;
+}
+
+.chime-logo-separator {
+  opacity: 0.6;
+  font-weight: 300;
+}
+
+.chime-logo-talk {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #df007e 0%, #ff5bae 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: chime-logo-talk-pulse 3s ease-in-out infinite;
+}
+
+.chime-logo-tagline {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.chime-logo-sm .chime-logo-tagline {
+  font-size: 8px;
+}
+
+.chime-logo-md .chime-logo-tagline {
+  font-size: 10px;
+}
+
+.chime-logo-lg .chime-logo-tagline {
+  font-size: 12px;
+}
+
+.chime-logo-xl .chime-logo-tagline {
+  font-size: 14px;
+}
+
+/* Connection lines between icon and text */
+.chime-logo-connection-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.chime-logo-connection-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(27, 132, 252, 0.7) 0%, rgba(223, 0, 126, 0.7) 100%);
+  opacity: 0;
+  transform-origin: left center;
+  animation: chime-logo-line-appear 3s ease-in-out infinite;
+}
+
+.chime-logo-connection-line-1 {
+  top: 40%;
+  left: 15%;
+  width: 20%;
+  animation-delay: 0s;
+}
+
+.chime-logo-connection-line-2 {
+  top: 60%;
+  left: 15%;
+  width: 15%;
+  animation-delay: 1.5s;
+}
+
+/* Random connection effect */
+.chime-logo-random-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.chime-logo-random-icon {
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  color: #1b84fc;
+  filter: drop-shadow(0 0 10px rgba(27, 132, 252, 0.8));
+  animation: chime-logo-random-icon 0.5s ease-out;
+}
+
+.chime-logo-sparkle-icon {
+  position: absolute;
+  top: 60%;
+  left: 60%;
+  color: #df007e;
+  filter: drop-shadow(0 0 10px rgba(223, 0, 126, 0.8));
+  animation: chime-logo-sparkle-icon 0.7s ease-out 0.2s;
+}
+
+/* 3D Logo Styles */
+.chime-logo-3d-container {
+  perspective: 1000px;
+}
+
+.chime-logo-3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.chime-logo-3d-front,
+.chime-logo-3d-back,
+.chime-logo-3d-top,
+.chime-logo-3d-bottom,
+.chime-logo-3d-left,
+.chime-logo-3d-right {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+
+.chime-logo-3d-front {
+  transform: translateZ(20px);
+}
+
+.chime-logo-3d-back {
+  transform: rotateY(180deg) translateZ(20px);
+  background: linear-gradient(135deg, #1b84fc 0%, #df007e 100%);
+}
+
+.chime-logo-3d-top {
+  transform: rotateX(90deg) translateZ(20px);
+  background: linear-gradient(135deg, #1b84fc 0%, #df007e 100%);
+  opacity: 0.7;
+}
+
+.chime-logo-3d-bottom {
+  transform: rotateX(-90deg) translateZ(20px);
+  background: linear-gradient(135deg, #1b84fc 0%, #df007e 100%);
+  opacity: 0.7;
+}
+
+.chime-logo-3d-left {
+  transform: rotateY(-90deg) translateZ(20px);
+  background: linear-gradient(135deg, #1b84fc 0%, #df007e 100%);
+  opacity: 0.7;
+}
+
+.chime-logo-3d-right {
+  transform: rotateY(90deg) translateZ(20px);
+  background: linear-gradient(135deg, #1b84fc 0%, #df007e 100%);
+  opacity: 0.7;
+}
+
+/* Loader Styles */
+.chime-logo-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.chime-logo-loader-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.chime-logo-loader-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #1b84fc 0%, #df007e 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.chime-logo-loader-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  animation: chime-logo-loader-text-pulse 2s ease-in-out infinite;
+}
+
+/* Keyframe Animations */
+@keyframes chime-logo-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(27, 132, 252, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(223, 0, 126, 0.6);
+  }
+}
+
+@keyframes chime-logo-camera-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+  }
+}
+
+@keyframes chime-logo-ring-pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes chime-logo-dot-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.4;
+  }
+}
+
+@keyframes chime-logo-random-flash {
+  0%,
+  85%,
+  100% {
+    opacity: 0;
+  }
+  86%,
+  89% {
+    opacity: 0.8;
+  }
+  87%,
+  91% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes chime-logo-letter-wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes chime-logo-talk-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes chime-logo-line-appear {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  20%,
+  80% {
+    opacity: 0.7;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes chime-logo-random-icon {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-45deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8) rotate(45deg);
+  }
+}
+
+@keyframes chime-logo-sparkle-icon {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes chime-logo-loader-text-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chime-logo {
+    gap: 12px;
+  }
+
+  .chime-logo-connection-dot {
+    width: 6px;
+    height: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chime-logo {
+    gap: 8px;
+  }
+
+  .chime-logo-connection-dot {
+    width: 4px;
+    height: 4px;
+  }
+}

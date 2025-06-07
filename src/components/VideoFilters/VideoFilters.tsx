@@ -1,13 +1,5 @@
 import React from 'react';
-import { Calendar, Globe, Plus, Users } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { applyFilters } from '../../features';
-import { resetFilters } from '../../features/videoFilter/videoFilter';
-import { UserReduxRootState, UserVideoFilterFromProps } from '../../types';
-import { toast } from 'react-toastify';
 import "../../styles/components/VideoFilters.css";
-import Button from '../Button/Button';
 
 
 // Define the shape of our form data
@@ -17,80 +9,25 @@ interface VideoFiltersProps {
 }
 
 const VideoFilters: React.FC<VideoFiltersProps> = ({ showFilters }) => {
-    const dispatch = useDispatch();
-    const userVideoFilter = useSelector((state: UserReduxRootState) => state.videoFilters);
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-    } = useForm<UserVideoFilterFromProps>({
-        defaultValues: {
-            country: 'any',
-            age: 'any',
-            gender: 'any',
-            isStrict: "false",
-        }
-    });
-
-    const onSubmit = (data: UserVideoFilterFromProps) => {
-        console.log(typeof data.isStrict);
-
-        dispatch(applyFilters({
-            age: data.age, // this is not just the age this is the age range like 20-30;
-            country: data.country,
-            gender: data.gender,
-            isStrict: data.isStrict === "true" ? true : false
-        }));
-        toast.success("filter applied now you can call.");
-    };
-
-    const handleReset = () => {
-        reset();
-        dispatch(resetFilters());
-        toast.success("filter reset.");
-    };
-
-    const genders = ["any", "Male", "Female", "Non-binary", "Bubble-tea"]
-
-
+    // const dispatch = useDispatch();
+    // const userVideoFilter = useSelector((state: UserReduxRootState) => state.videoFilters);
     return (
         <div className={`chime-filter-panel ${showFilters ? 'chime-filter-panel-visible' : ''}`}>
-            <form onSubmit={handleSubmit(onSubmit)} className="chime-filter-content">
-                <div className="chime-filter-group">
-                    <label htmlFor="country" className="chime-filter-label">
-                        <Globe size={16} className="chime-filter-icon" />
-                        Country:   <span className='chime-mode'>{userVideoFilter.country}</span>
-                    </label>
-                    <select id="country" {...register('country')} className="chime-filter-select">
-                        <option value="any">Any Country</option>
-                        <option value="us">United States</option>
-                        <option value="uk">United Kingdom</option>
-                        <option value="ca">Canada</option>
-                        <option value="au">Australia</option>
-                        <option value="de">Germany</option>
-                        <option value="fr">France</option>
-                        <option value="jp">Japan</option>
-                        <option value="br">Brazil</option>
-                        <option value="in">India</option>
-                    </select>
-                </div>
+           <span className='chime-comming-soon'>🚧 <strong>Coming soon</strong></span>
+        </div>
+    );
+};
 
-                <div className="chime-filter-group">
-                    <label htmlFor="ageRange" className="chime-filter-label">
-                        <Calendar size={16} className="chime-filter-icon" />
-                        Age Range: <span className='chime-mode'>{userVideoFilter.age}+</span>
-                    </label>
-                    <select id="ageRange" {...register('age')} className="chime-filter-select">
-                        <option value="any">Any Age</option>
-                        <option value="18">18+</option>
-                        <option value="26">26+</option>
-                        <option value="36">36+</option>
-                        <option value="46">46+</option>
-                        <option value="55">55+</option>
-                    </select>
-                </div>
+export default VideoFilters;
 
+
+
+
+/**
+ * For the future use
+ */
+/**
+ *  <form onSubmit={handleSubmit(onSubmit)} className="chime-filter-content">
                 <div className="chime-filter-group">
                     <label htmlFor="gender" className="chime-filter-label">
                         <Users size={16} className="chime-filter-icon" />
@@ -125,8 +62,4 @@ const VideoFilters: React.FC<VideoFiltersProps> = ({ showFilters }) => {
                     </Button>
                 </div>
             </form>
-        </div>
-    );
-};
-
-export default VideoFilters;
+ */

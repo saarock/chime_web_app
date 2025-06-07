@@ -1,0 +1,647 @@
+/* Advanced Feedback Form Styles */
+
+.chime-feedback-form {
+  background: rgba(33, 33, 55, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(27, 132, 252, 0.3);
+  padding: 32px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: fixed;
+  z-index: 1000;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  overflow: auto;
+}
+
+.chime-feedback-form.light {
+  background: rgba(240, 242, 245, 0.95);
+  border-color: rgba(27, 132, 252, 0.2);
+  color: #191833;
+}
+
+.chime-feedback-form.compact {
+  max-width: 400px;
+  padding: 24px;
+}
+
+.chime-feedback-form:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+/* Form Header */
+.chime-form-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.chime-form-icon {
+  background: linear-gradient(135deg, rgba(27, 132, 252, 0.2) 0%, rgba(223, 0, 126, 0.2) 100%);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: #1b84fc;
+  animation: chime-form-icon-pulse 3s ease-in-out infinite;
+}
+
+.chime-form-header h2 {
+  color: #f0f2f5;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  background: linear-gradient(135deg, #f0f2f5 0%, #dae9f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.chime-feedback-form.light .chime-form-header h2 {
+  color: #191833;
+  background: linear-gradient(135deg, #191833 0%, #51516a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.chime-form-header p {
+  color: rgba(240, 242, 245, 0.7);
+  font-size: 16px;
+  margin: 0;
+}
+
+.chime-feedback-form.light .chime-form-header p {
+  color: rgba(25, 24, 51, 0.7);
+}
+
+/* Form Sections */
+.chime-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.chime-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chime-form-label {
+  color: #dae9f0;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chime-feedback-form.light .chime-form-label {
+  color: #51516a;
+}
+
+.chime-char-count {
+  font-size: 12px;
+  color: rgba(240, 242, 245, 0.5);
+  font-weight: 400;
+}
+
+/* Star Rating */
+.chime-star-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chime-star-rating-label {
+  color: #dae9f0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.chime-feedback-form.light .chime-star-rating-label {
+  color: #51516a;
+}
+
+.chime-stars-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.chime-star {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(240, 242, 245, 0.3);
+  transition: all 0.2s ease;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.chime-star:hover {
+  transform: scale(1.1);
+  color: rgba(27, 132, 252, 0.7);
+}
+
+.chime-star.chime-star-filled {
+  color: #1b84fc;
+  filter: drop-shadow(0 0 8px rgba(27, 132, 252, 0.5));
+  animation: chime-star-fill 0.3s ease;
+}
+
+.chime-rating-text {
+  color: rgba(240, 242, 245, 0.7);
+  font-size: 14px;
+  font-weight: 500;
+  min-height: 20px;
+}
+
+.chime-feedback-form.light .chime-rating-text {
+  color: rgba(25, 24, 51, 0.7);
+}
+
+/* Category Grid */
+.chime-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.chime-category-button {
+  background: rgba(25, 24, 51, 0.5);
+  border: 1px solid rgba(27, 132, 252, 0.2);
+  border-radius: 12px;
+  padding: 16px 12px;
+  color: rgba(240, 242, 245, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chime-category-button:hover {
+  background: rgba(25, 24, 51, 0.8);
+  border-color: rgba(27, 132, 252, 0.4);
+  transform: translateY(-2px);
+}
+
+.chime-category-button.selected {
+  background: linear-gradient(135deg, rgba(27, 132, 252, 0.2) 0%, rgba(223, 0, 126, 0.2) 100%);
+  border-color: #1b84fc;
+  color: #f0f2f5;
+  box-shadow: 0 0 20px rgba(27, 132, 252, 0.3);
+}
+
+/* Detailed Ratings */
+.chime-detailed-ratings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background: rgba(25, 24, 51, 0.3);
+  border-radius: 16px;
+  border: 1px solid rgba(27, 132, 252, 0.1);
+}
+
+/* Features Grid */
+.chime-features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chime-feature-tag {
+  background: rgba(25, 24, 51, 0.5);
+  border: 1px solid rgba(27, 132, 252, 0.2);
+  border-radius: 20px;
+  padding: 8px 16px;
+  color: rgba(240, 242, 245, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chime-feature-tag:hover {
+  background: rgba(25, 24, 51, 0.8);
+  border-color: rgba(27, 132, 252, 0.4);
+}
+
+.chime-feature-tag.selected {
+  background: linear-gradient(135deg, #1b84fc 0%, #df007e 100%);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(27, 132, 252, 0.4);
+}
+
+/* Form Inputs */
+.chime-textarea,
+.chime-input {
+  background: rgba(25, 24, 51, 0.7);
+  border: 1px solid rgba(27, 132, 252, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  color: #f0f2f5;
+  font-size: 16px;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.chime-textarea:focus,
+.chime-input:focus {
+  outline: none;
+  border-color: #1b84fc;
+  box-shadow: 0 0 20px rgba(27, 132, 252, 0.2);
+  background: rgba(25, 24, 51, 0.9);
+}
+
+.chime-textarea::placeholder,
+.chime-input::placeholder {
+  color: rgba(240, 242, 245, 0.4);
+}
+
+.chime-feedback-form.light .chime-textarea,
+.chime-feedback-form.light .chime-input {
+  background: rgba(255, 255, 255, 0.8);
+  color: #191833;
+  border-color: rgba(27, 132, 252, 0.2);
+}
+
+.chime-feedback-form.light .chime-textarea::placeholder,
+.chime-feedback-form.light .chime-input::placeholder {
+  color: rgba(25, 24, 51, 0.4);
+}
+
+/* Recommendation */
+.chime-recommendation-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.chime-recommend-button {
+  flex: 1;
+  background: rgba(25, 24, 51, 0.5);
+  border: 1px solid rgba(27, 132, 252, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  color: rgba(240, 242, 245, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chime-recommend-button:hover {
+  background: rgba(25, 24, 51, 0.8);
+  border-color: rgba(27, 132, 252, 0.4);
+}
+
+.chime-recommend-button.selected.yes {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+.chime-recommend-button.selected.no {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* Submit Button */
+.chime-form-actions {
+  margin-top: 8px;
+}
+
+.chime-submit-button {
+  width: 100%;
+  background: linear-gradient(135deg, #1b84fc 0%, #df007e 100%);
+  border: none;
+  border-radius: 16px;
+  padding: 18px 24px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 8px 25px rgba(27, 132, 252, 0.3);
+}
+
+.chime-submit-button:hover:not(.disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(27, 132, 252, 0.4);
+}
+
+.chime-submit-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.chime-submit-button.submitting {
+  background: linear-gradient(135deg, rgba(27, 132, 252, 0.7) 0%, rgba(223, 0, 126, 0.7) 100%);
+}
+
+/* Spinner */
+.chime-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: chime-spin 1s linear infinite;
+}
+
+/* Error Messages */
+.chime-error {
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Success State */
+.chime-feedback-success {
+  overflow: hidden;
+}
+
+.chime-success-animation {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.chime-success-icon {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  animation: chime-success-pulse 2s ease-in-out infinite;
+}
+
+.chime-heart-icon {
+  color: #22c55e;
+  animation: chime-heart-beat 1.5s ease-in-out infinite;
+}
+
+.chime-success-animation h3 {
+  color: #f0f2f5;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.chime-success-animation p {
+  color: rgba(240, 242, 245, 0.7);
+  font-size: 16px;
+  margin: 0;
+}
+
+.chime-success-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.chime-success-particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: chime-particle-float 3s ease-out infinite;
+}
+
+.chime-success-particle:nth-child(odd) {
+  background: #1b84fc;
+}
+
+.chime-success-particle:nth-child(1) {
+  top: 20%;
+  left: 10%;
+}
+.chime-success-particle:nth-child(2) {
+  top: 30%;
+  left: 80%;
+}
+.chime-success-particle:nth-child(3) {
+  top: 60%;
+  left: 15%;
+}
+.chime-success-particle:nth-child(4) {
+  top: 70%;
+  left: 85%;
+}
+.chime-success-particle:nth-child(5) {
+  top: 40%;
+  left: 90%;
+}
+.chime-success-particle:nth-child(6) {
+  top: 80%;
+  left: 20%;
+}
+.chime-success-particle:nth-child(7) {
+  top: 25%;
+  left: 70%;
+}
+.chime-success-particle:nth-child(8) {
+  top: 55%;
+  left: 75%;
+}
+
+/* Quick Rating Component */
+.chime-quick-rating {
+  background: rgba(33, 33, 55, 0.9);
+  border: 1px solid rgba(27, 132, 252, 0.3);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.chime-quick-rating.submitted {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+  border-color: #22c55e;
+  color: #22c55e;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.chime-quick-rating-label {
+  color: #dae9f0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.chime-quick-stars {
+  display: flex;
+  gap: 8px;
+}
+
+.chime-quick-star {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(240, 242, 245, 0.3);
+  transition: all 0.2s ease;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.chime-quick-star:hover,
+.chime-quick-star.filled {
+  color: #1b84fc;
+  transform: scale(1.1);
+}
+
+.chime-thank-you-icon {
+  animation: chime-heart-beat 1s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes chime-form-icon-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(27, 132, 252, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(223, 0, 126, 0.4);
+  }
+}
+
+@keyframes chime-star-fill {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes chime-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes chime-success-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+  }
+}
+
+@keyframes chime-heart-beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes chime-particle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-20px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100px) scale(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chime-feedback-form {
+    padding: 24px 20px;
+    margin: 0 16px;
+  }
+
+  .chime-category-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .chime-detailed-ratings {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .chime-recommendation-buttons {
+    flex-direction: column;
+  }
+
+  .chime-form-header h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chime-feedback-form {
+    padding: 20px 16px;
+  }
+
+  .chime-category-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .chime-stars-container {
+    justify-content: center;
+  }
+
+  .chime-features-grid {
+    justify-content: center;
+  }
+}
