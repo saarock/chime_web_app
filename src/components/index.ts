@@ -33,6 +33,9 @@ import VideoTitle from "./VideoTitle/VideoTitle";
 import StreamWarnComponent from "./StreamWarnComponent/StreamWarnComponent";
 import VideoFilters from "./VideoFilters/VideoFilters";
 import ChimeUserInfoModal from "./ChimeUserInfoModal/ChimeUserInfoModal";
+import NepalFlagVersion from "./NepalFlagVersion/NepalFlagVersion";
+import { ChimeTalkLogo3D, ChimeTalkLogo, ChimeTalkLogoLoader } from "./ChimeTalkLogo/ChimiTalkLogo";
+
 
 // Export all the dependencies here
 export {
@@ -69,4 +72,8 @@ export {
   StreamWarnComponent,
   VideoFilters,
   ChimeUserInfoModal,
+  NepalFlagVersion,
+  ChimeTalkLogo3D,
+  ChimeTalkLogo,
+  ChimeTalkLogoLoader,
 };

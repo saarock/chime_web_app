@@ -1,7 +1,8 @@
 // Import all necessary dependencies from react-redux-toolkit and features folder to maintain the code
 import { configureStore } from "@reduxjs/toolkit";
 import { userReducer } from "./index";
-import { videoFilterReducer } from "../features";
+import { videoFilterReducer } from "../features/index.js";
+
 
 // Create the store to store all the states
 const store = configureStore({
@@ -10,6 +11,7 @@ const store = configureStore({
     auth: userReducer,
     videoFilters: videoFilterReducer
   },
+
 });
 
 // export the store to provide the provider main.tsx file

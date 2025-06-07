@@ -52,7 +52,7 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
         onClick={endRandomCall}
         className="chime-control-button chime-end-call"
         aria-label="End call"
-        disabled={!(isRemoteStream || isConnecting)}
+        disabled={!(isRemoteStream && !isConnecting)} // If remoteStream found and isConnecting is false then only enable the end-call buttin otherwise disable. Donot allow to user random cut
         style={{
           cursor: isRemoteStream || isConnecting ? "pointer" : "not-allowed",
         }}

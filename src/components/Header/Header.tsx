@@ -9,7 +9,6 @@ import React, {
   useReducer,
 } from "react";
 import { useAuth } from "../../hooks";
-import logo from "../../assets/images/logo.png";
 import { localStorageUtil } from "../../utils";
 import { LOCAL_STORAGE_USER_DATA_KEY } from "../../constant";
 import {
@@ -22,6 +21,8 @@ import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import { tabInitialState, tabReducer } from "../../reducers";
 import "../../styles/components/Header.css";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
+import NepalFlagVersion from "../NepalFlagVersion/NepalFlagVersion";
+import { ChimeTalkLogo} from "../ChimeTalkLogo/ChimiTalkLogo";
 
 // Laxy imports goes here
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
@@ -143,17 +144,14 @@ const Header: React.ComponentType = (): JSX.Element => {
         <NavLink to="/">
           <ul className="chime-header-navbar-logos">
             <li className="chime-header-navbar-logo">
-              <img
-                src={logo}
-                alt="logo"
-                className="chime-header-navbar-logo-image"
-              />
+              <ChimeTalkLogo size="md"/>
             </li>
-            <li className="chime-header-navbar-logo-text">Chime</li>
           </ul>
         </NavLink>
 
-
+        <ul>
+          <NepalFlagVersion version="1.0.0 beta" size="sm" showSideVersion={true}/>
+        </ul>
 
         {/* Chime navs */}
         <ul className="chime-header-navbar-navs">

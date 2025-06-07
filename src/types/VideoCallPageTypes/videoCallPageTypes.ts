@@ -42,3 +42,31 @@ export type CallAction =
   | { type: "REMOTE_VIDEO", payload: boolean }
   | { type: "INCREMENT_RETRY" }
   | { type: "RESET_RETRY"};
+
+
+
+
+export interface VideoCallState {
+  // Media & Signaling
+  isVideoSocketConnected: boolean;
+  isPartnerCallEnded: boolean;
+  errorMessage: string | null;
+  successMessage: string | null;
+  onlineUsersCount: number;
+  partnerId: string | null;
+
+  // UI & Call Controls
+  isVideoEnabled: boolean;
+  isAudioEnabled: boolean;
+  isInCall: boolean;
+  isConnecting: boolean;
+  isMaximized: boolean;
+  zoomLevel: number;
+  layout: Layout
+  isFullScreen: boolean;
+  isRemoteAudioEnable: boolean;
+  isRemoteVideoEnable: boolean;
+  retryNumber: number;
+}
+
+
