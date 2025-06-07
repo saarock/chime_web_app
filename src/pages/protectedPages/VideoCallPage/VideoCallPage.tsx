@@ -13,7 +13,7 @@ import "../../../styles/pages/VideoCallPage.css";
 import { useAuth, useWebRTC } from "../../../hooks";
 import { CallReducer } from "../../../reducers";
 import { videoInitialState } from "../../../types";
-import { toast } from "react-toastify";
+
 
 /**
  * VideoCallPage
@@ -32,10 +32,9 @@ export default function VideoCallPage() {
     isPartnerCallEnded,
     errorMessage,
     successMessage,
-    setErrorMessage,
-    setSuccessMessage,
     onlineUsersCount,
     isVideoSocketConnected,
+    webTRCDispatch,
   } = useWebRTC();
 
   // Check the user is login or not from the userAuth hook
@@ -111,44 +110,14 @@ export default function VideoCallPage() {
 
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // Hook that will silently retry random call when user not found on 4s
-  // ─────────────────────────────────────────────────────────────────────────────
-
-  // const silentlyRetry = useCallback(() => {
-  //   if (!state.isConnecting) return;
-  //   if (state.retryNumber >= 3) {
-  //     endCall();
-  //     dispatch({ type: "RESET_RETRY" });
-  //     dispatch({ type: "SET_IN_CALL", payload: false });
-  //     dispatch({ type: "SET_CONNECTING", payload: false });
-  //   } else {
-  //     toast.info("running again")
-  //     endCall(); // First always end the call then 
-  //     randomCall(); // Retry for another call
-  //     dispatch({ type: "INCREMENT_RETRY" });
-  //   }
-  // }, [state.retryNumber, state.isConnecting]);
-
-  // useEffect(() => {
-  //   if (!state.isConnecting || state.retryNumber > 4 || state.retryNumber < 0) return;
-  //   const retry = setTimeout(silentlyRetry, 7000);
-
-  //   return () => {
-  //     clearTimeout(retry);
-  //   }
-  // }, [silentlyRetry]);
-
-
-
-  // ─────────────────────────────────────────────────────────────────────────────
   // Call control callbacks
   // ─────────────────────────────────────────────────────────────────────────────
 
   // Initiates or retries random call search
   const handleRandomCall = useCallback(() => {
     // Before starting the call first cleanup the success and errorMessages
-    setSuccessMessage(null);
-    setErrorMessage(null);
+
+    webTRCDispatch({ type: "RESET_ERROR_AND_SUCCESS_MESSAGE" });
 
     dispatch({ type: "SET_CONNECTING", payload: true });
     randomCall();
@@ -221,6 +190,23 @@ export default function VideoCallPage() {
     [],
   );
 
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Reset: reset function for error and success message
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  const reSetErrorMessage = useCallback(() => {
+    webTRCDispatch({ type: "SET_ERROR_MESSAGE", payload: null });
+  }, []);
+
+
+
+  const reSetSuccessMessage = useCallback(() => {
+    webTRCDispatch({ type: "SET_SUCCESS_MESSAGE", payload: null });
+
+  }, []);
+
+
   // ─────────────────────────────────────────────────────────────────────────────
   // Render: show placeholder while checking the user-tokens
   // ─────────────────────────────────────────────────────────────────────────────
@@ -243,8 +229,8 @@ export default function VideoCallPage() {
         <VideoTitle
           errorMessage={errorMessage}
           successMessage={successMessage}
-          setErrorMessage={setErrorMessage}
-          setSuccessMessage={setSuccessMessage}
+          setErrorMessage={reSetErrorMessage}
+          setSuccessMessage={reSetSuccessMessage}
           onlineUsersCount={onlineUsersCount}
         />
         <div className={`chime-video-grid layout-${state.layout}`}>
