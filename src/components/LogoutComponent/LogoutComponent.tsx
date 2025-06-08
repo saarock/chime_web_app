@@ -3,8 +3,7 @@ import React, { JSX, useCallback, useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useAuth } from "../../hooks";
-import { toast } from "react-toastify";
-import { logoutUserFromServer } from "../../features/auth/userSlice";
+import { logoutUserFromServer, setError } from "../../features/auth/userSlice";
 import { AppDispatch } from "../../apps/store";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
@@ -24,7 +23,7 @@ const LogoutComponent: React.ComponentType = (): JSX.Element => {
    */
   const logoutUser = useCallback(async () => {
     if (!user?._id) {
-      toast.error("Pleased reload the app and try again");
+      dispatch(setError("Pleased reload the app or try again.."))
       return;
     }
 
@@ -34,11 +33,11 @@ const LogoutComponent: React.ComponentType = (): JSX.Element => {
       await dispatch(logoutUserFromServer(user._id)).unwrap();
     } catch (error) {
       console.error(error);
-      toast.error(
+      dispatch(setError(
         error instanceof Error
           ? error.message
-          : "Something wrong while loggout pleased refresh your page and try again",
-      );
+          : "Something wrong while logout pleased refresh your page and try again",
+      ));
     } finally {
       setLoading(false);
     }

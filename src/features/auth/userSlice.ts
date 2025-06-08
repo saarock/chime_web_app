@@ -1,18 +1,21 @@
 // Import all the necessary dependencies from Redux Toolkit and types
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   AuthResponseData,
+  ErrorState,
   UserAuthState,
   UserImpDetails,
   UserLoginWithGoogleDetials,
 } from "../../types";
 import { AuthService, userService } from "../../services";
-import { AuthUtil, cookieUtil, localStorageUtil } from "../../utils";
+import { ApiError, AuthUtil, cookieUtil, localStorageUtil } from "../../utils";
 import {
   ACCESS_TOKEN_KEY_NAME,
   LOCAL_STORAGE_USER_DATA_KEY,
   REFRESH_TOKEN_KEY_NAME,
 } from "../../constant";
+import { error } from "console";
+
 
 // Create an asyncThunk for handling user login asynchronously
 export const serverLoginWithGoogle = createAsyncThunk(
@@ -32,9 +35,13 @@ export const serverLoginWithGoogle = createAsyncThunk(
       // RETURN THE USERDATA;
       return userData.data.userData;
     } catch (error) {
-      console.log(error);
+      if (error instanceof ApiError) {
 
-      return thunkAPI.rejectWithValue(error);
+        // Pass structured error info to the rejected action
+        return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });
+      }
+      // fallback generic error
+      return thunkAPI.rejectWithValue({ message: "Unknown error occurred" });
     }
   },
 );
@@ -47,32 +54,70 @@ export const logoutUserFromServer = createAsyncThunk(
       await AuthService.logoutUser(userId);
       AuthUtil.clientSideLogout();
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      if (error instanceof ApiError) {
+
+        // Pass structured error info to the rejected action
+        return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });
+      }
+      // fallback generic error
+      return thunkAPI.rejectWithValue({ message: "Unknown error occurred" });
     }
   },
 );
 
 
+// Verify user is valid or not 
+
+export const verifyUserFromTheServer = createAsyncThunk(
+  "verify-user",
+  async (_, thunkAPI) => {
+    try {
+      const axiosResponseData =
+        await AuthService.verifyTokenOnEveryPageAndGetUserData();
+
+      if (!axiosResponseData.data.userData) {
+        throw new ApiError("Failed to verified the user.");
+      }
+
+      // set the data in the localstorage
+      localStorageUtil.setItems(
+        LOCAL_STORAGE_USER_DATA_KEY,
+        axiosResponseData.data.userData,
+      );
+      return axiosResponseData.data.userData;
+
+    } catch (error) {
+      if (error instanceof ApiError) {
+        // Pass structured error info to the rejected action
+        return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });
+      }
+      // fallback generic error
+      return thunkAPI.rejectWithValue({ message: "Unknown error occurred" });
+    }
+  }
+)
+
+
 
 
 // Add the details country, age gender etc
-export const addImportantDetails = createAsyncThunk<
-  UserImpDetails,                // ✅ Return type
-  UserImpDetails,                // ✅ Argument type
-  { rejectValue: string }        // ✅ Rejection payload type
->(
+export const addImportantDetails = createAsyncThunk(
   "user/addImportantDetails",
-  async (userImpDetails, thunkAPI) => {
+  async (userImpDetails: UserImpDetails, thunkAPI) => {
     try {
       const userImportantData = await userService.addUserImportantData(userImpDetails);
       if (!userImportantData) {
         return thunkAPI.rejectWithValue("Failed to add user important details");
       }
       return userImportantData.data;
-    } catch (error: any) {
-      const message =
-        error?.response?.data?.message || error?.message || "Unknown error";
-      return thunkAPI.rejectWithValue(message);
+    } catch (error) {
+      if (error instanceof ApiError) {
+
+        // Pass structured error info to the rejected action
+        return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });
+      }
+      // fallback generic error
+      return thunkAPI.rejectWithValue({ message: "Unknown error occurred" });
     }
   }
 );
@@ -81,6 +126,7 @@ export const addImportantDetails = createAsyncThunk<
 const initialState: UserAuthState = {
   user: null, // No user is authenticated initially
   isAuthenticated: false, // Authentication status is false initially
+  error: null
 };
 
 // Create a Redux slice to handle user authentication actions and state updates
@@ -96,6 +142,12 @@ const userSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
     },
+    setError: (state, action) => {
+      state.error = action.payload as ErrorState;
+    },
+    clearError: (state) => {
+      state.error = null;
+    }
   },
 
   // extraReducers are used to handle async actions, such as login
@@ -106,16 +158,27 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload;
       })
-      .addCase(serverLoginWithGoogle.rejected, (state, _) => {
+      .addCase(serverLoginWithGoogle.rejected, (state, action) => {
         state.isAuthenticated = false;
         state.user = null;
         state.isAuthenticated = false;
+        if (action.payload) {
+          state.error = action.payload as ErrorState;
+        } else {
+          state.error = { message: action.error.message || "Unknown error" };
+        }
       });
 
     builder.addCase(logoutUserFromServer.fulfilled, (state, _) => {
       state.isAuthenticated = false;
       state.user = null;
-    });
+    }).addCase(logoutUserFromServer.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload as ErrorState;
+      } else {
+        state.error = { message: action.error.message || "Unknown error" };
+      }
+    })
 
     builder.addCase(addImportantDetails.fulfilled, (state, action) => {
       if (state.user) {
@@ -125,14 +188,27 @@ const userSlice = createSlice({
       }
     });
 
-    builder.addCase(addImportantDetails.rejected, (_, action) => {
-      console.log(action.error);
+    builder.addCase(addImportantDetails.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload as ErrorState;
+      } else {
+        state.error = { message: action.error.message || "Unknown error" };
+      }
     });
 
-
+    builder.addCase(verifyUserFromTheServer.fulfilled, (_, action) => {
+      userSlice.actions.login(action.payload);
+    });
+    builder.addCase(verifyUserFromTheServer.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload as ErrorState;
+      } else {
+        state.error = { message: action.error.message || "Unknown error" };
+      }
+    })
   },
 });
 
 // Export the reducer and actions
-export const { login, logout } = userSlice.actions;
+export const { login, logout, setError, clearError } = userSlice.actions;
 export default userSlice.reducer;

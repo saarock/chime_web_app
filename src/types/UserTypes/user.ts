@@ -21,10 +21,20 @@ export interface UserLoginWithGoogleDetials {
   credential: string;
 }
 
+// Error state
+
+export interface ErrorState {
+  message: string;
+  code?: number;       // optional error code, if available
+  details?: any;       // optional extra info, e.g. validation errors
+}
+
+
 // User interface for redux-auth-state
 export interface UserAuthState {
   user: User | null;
   isAuthenticated: boolean;
+  error: ErrorState | null;
 }
 
 // User response interface

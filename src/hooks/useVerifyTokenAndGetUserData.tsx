@@ -1,15 +1,16 @@
 // Import all the necessary dependencies here
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { AuthService } from "../services";
-import { AuthUtil, cookieUtil, localStorageUtil } from "../utils";
+import { ApiError, AuthUtil, cookieUtil } from "../utils";
 import {
   ACCESS_TOKEN_KEY_NAME,
-  LOCAL_STORAGE_USER_DATA_KEY,
   REFRESH_TOKEN_KEY_NAME,
 } from "../constant";
 import { useDispatch } from "react-redux";
-import { login } from "../apps";
+import { setError, verifyUserFromTheServer } from "../features/auth/userSlice";
+import { AppDispatch } from "../apps/store";
+import { ErrorState } from "../types";
+import useErrorHandlerAtPageAndComponentLevel from "./useErrorHandlerAtPageAndComponentLevel";
 
 /**
  * Custom React hook to verify the user's token on every protected page load
@@ -25,9 +26,8 @@ import { login } from "../apps";
 const useVerifyTokenAndGetUserData = () => {
   const location = useLocation();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
 
   /**
    * Verifies the token and fetches user data when a protected page is loaded.
@@ -48,13 +48,11 @@ const useVerifyTokenAndGetUserData = () => {
       }
 
       // Verify user data and get the user data from the backend
-      const axiosResponseData =
-        await AuthService.verifyTokenOnEveryPageAndGetUserData();
-      dispatch(login(axiosResponseData.data.userData));
-      localStorageUtil.setItems(
-        LOCAL_STORAGE_USER_DATA_KEY,
-        axiosResponseData.data.userData,
-      );
+      try {
+        await dispatch(verifyUserFromTheServer()).unwrap();
+      } catch (error) {
+        setErrorMessageFallBack(error);
+      }
     }, [location.pathname]);
 
   /**
@@ -63,23 +61,27 @@ const useVerifyTokenAndGetUserData = () => {
   useEffect(() => {
     (async () => {
       // reset the values of the state and make the loading state true.
-      setIsError(false);
-      setErrorMessage(null);
       setIsLoading(true);
       try {
         await runOnEveryProtectedPageIfTheLocationChange();
       } catch (error) {
-        setIsError(true);
-        setErrorMessage(
-          error instanceof Error ? error.message : "Cannot verify the user",
-        );
+        if (error instanceof ApiError) {
+          const errorMessage: ErrorState = {
+            message: error.message,
+            code: error.statusCode,
+            details: error.details,
+          }
+          dispatch(setError(errorMessage))
+        } else {
+          setErrorMessageFallBack(error);
+        }
       } finally {
         setIsLoading(false);
       }
     })();
   }, [location.pathname]);
 
-  return { isLoading, errorMessage, isError };
+  return { isLoading, };
 };
 
 export default useVerifyTokenAndGetUserData;

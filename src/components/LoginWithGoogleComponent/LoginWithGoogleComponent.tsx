@@ -7,6 +7,7 @@ import "../../styles/components/LoginWithGoogle.css";
 import React, { JSX, useState } from "react";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import { toast } from "react-toastify";
+import { ApiError } from "../../utils";
 
 /**
  *
@@ -30,9 +31,6 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       return;
     }
     try {
-
-
-
       // after checking the credentials loginFromTheGoogle
       await dispatch(
         serverLoginWithGoogle({
@@ -44,7 +42,10 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       // if user login successfully navigate to the chats
       window.location.replace("/video-calls"); // dont show the prev history before login and after login to the user
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Login failed");
+      alert(error)
+      console.log(error);
+      
+      toast.error(error instanceof ApiError ? error.message : "Login failed");
       console.error(
         "Dispatch error",
         error instanceof Error ? error.message : error,
