@@ -35,7 +35,72 @@ export default function NepalFlagVersion({
   return (
     <div className={`relative flex items-center gap-4 ${className}`}>
       {/* Flag Container with colorful shadow */}
+      <div className={`relative ${sizeClasses[size]} drop-shadow-2xl`}>
+        <div className="relative h-full w-full">
+          {/* Upper Triangle with gradient */}
+          <div className="relative w-full h-1/2">
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-red-500 via-red-600 to-red-700 shadow-lg shadow-red-500/50"
+              style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+            >
+              {/* Colorful Blue Border with glow */}
+              <div
+                className="absolute inset-0 border-2 border-blue-600 shadow-lg shadow-blue-500/30"
+                style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+              />
 
+              {/* Glowing Moon Symbol */}
+              <div className="absolute top-1/3 left-1/4 w-4 h-4 bg-gradient-to-br from-white to-gray-100 rounded-full shadow-lg shadow-white/50">
+                <div className="absolute top-0.5 left-1 w-3 h-3 bg-gradient-to-br from-red-500 to-red-700 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Lower Triangle with gradient */}
+          <div className="relative w-full h-1/2">
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-red-500 via-red-600 to-red-700 shadow-lg shadow-red-500/50"
+              style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+            >
+              {/* Colorful Blue Border with glow */}
+              <div
+                className="absolute inset-0 border-2 border-blue-600 shadow-lg shadow-blue-500/30"
+                style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+              />
+
+              {/* Glowing Sun Symbol with Version */}
+              <div className="absolute top-1/3 left-1/4 w-6 h-6 bg-gradient-to-br from-yellow-200 via-white to-yellow-100 rounded-full flex items-center justify-center shadow-lg shadow-yellow-300/50">
+                {/* Colorful sun rays */}
+                <div className="absolute inset-0">
+                  {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, index) => (
+                    <div
+                      key={angle}
+                      className={`absolute w-0.5 h-2 top-0 left-1/2 origin-bottom ${index % 2 === 0
+                        ? "bg-gradient-to-t from-yellow-400 to-yellow-200"
+                        : "bg-gradient-to-t from-orange-400 to-yellow-300"
+                        }`}
+                      style={{
+                        transform: `translateX(-50%) rotate(${angle}deg)`,
+                        transformOrigin: "50% 100%",
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* Center circle with colorful version */}
+                <div className="relative z-10 w-4 h-4 bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-full flex items-center justify-center shadow-inner">
+                  <span className={`${textSizes[size]} font-bold text-white leading-none drop-shadow-sm`}>
+                    {version}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Colorful flag pole with gradient */}
+        <div className="absolute top-0 -left-1 w-0.5 h-full bg-gradient-to-b from-gray-400 via-gray-600 to-gray-800 shadow-sm"></div>
+      </div>
 
       {/* Colorful Side Version Display with Rainbow Blinking */}
       {showSideVersion && (
@@ -84,69 +149,3 @@ export default function NepalFlagVersion({
 
 
 
-// <div className={`relative ${sizeClasses[size]} drop-shadow-2xl`}>
-//   <div className="relative h-full w-full">
-//     {/* Upper Triangle with gradient */}
-//     <div className="relative w-full h-1/2">
-//       <div
-//         className="absolute inset-0 bg-gradient-to-br from-red-500 via-red-600 to-red-700 shadow-lg shadow-red-500/50"
-//         style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
-//       >
-//         {/* Colorful Blue Border with glow */}
-//         <div
-//           className="absolute inset-0 border-2 border-blue-600 shadow-lg shadow-blue-500/30"
-//           style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
-//         />
-
-//         {/* Glowing Moon Symbol */}
-//         <div className="absolute top-1/3 left-1/4 w-4 h-4 bg-gradient-to-br from-white to-gray-100 rounded-full shadow-lg shadow-white/50">
-//           <div className="absolute top-0.5 left-1 w-3 h-3 bg-gradient-to-br from-red-500 to-red-700 rounded-full"></div>
-//         </div>
-//       </div>
-//     </div>
-
-//     {/* Lower Triangle with gradient */}
-//     <div className="relative w-full h-1/2">
-//       <div
-//         className="absolute inset-0 bg-gradient-to-br from-red-500 via-red-600 to-red-700 shadow-lg shadow-red-500/50"
-//         style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
-//       >
-//         {/* Colorful Blue Border with glow */}
-//         <div
-//           className="absolute inset-0 border-2 border-blue-600 shadow-lg shadow-blue-500/30"
-//           style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
-//         />
-
-//         {/* Glowing Sun Symbol with Version */}
-//         <div className="absolute top-1/3 left-1/4 w-6 h-6 bg-gradient-to-br from-yellow-200 via-white to-yellow-100 rounded-full flex items-center justify-center shadow-lg shadow-yellow-300/50">
-//           {/* Colorful sun rays */}
-//           <div className="absolute inset-0">
-//             {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, index) => (
-//               <div
-//                 key={angle}
-//                 className={`absolute w-0.5 h-2 top-0 left-1/2 origin-bottom ${index % 2 === 0
-//                     ? "bg-gradient-to-t from-yellow-400 to-yellow-200"
-//                     : "bg-gradient-to-t from-orange-400 to-yellow-300"
-//                   }`}
-//                 style={{
-//                   transform: `translateX(-50%) rotate(${angle}deg)`,
-//                   transformOrigin: "50% 100%",
-//                 }}
-//               />
-//             ))}
-//           </div>
-
-//           {/* Center circle with colorful version */}
-//           <div className="relative z-10 w-4 h-4 bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-full flex items-center justify-center shadow-inner">
-//             <span className={`${textSizes[size]} font-bold text-white leading-none drop-shadow-sm`}>
-//               {version}
-//             </span>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-
-//   {/* Colorful flag pole with gradient */}
-//   <div className="absolute top-0 -left-1 w-0.5 h-full bg-gradient-to-b from-gray-400 via-gray-600 to-gray-800 shadow-sm"></div>
-// </div>

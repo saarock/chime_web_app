@@ -34,7 +34,8 @@ export interface ButtonProps {
   disabled?: boolean;
   children?: ReactNode; // specially for icons
   className?: string;
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
+  title?: string;
 }
 
 // input props

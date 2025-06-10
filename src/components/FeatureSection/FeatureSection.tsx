@@ -2,11 +2,8 @@
 import type React from "react";
 import {
   FaRandom,
-  FaUsers,
-  FaUserCircle,
   FaVideo,
   FaShieldAlt,
-  FaGlobe,
 } from "react-icons/fa";
 import { JSX } from "react";
 import { FeatureCardProps } from "../../types";
@@ -14,11 +11,11 @@ import "../../styles/components/FeatureSection.css";
 import ChimiSectionsHowHeader from "../ChimeSectionsHowHeader/ChimiSectionsHowHeader";
 
 /**
- * Chime featureCard component that can be use to show new feature for users
- * @param {React.ReactNode} param0.icon - Icon
- * @param {string} param0.iconType - define icon type [ primary | secondary ]
- * @param {string} param0.title - define the title of the feature card
- * @param {string} param0.description - define the description for the feature card
+ * Chime featureCard component that can be used to showcase new features for users
+ * @param {React.ReactNode} param0.icon - Icon for the feature
+ * @param {string} param0.iconType - Defines icon type [primary | secondary]
+ * @param {string} param0.title - Title of the feature card
+ * @param {string} param0.description - Description for the feature card
  * @returns {JSX.Element}
  */
 const FeatureCard: React.ComponentType<FeatureCardProps> = ({
@@ -47,9 +44,8 @@ const FeatureSection: React.ComponentType = (): JSX.Element => {
     <section className="chime-feature-section" id="features">
       <div className="chime-feature-container">
         <ChimiSectionsHowHeader
-          title={"Discover Our Features"}
-          description="Our platform offers everything you need to connect with new people and have meaningful conversations.
-            Explore entertainment options and make new friends worldwide"
+          title={"Explore the Features That Make Chime Unique!"}
+          description="Discover everything Chime offers, from random video chats to global connections and entertainment. Your next adventure starts here!"
         />
 
         <div className="chime-feature-grid">
@@ -57,37 +53,20 @@ const FeatureSection: React.ComponentType = (): JSX.Element => {
             icon={<FaRandom />}
             iconType="primary"
             title="Random Video Chats"
-            description="Connect with random people worldwide through our video chat system. Skip to the next person with a single click."
+            description="Meet new people through spontaneous, random video calls. If you’re not feeling the vibe, just skip to the next one!"
           />
-          <FeatureCard
-            icon={<FaUsers />}
-            iconType="secondary"
-            title="Group Entertainment"
-            description="Join topic-based entertainment groups with up to 20 participants. Play games, watch videos, and share experiences together."
-          />
-          <FeatureCard
-            icon={<FaUserCircle />}
-            iconType="primary"
-            title="User Profiles"
-            description="Create your personalized profile to showcase your interests and connect with like-minded people who share your entertainment preferences."
-          />
+
           <FeatureCard
             icon={<FaVideo />}
             iconType="secondary"
-            title="HD Video Quality"
-            description="Enjoy crystal clear video with adaptive quality to ensure smooth calls even with unstable connections for the best entertainment experience."
+            title="High-Definition Video"
+            description="Enjoy HD video quality that adapts to your connection speed, providing smooth calls no matter where you are."
           />
           <FeatureCard
             icon={<FaShieldAlt />}
             iconType="primary"
-            title="Safety Features"
-            description="Report inappropriate behavior instantly. Our moderation team works 24/7 to keep the platform safe for all users."
-          />
-          <FeatureCard
-            icon={<FaGlobe />}
-            iconType="secondary"
-            title="Global Community"
-            description="Connect with people from over 190 countries and enjoy entertainment with diverse cultural perspectives and experiences."
+            title="Safety at the Core"
+            description="With real-time reporting and 24/7 moderation, Chime ensures a secure and respectful space for all users."
           />
         </div>
       </div>

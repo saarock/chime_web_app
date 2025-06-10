@@ -533,6 +533,7 @@ const useWebRTC = () => {
     webTRCDispatch,
     onlineUsersCount,
     isVideoSocketConnected,
+    videoSocket,
   };
 };
 

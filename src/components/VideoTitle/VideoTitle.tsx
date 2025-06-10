@@ -28,7 +28,6 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   setSuccessMessage,
   onlineUsersCount,
   isInCall,
-  userId,
 }) => {
   const [showFilters, setShowFilters] = useState(false); // Controls visibility of filter dropdown
   const { user } = useAuth(); // Custom hook to get authenticated user

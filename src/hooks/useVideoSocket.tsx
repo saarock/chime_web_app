@@ -12,6 +12,7 @@ import { Socket } from "socket.io-client";
 
 const useVideoSocket = ({ isLocalStreamIsOn = false, isUserVerify = false }: { isLocalStreamIsOn?: boolean, isUserVerify?: boolean }) => {
   const [videoSocket, setVideoSocket] = useState<Socket | null>(null);
+  
 
   /**
    * This useEffet hook helps to connect to the socket by checking the token if the tokens is there then user should connected to the chatSocket

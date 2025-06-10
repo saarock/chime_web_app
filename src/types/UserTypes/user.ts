@@ -25,7 +25,7 @@ export interface UserLoginWithGoogleDetials {
 
 export interface ErrorState {
   message: string;
-  code?: number;       // optional error code, if available
+  statusCode?: number;       // optional error code, if available
   details?: any;       // optional extra info, e.g. validation errors
 }
 
@@ -35,6 +35,7 @@ export interface UserAuthState {
   user: User | null;
   isAuthenticated: boolean;
   error: ErrorState | null;
+  isLoading? : boolean;
 }
 
 // User response interface

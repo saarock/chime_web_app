@@ -22,7 +22,6 @@ import FallBackComponent from "./FallBackComponent/FallBackComponent";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 import HeroSection from "./HeroSection/HeroSection";
 import FeatureSection from "./FeatureSection/FeatureSection";
-import CallToAction from "./CallToAction/CallToAction";
 import HowItWorks from "./HowItWork/HowItWork";
 import ChimiSectionsHowHeader from "./ChimeSectionsHowHeader/ChimiSectionsHowHeader";
 import { TVStatic } from "./TVStatic/TVStatic";
@@ -60,7 +59,6 @@ export {
   FallBackComponent,
   ErrorBoundary,
   ChimiSectionsHowHeader,
-  CallToAction,
   HeroSection,
   FeatureSection,
   HowItWorks,

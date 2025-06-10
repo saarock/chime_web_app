@@ -149,7 +149,7 @@ const Header: React.ComponentType = (): JSX.Element => {
           </ul>
         </NavLink>
 
-        <ul>
+        <ul className="fixed right-0 bottom-3">
           <NepalFlagVersion version="1.0.0 beta" size="sm" showSideVersion={true}/>
         </ul>
 

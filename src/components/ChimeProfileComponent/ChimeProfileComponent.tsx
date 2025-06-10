@@ -1,14 +1,24 @@
+// Import all the necessary dependencies here
 import { useAuth } from "../../hooks";
+import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
+
+/**
+ * This is the profile component for now it is just the basic component if there are user data then simple show the user data there if not show the loading
+ * @returns {JSX.Element} 
+ */
 export const ChimeProfileComponent = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
 
+  if (isLoading) {
+    return <LoadingComponent />
+  }
   return (
     <section className="chime-profile-section">
       {isAuthenticated && user && (
         <form
           className="chime-profile-child-container"
-          
+
         >
           <div className="chime-profile-header">
             <img

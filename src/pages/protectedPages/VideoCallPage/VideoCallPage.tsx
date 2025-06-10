@@ -35,10 +35,12 @@ export default function VideoCallPage() {
     onlineUsersCount,
     isVideoSocketConnected,
     webTRCDispatch,
+    videoSocket,
   } = useWebRTC();
 
   // Check the user is login or not from the userAuth hook
   const { isAuthenticated, user } = useAuth();
+
 
   // Refs for attaching streams to <video> elements
   const localVideoRef = useRef<HTMLVideoElement>(null!);
@@ -278,6 +280,7 @@ export default function VideoCallPage() {
             handleRandomCall={handleRandomCall}
             isConnecting={state.isConnecting}
             isSocketIsConnected={isVideoSocketConnected}
+            isVideoSocketConnected={!!videoSocket?.connected}
           />
 
           <VideoAdvanceController

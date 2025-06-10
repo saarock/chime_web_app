@@ -6,6 +6,8 @@ import useVideoSocket from "./useVideoSocket";
 import useWebRTC from "./useWebRTC";
 import useWebRTCHelper from "./useWebRTCHelper";
 import useErrorHandlerAtPageAndComponentLevel from "./useErrorHandlerAtPageAndComponentLevel";
+import useLoading from "./useLoading";
+import useError from "./useError";
 
 // export hooks
 export {
@@ -15,5 +17,7 @@ export {
   useVideoSocket,
   useWebRTC,
   useWebRTCHelper,
-  useErrorHandlerAtPageAndComponentLevel
+  useErrorHandlerAtPageAndComponentLevel,
+  useLoading,
+  useError,
 };

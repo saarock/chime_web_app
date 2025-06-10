@@ -9,4 +9,5 @@ export interface VideoControllerPanelProps {
   isConnecting: boolean;            // Indicates if the system is currently connecting
   isRemoteStream: boolean;          // Indicates if there's a remote stream (i.e., an active call)
   isSocketIsConnected: boolean;     // Indicates if there is socket connected or not 
+  isVideoSocketConnected: boolean;                // Helps to check the socket is connected to the server or not for the saftey
 }

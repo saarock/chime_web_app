@@ -1,8 +1,8 @@
 // Import all the ncessary dependencies here
-import React, { JSX, useCallback, useState } from "react";
+import React, { JSX, useCallback} from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { useAuth } from "../../hooks";
+import { useAuth, useErrorHandlerAtPageAndComponentLevel } from "../../hooks";
 import { logoutUserFromServer, setError } from "../../features/auth/userSlice";
 import { AppDispatch } from "../../apps/store";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
@@ -15,37 +15,29 @@ import LoadingComponent from "../LoadingComponent/LoadingComponent";
 const LogoutComponent: React.ComponentType = (): JSX.Element => {
   // All the hook goes here
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useAuth();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { user, isLoading } = useAuth();
+  const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
+
 
   /**
    * async function to handel the logout from the cliet side
    */
   const logoutUser = useCallback(async () => {
     if (!user?._id) {
-      dispatch(setError("Pleased reload the app or try again.."))
+      dispatch(setError("User id doesn't found we doubt to you that you are valid user or not pleased refresh the page and try agian."));
       return;
     }
-
-    setLoading(true);
     try {
       // React-redux async action to logout the user from the server side and client side
       await dispatch(logoutUserFromServer(user._id)).unwrap();
     } catch (error) {
-      console.error(error);
-      dispatch(setError(
-        error instanceof Error
-          ? error.message
-          : "Something wrong while logout pleased refresh your page and try again",
-      ));
-    } finally {
-      setLoading(false);
+      setErrorMessageFallBack(error); // pass the error to fallback error handler
     }
   }, [user?._id]);
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <LoadingComponent />
       ) : (
         <li

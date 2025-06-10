@@ -50,8 +50,8 @@ const HowItWorks: React.ComponentType = (): JSX.Element => {
             number={2}
             icon={<FiUsers />}
             iconType="secondary"
-            title="Choose Your Mode"
-            description="Select between random video chats or join an entertainment group based on your interests like gaming, movies, or music."
+            title="Fill the important details"
+            description="After login you have to full-fill the importnat details like gender, age and country for better experience."
           />
 
           <StepCard
@@ -59,7 +59,7 @@ const HowItWorks: React.ComponentType = (): JSX.Element => {
             icon={<FiVideo />}
             iconType="primary"
             title="Start Connecting"
-            description="Allow camera access and start meeting new people from around the world instantly. Join games, watch parties, and more!"
+            description="Allow camera access and start meeting new people from around the world instantly."
           />
         </div>
       </div>

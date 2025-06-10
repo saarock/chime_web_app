@@ -12,6 +12,7 @@ import { AppDispatch } from "../apps/store";
 import { ErrorState } from "../types";
 import useErrorHandlerAtPageAndComponentLevel from "./useErrorHandlerAtPageAndComponentLevel";
 
+
 /**
  * Custom React hook to verify the user's token on every protected page load
  * and fetch fresh user data when the access token is valid.
@@ -68,7 +69,7 @@ const useVerifyTokenAndGetUserData = () => {
         if (error instanceof ApiError) {
           const errorMessage: ErrorState = {
             message: error.message,
-            code: error.statusCode,
+            statusCode: error.statusCode,
             details: error.details,
           }
           dispatch(setError(errorMessage))

@@ -1,7 +1,7 @@
 .chime-btn {
   color: white;
   border: none;
-  border-radius: 20px;
+  border-radius: 1rem;
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
@@ -47,7 +47,7 @@
   background-color: transparent;
   border: 1px solid var(--primary-btn-background-color);
   color: var(--primary-btn-background-color);
-  box-shadow: 0 4px 12px rgba(0, 63, 223, 0.3);
+  /* box-shadow: 0 4px 12px rgba(0, 63, 223, 0.3); */
 
 }
 
@@ -55,4 +55,33 @@
   background-color: var(--primary-btn-background-color);
   color: var(--primary-text-color);
   transform: translateY(-1px);
+}
+
+.chime-btn-danger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 0, 0, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  min-height: 44px;
+}
+
+.chime-btn-danger:hover {
+  background: rgba(255, 4, 4, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.chime-btn-danger:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

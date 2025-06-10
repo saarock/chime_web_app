@@ -1,157 +1,203 @@
-import type React from "react"
-// Import all the necessary dependencies
-import { FiArrowRight } from "react-icons/fi"
-import {
-  FaVideo,
-  FaMicrophone,
-  FaTimes,
-  FaRandom,
-  FaUsers,
-  FaShieldAlt,
-  FaFilter,
-  FaMale,
-  FaFemale,
-} from "react-icons/fa"
-import type { JSX } from "react"
-import "../../styles/components/HeroSection.css"
 
+// Import all the necessary dependencies here
+import React, { JSX, useEffect } from "react";
+import { FiArrowRight } from "react-icons/fi";
+import { FaShieldAlt } from "react-icons/fa";
+import gsap from "gsap";
+import "../../styles/components/HeroSection.css";
+import Button from "../Button/Button";
+import { Variant } from "../../types";
 
 /**
- * Chime hero section component for random video calls with filters
- * @returns {JSX.Element}
+ * Chime Hero Section component.
+ * This section introduces users to the random video call feature, explaining 
+ * the gender-based matching system and how it works with location-based filters.
+ * 
+ * @returns {JSX.Element} - The JSX code that renders the hero section of the app.
  */
 const HeroSection: React.ComponentType = (): JSX.Element => {
+  useEffect(() => {
+    // GSAP Animation: Fade In and Slide Title and Description
+    gsap.from(".chime-hero-title", {
+      opacity: 0,
+      y: -50,
+      duration: 0.6,
+      ease: "power4.out",
+    });
+
+    gsap.from(".chime-hero-description", {
+      opacity: 0,
+      y: 50,
+      duration: 0.6,
+      delay: 0.5,
+      ease: "power4.out",
+    });
+
+    gsap.from(".chime-hero-buttons", {
+      opacity: 0,
+      y: 30,
+      duration: 0.6,
+      delay: 1,
+      ease: "power4.out",
+    });
+
+    gsap.from(".chime-safety-panel", {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.6,
+      delay: 1.5,
+      ease: "power4.out",
+    });
+
+    // Avatar Scaling Animation
+    gsap.from(".chime-user-avatar", {
+      opacity: 0,
+      scale: 0.6,
+      stagger: 0.2,
+      duration: 1.5,
+      delay: 2,
+      ease: "power4.out",
+    });
+
+  }, []);
+
+
+  useEffect(() => {
+    // GSAP Animation: Fade In and Slide Title and Description
+    gsap.to(".chime-hero-title", {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      ease: "power4.out",
+    });
+
+    gsap.to(".chime-hero-description", {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      delay: 0.5,
+      ease: "power4.out",
+    });
+
+    gsap.to(".chime-hero-buttons", {
+      opacity: 1,
+      y: 0,
+      duration: 1,
+      delay: 1,
+      ease: "power4.out",
+    });
+
+    gsap.to(".chime-safety-panel", {
+      opacity: 1,
+      scale: 1,
+      duration: 1.5,
+      delay: 1.5,
+      ease: "power4.out",
+    });
+
+    // Avatar Scaling Animation (staggered animation)
+    gsap.to(".chime-user-avatar", {
+      opacity: 1,
+      scale: 1,
+      stagger: 0.2,
+      duration: 1.5,
+      delay: 2,
+      ease: "power4.out",
+    });
+
+  }, []);
   return (
     <section className="chime-section chime-hero" id="hero">
       <div className="chime-container">
         <div className="chime-hero-grid">
+          {/* Hero Content: Text and Buttons */}
           <div className="chime-hero-content">
             <div className="chime-hero-text">
+              {/* Main Title: Informing users about the random video call feature */}
               <h1 className="chime-hero-title">
-                Random Video Calls with <span className="chime-text-secondary">Smart Filters</span>
+                Random <span className="chime-text-secondary">Video Calls</span>
               </h1>
+
+              {/* Description: Briefly explaining how the matching system works */}
               <p className="chime-hero-description">
-                Connect instantly with people worldwide through random video calls. Use gender filters, strict mode, and
-                safety features to find the perfect conversation partner.
+                Connect with random people through video calls. Our system matches you based on gender and location,
+                with fallback to random matching if no exact matches are found.
+                Choose your gender and start your connection now!
               </p>
             </div>
+
+            {/* Button to start video chat */}
             <div className="chime-hero-buttons">
-              <button className="chime-button chime-button-primary chime-button-large">
+              <Button
+                variant={Variant.primary}
+                onClick={() => {
+                  // Navigate to the video call page
+                  location.href = "/video-calls";
+                }}
+              >
                 Start Video Chat <FiArrowRight className="chime-button-icon" />
-              </button>
-              <button className="chime-button chime-button-secondary chime-button-large">Browse Filters</button>
+              </Button>
             </div>
-            <div className="chime-hero-features">
-              <div className="chime-feature-item">
-                <FaFilter className="chime-feature-icon" />
-                <span>Gender Filters</span>
-              </div>
-              <div className="chime-feature-item">
-                <FaShieldAlt className="chime-feature-icon" />
-                <span>Strict Mode</span>
-              </div>
-              <div className="chime-feature-item">
-                <FaVideo className="chime-feature-icon" />
-                <span>HD Video</span>
-              </div>
-            </div>
+
+            {/* Active Users Section: Displays the number of people online */}
             <div className="chime-hero-users">
               <div className="chime-user-avatars">
+                {/* Placeholder avatars to represent active users */}
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="chime-user-avatar" />
                 ))}
               </div>
+
+              {/* Displays the number of online users */}
               <p className="chime-user-count">
                 Join <span className="chime-text-highlight">12,000+</span> users online now
               </p>
             </div>
           </div>
 
+          {/* Hero Visual: Contains safety features and statistics */}
           <div className="chime-hero-visual">
-            {/* Video Chat Interface */}
-            <div className="chime-video-chat">
-              <div className="chime-video-status">
-                <div className="chime-status-indicator"></div>
-                Random Video Chat • Online: 2,847
-              </div>
-
-              {/* Filter Panel */}
-              <div className="chime-filter-panel">
-                <div className="chime-filter-title">
-                  <FaFilter className="chime-filter-icon" />
-                  Filters
-                </div>
-                <div className="chime-filter-options">
-                  <button className="chime-filter-btn chime-filter-active">
-                    <FaMale /> Male
-                  </button>
-                  <button className="chime-filter-btn">
-                    <FaFemale /> Female
-                  </button>
-                  <button className="chime-filter-btn chime-filter-strict">
-                    <FaShieldAlt /> Strict Mode
-                  </button>
-                </div>
-              </div>
-
-              {/* Random User */}
-              <div className="chime-video-user">
-                <div className="chime-user-placeholder">
-                  <FaUsers className="chime-user-icon" />
-                  <p>Looking for someone...</p>
-                </div>
-              </div>
-
-              {/* Controls */}
-              <div className="chime-video-controls">
-                <button className="chime-control-button chime-control-secondary">
-                  <FaMicrophone />
-                </button>
-                <button className="chime-control-button chime-control-secondary">
-                  <FaVideo />
-                </button>
-                <button className="chime-control-button chime-control-danger">
-                  <FaTimes />
-                </button>
-                <button className="chime-control-button chime-control-primary">
-                  <FaRandom />
-                </button>
-              </div>
-            </div>
-
-            {/* Safety Features Panel */}
+            {/* Safety Features Panel: Explains the current safety measures */}
             <div className="chime-safety-panel">
               <div className="chime-safety-header">
+                {/* Safety Icon: Represents security features */}
                 <FaShieldAlt className="chime-safety-icon" />
+                {/* Safety Title */}
                 <h3 className="chime-safety-title">Safety First</h3>
               </div>
 
+              {/* List of Safety Features */}
               <div className="chime-safety-features">
+                {/* Gender Matching Feature */}
                 <div className="chime-safety-feature">
                   <div className="chime-safety-indicator chime-indicator-active"></div>
                   <div className="chime-safety-content">
-                    <p className="chime-safety-label">Strict Mode</p>
-                    <p className="chime-safety-description">Enhanced content filtering</p>
+                    <p className="chime-safety-label">Smart Gender Matching</p>
+                    {/* Description: Matches users based on gender and age range */}
+                    <p className="chime-safety-description">
+                      When you enter the platform, our smart matching algorithm first attempts to match you with the opposite gender.
+                      If no match is found with users within the same age range, the system will extend the search to any gender and any
+                      age group. If there are still no available matches, the algorithm will fallback to connect you with someone from
+                      another country.
+                    </p>
                   </div>
                 </div>
 
-                <div className="chime-safety-feature">
-                  <div className="chime-safety-indicator chime-indicator-active"></div>
-                  <div className="chime-safety-content">
-                    <p className="chime-safety-label">Gender Filter</p>
-                    <p className="chime-safety-description">Male connections only</p>
-                  </div>
-                </div>
-
+                {/* Report System Feature */}
                 <div className="chime-safety-feature">
                   <div className="chime-safety-indicator chime-indicator-warning"></div>
                   <div className="chime-safety-content">
                     <p className="chime-safety-label">Report System</p>
-                    <p className="chime-safety-description">One-click reporting</p>
+                    {/* Description: A one-click reporting system for user safety */}
+                    <p className="chime-safety-description">
+                      Easily report any inappropriate behavior with just a click. Our team is available 24/7 to ensure any issues are
+                      dealt with swiftly.
+                    </p>
                   </div>
                 </div>
               </div>
 
+              {/* Safety Statistics: Show effectiveness of safety features */}
               <div className="chime-safety-stats">
                 <div className="chime-stat">
                   <span className="chime-stat-number">99.2%</span>
@@ -167,7 +213,7 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default HeroSection
+export default HeroSection;

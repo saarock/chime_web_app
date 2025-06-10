@@ -4,10 +4,9 @@ import { useDispatch } from "react-redux";
 import { serverLoginWithGoogle } from "../../apps";
 import { AppDispatch } from "../../apps/store";
 import "../../styles/components/LoginWithGoogle.css";
-import React, { JSX, useState } from "react";
+import React, { JSX} from "react";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
-import { toast } from "react-toastify";
-import { ApiError } from "../../utils";
+import { useErrorHandlerAtPageAndComponentLevel, useLoading } from "../../hooks";
 
 /**
  *
@@ -15,8 +14,10 @@ import { ApiError } from "../../utils";
  */
 const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
   // All the hooks goes here
-  const [loading, setLoading] = useState<boolean>(false);
+  const {isLoading} = useLoading();
   const dispatch = useDispatch<AppDispatch>();
+  const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
+
 
   /**
    *
@@ -24,7 +25,6 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
    * @returns {void}
    */
   const loginWithGoogle = async (credentialsResponse: CredentialResponse) => {
-    setLoading(true);
     // check the credentials propery if not fount then show one message and return
     if (!credentialsResponse.credential || !credentialsResponse.clientId) {
       alert("No credentials found");
@@ -42,23 +42,18 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       // if user login successfully navigate to the chats
       window.location.replace("/video-calls"); // dont show the prev history before login and after login to the user
     } catch (error) {
-      alert(error)
-      console.log(error);
-      
-      toast.error(error instanceof ApiError ? error.message : "Login failed");
+      setErrorMessageFallBack(error);
       console.error(
         "Dispatch error",
         error instanceof Error ? error.message : error,
       );
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return (
     <div className="chime-login-with-google-container">
       <div className="chime-login-with-google-child-container">
-        {loading ? (
+        {isLoading ? (
           <LoadingComponent />
         ) : (
           <GoogleLogin
