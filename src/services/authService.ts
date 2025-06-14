@@ -1,8 +1,7 @@
 // Import dependencies
 import { AuthEndPoint } from "../apis";
-import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../constant";
 import { AuthResponseData, UserLoginWithGoogleDetials } from "../types";
-import { AuthUtil, cookieUtil, errorhandler } from "../utils";
+import { errorhandler } from "../utils";
 
 /**
  * AuthService handles all authentication-related operations such as
@@ -29,9 +28,12 @@ class AuthService {
    */
   static async verifyTokenOnEveryPageAndGetUserData(): Promise<AuthResponseData> {
     try {
-      const response = await AuthEndPoint.verifyTokenAndGetUserData();
-      return await response.data;
+      const response = await AuthEndPoint.verifyTokenAndGetUserData();      
+      const data = await response.data;
+      return data;
     } catch (error) {
+      console.log(error);
+      
       throw errorhandler(error);
     }
   }
@@ -41,29 +43,21 @@ class AuthService {
    */
   static async refreshTokens(): Promise<AuthResponseData> {
     try {
-      const refreshToken = cookieUtil.get(REFRESH_TOKEN_KEY_NAME);
-      if (!refreshToken) {
-        alert("logout while refgreshgin the token")
-
-        AuthUtil.clientSideLogout();
-        throw new Error("No accessToken available");
-      }
-
-      const response = await AuthEndPoint.refreshTokens(refreshToken);
+      const response = await AuthEndPoint.refreshTokens();
       const axiosResponseData = await response.data;
-
-      const newRefreshToken = axiosResponseData.data.refreshToken;
-      const newAccessoken = axiosResponseData.data.accessToken;
-
-      cookieUtil.set(ACCESS_TOKEN_KEY_NAME, newAccessoken);
-      cookieUtil.set(REFRESH_TOKEN_KEY_NAME, newRefreshToken);
 
       return axiosResponseData;
     } catch (error) {
+      console.log(error);
+      
       throw errorhandler(error);
     }
   }
 
+  /**
+   * Logout method
+   * @param {string} param0.userId - User id received from the server through the database
+   */
   static async logoutUser(userId: string) {
     try {
       await AuthEndPoint.logoutUser(userId);

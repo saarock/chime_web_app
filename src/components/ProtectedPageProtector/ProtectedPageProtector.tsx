@@ -25,7 +25,6 @@ const ProtectedPageProtector: React.FC<PageProtectorProps> = ({
   // useChatSocket(); // Keep for the future
 
 
-
   // Otherwise, render the protected content.
   return <Suspense fallback={<LoadingComponent />}>{children}</Suspense>;
 };

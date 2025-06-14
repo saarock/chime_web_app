@@ -1,3 +1,4 @@
+// Import all the necessary dependencies here
 import { useEffect, useState } from "react";
 import { cookieUtil } from "../utils";
 import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../constant";
@@ -5,7 +6,10 @@ import { getChatSocket, initChatSocket } from "../config";
 import { initChatSocketEvents } from "../features";
 import { Socket } from "socket.io-client";
 
-const useChatSocket = ({ isLocalStreamIsOn = false, isUserVerify = false }: { isLocalStreamIsOn?: boolean, isUserVerify?: boolean }) => {
+const useChatSocket = ({
+   isLocalStreamIsOn = false, 
+   isUserVerify = false 
+  }: { isLocalStreamIsOn?: boolean, isUserVerify?: boolean }) => {
 
   const [chatSocket, setChatSocket] = useState<Socket | null>(null);
 

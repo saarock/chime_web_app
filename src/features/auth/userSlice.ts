@@ -28,8 +28,8 @@ export const serverLoginWithGoogle = createAsyncThunk(
       localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, userData.data);
 
       // Set access and refresh tokens in cookies
-      cookieUtil.set(ACCESS_TOKEN_KEY_NAME, userData.data.accessToken);
-      cookieUtil.set(REFRESH_TOKEN_KEY_NAME, userData.data.refreshToken);
+      // cookieUtil.set(ACCESS_TOKEN_KEY_NAME, userData.data.accessToken);
+      // cookieUtil.set(REFRESH_TOKEN_KEY_NAME, userData.data.refreshToken);
 
       // Return user data on successful login
       return userData.data.userData;
@@ -72,11 +72,6 @@ export const verifyUserFromTheServer = createAsyncThunk(
       // Verify token and get user data from server
       const axiosResponseData = await AuthService.verifyTokenOnEveryPageAndGetUserData();
 
-      // If no user data, throw an error (invalid token)
-      if (!axiosResponseData.data.userData) {
-        throw new ApiError("Failed to verify the user.");
-      }
-
       // Store verified user data in local storage
       localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, axiosResponseData.data.userData);
 
@@ -84,6 +79,8 @@ export const verifyUserFromTheServer = createAsyncThunk(
       return axiosResponseData.data.userData;
 
     } catch (error) {
+      console.log(error);
+      
       // Handle errors similarly as before
       if (error instanceof ApiError) {
         return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });

@@ -27,12 +27,21 @@ describe("Button component", () => {
     const button = screen.getByRole("button", { name: "Secondary" });
     expect(button).toHaveClass("chime-btn-secondary");
   });
+
   it("applies secondary ", () => {
     render(
       <Button text="Ternary" onClick={() => { }} variant={Variant.ternary} />,
     );
     const button = screen.getByRole("button", { name: "Ternary" });
     expect(button).toHaveClass("chime-btn-ternary");
+  });
+
+  it("applies danger", () => {
+    render(
+      <Button text="Danger" variant={Variant.danger} />
+    );
+    const button = screen.getByRole("button", { name: "Danger" });
+    expect(button).toHaveClass("chime-btn-danger");
   });
 
   it("applies secondary ", () => {

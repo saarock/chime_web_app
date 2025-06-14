@@ -1,5 +1,4 @@
 import { isAxiosError } from "axios";
-import AuthUtil from "./authUtil";
 import { ApiError } from "./ApiError";
 
 /**
@@ -11,34 +10,8 @@ const errorhandler = (error: unknown): never => {
   if (isAxiosError(error)) {
     if (error.response) {
       const { status, data } = error.response;
-
-      // Handle token expiration explicitly
-      if (
-        (status === 401 || status === 403) &&
-        data?.errorCode === "token_expired"
-      ) {
-        alert("Session expired. Logging out...");
-        AuthUtil.clientSideLogout();
-        // Optionally throw to stop execution or redirect flow
-        throw new ApiError("Session expired. Please login again.", status);
-      }
-
-      if (!data) {
-        AuthUtil.clientSideLogout();
-        throw new ApiError("No response data received. Logging out.", status);
-      }
-
-      // Extract meaningful message from response data
-      if (typeof data === "string") {
-        console.error(data);
-        throw new ApiError(data, status);
-      } else if (typeof data === "object" && "message" in data && typeof data.message === "string") {
-        console.error(data.message);
-        throw new ApiError(data.message, status);
-      } else {
-        console.error(error.message);
-        throw new ApiError(error.message, status);
-      }
+      // Throw the error from the axios response
+      throw new ApiError(data.message, status);
     } else if (error.request) {
       // Request was made but no response received
       console.error("No response received from server:", error.message);

@@ -1,7 +1,6 @@
 // Import All the necessary dependencies
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-import { cookieUtil } from "../utils";
-import { ACCESS_TOKEN_KEY_NAME } from "../constant";
+
 import { refreshTokens } from "../manager";
 
 interface FailedRequest {
@@ -24,10 +23,6 @@ const axiosClient = axios.create(axiosDefaults);
 // axios request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
-    const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
     return config;
   },
 
@@ -76,23 +71,16 @@ axiosClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const newAccessToken = await refreshTokens();
-        // Set the global default header before retrying
-        axiosClient.defaults.headers.common["Authorization"] =
-          `Bearer ${newAccessToken}`;
-
-        failedQueue.forEach(({ resolve, config }) => {
-          config.headers.Authorization = `Bearer ${newAccessToken}`;
-          resolve(axiosClient(config));
-        });
-
+        await refreshTokens();
+        const queue = [...failedQueue];
         failedQueue = [];
 
+        for (const { resolve, config } of queue) {
+          resolve(axiosClient(config));
+        }
+        
         return axiosClient(originalRequest);
       } catch (refreshError) {
-        failedQueue.forEach(({ reject }) => {
-          reject(refreshError);
-        });
         failedQueue = [];
         return Promise.reject(refreshError);
       } finally {

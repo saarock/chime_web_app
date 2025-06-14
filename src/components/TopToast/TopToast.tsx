@@ -1,13 +1,12 @@
 // Import necessary dependencies, including React hooks, Redux, utility functions, components, and icons
 import { useCallback, useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Variant, type RootState } from "../../types"
-import { X, RefreshCw, LogOut, EyeOff, AlertTriangle } from "lucide-react"
-import { clearError } from "../../features/auth/userSlice"
-import { AuthUtil, cookieUtil } from "../../utils"
-import { useAuth } from "../../hooks"
+import { useDispatch, useSelector } from "react-redux";
+import { Variant, type RootState } from "../../types";
+import { X, RefreshCw, LogOut, EyeOff, AlertTriangle } from "lucide-react";
+import { clearError } from "../../features/auth/userSlice";
+import { AuthUtil } from "../../utils";
+import { useAuth } from "../../hooks";
 import "../../styles/components/TopToast.css";
-import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../../constant"
 import Button from "../Button/Button"
 
 const TopToast = () => {
@@ -61,9 +60,6 @@ const TopToast = () => {
   // If no error or the toast is not visible, return null and do not render anything
   if (!error || !visible) return null
 
-  // Get the access and refresh tokens from cookies for the logout button condition
-  const accessToken = cookieUtil.checkCookie(ACCESS_TOKEN_KEY_NAME) // Check if access token exists
-  const refreshToken = cookieUtil.checkCookie(REFRESH_TOKEN_KEY_NAME) // Check if refresh token exists
 
   return (
     <div className={`chime-toast-overlay ${isAnimating ? "chime-toast-overlay--visible" : ""}`}>
@@ -122,7 +118,7 @@ const TopToast = () => {
             onClick={handleLogout}
             aria-label="Logout"
             title="Logout"
-            disabled={!isAuthenticated && !isLoading && !(accessToken && refreshToken)} // Disable logout if no tokens or not authenticated
+            disabled={!isAuthenticated && !isLoading} // Disable logout if  not authenticated
           >
             <LogOut className="chime-toast-button-icon" />
             <span>Logout</span>

@@ -134,6 +134,7 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
                   // Navigate to the video call page
                   location.href = "/video-calls";
                 }}
+                className="chime-start-btn"
               >
                 Start Video Chat <FiArrowRight className="chime-button-icon" />
               </Button>

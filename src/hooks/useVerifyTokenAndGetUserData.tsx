@@ -1,11 +1,7 @@
 // Import all the necessary dependencies here
 import { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ApiError, AuthUtil, cookieUtil } from "../utils";
-import {
-  ACCESS_TOKEN_KEY_NAME,
-  REFRESH_TOKEN_KEY_NAME,
-} from "../constant";
+import { ApiError } from "../utils";
 import { useDispatch } from "react-redux";
 import { setError, verifyUserFromTheServer } from "../features/auth/userSlice";
 import { AppDispatch } from "../apps/store";
@@ -38,16 +34,6 @@ const useVerifyTokenAndGetUserData = () => {
    */
   const runOnEveryProtectedPageIfTheLocationChange =
     useCallback(async (): Promise<void> => {
-      const accessToken = cookieUtil.checkCookie(ACCESS_TOKEN_KEY_NAME);
-      const refreshToken = cookieUtil.checkCookie(REFRESH_TOKEN_KEY_NAME);
-      // const userData = localStorageUtil.checkItem(LOCAL_STORAGE_USER_DATA_KEY);
-
-      if (!accessToken || !refreshToken) {
-        // If both tokens and userData from the localStorage are missing, log out the client.
-        AuthUtil.clientSideLogout();
-        return;
-      }
-
       // Verify user data and get the user data from the backend
       try {
         await dispatch(verifyUserFromTheServer()).unwrap();
