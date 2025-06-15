@@ -1,0 +1,132 @@
+.chime-error-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  padding: 1.5rem;
+  animation: chime-fadeIn 0.35s ease-in-out;
+}
+
+.chime-error-card {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  padding: 2.5rem;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: chime-scaleUp 0.3s ease forwards;
+}
+
+.chime-padding {
+  width: 100%;
+  height: 3rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+}
+
+.chime-padding-small {
+  width: 100%;
+  height: 0.75rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+}
+
+.chime-error-icon {
+  color: #ef4444;
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  animation: chime-pulse 2s infinite;
+}
+
+.chime-error-heading {
+  font-size: 1.875rem;
+  /* font-weight: 800; */
+  color: #7f1d1d;
+  margin-bottom: 1rem;
+}
+
+.chime-error-message {
+  color: #fefefe;
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  user-select: text;
+}
+
+.chime-error-buttons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+
+
+.chime-btn-icon {
+  margin-right: 0.75rem;
+  font-size: 1.125rem;
+}
+
+.chime-btn-logout {
+  background: linear-gradient(to right, #dc2626, #b91c1c);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.5);
+}
+
+.chime-btn-logout:hover {
+  background: linear-gradient(to right, #b91c1c, #7f1d1d);
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.7);
+}
+
+.chime-btn-refresh {
+  background: linear-gradient(to right, #facc15, #eab308);
+  box-shadow: 0 4px 10px rgba(253, 224, 71, 0.5);
+}
+
+.chime-btn-refresh:hover {
+  background: linear-gradient(to right, #eab308, #ca8a04);
+  box-shadow: 0 6px 12px rgba(253, 224, 71, 0.7);
+}
+
+@keyframes chime-fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes chime-scaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes chime-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+}

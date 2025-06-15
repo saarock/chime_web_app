@@ -7,9 +7,6 @@ import { useVerifyTokenAndGetUserData } from "../../hooks";
 const LoadingComponent = lazy(
   () => import("../LoadingComponent/LoadingComponent"),
 );
-const ErrorUiComponent = lazy(
-  () => import("../ErrorUiComponent/ErrorUiComponent"),
-);
 
 /**
  * PageProtector is a React component that wraps protected pages,
@@ -23,14 +20,10 @@ const ProtectedPageProtector: React.FC<PageProtectorProps> = ({
   children,
 }: PageProtectorProps): JSX.Element => {
   // All the hooks goes here
-  const { isError, errorMessage } = useVerifyTokenAndGetUserData();
+  useVerifyTokenAndGetUserData(); // This is the hook helps to chech the current user valid or not
   // Initilize the chat socket on whole page
   // useChatSocket(); // Keep for the future
 
-  // If an error is present (e.g., invalid/expired token), render the error message.
-  if (isError && errorMessage) {
-    return <ErrorUiComponent message={errorMessage} />;
-  }
 
   // Otherwise, render the protected content.
   return <Suspense fallback={<LoadingComponent />}>{children}</Suspense>;

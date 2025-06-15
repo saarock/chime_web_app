@@ -7,6 +7,7 @@ import errorhandler from "./errorHandler";
 import checkTheErrorWithTheStatusCode from "./checkTheErrorWithStatusCode";
 import AuthUtil from "./authUtil";
 import getCountry from "./getCountry";
+import { ApiError } from "./ApiError";
 
 // exports
 export {
@@ -16,5 +17,6 @@ export {
   errorhandler,
   checkTheErrorWithTheStatusCode,
   AuthUtil,
-  getCountry
+  getCountry,
+  ApiError,
 };

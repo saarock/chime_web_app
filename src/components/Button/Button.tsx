@@ -24,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   className,
   style,
+  title,
 }): JSX.Element => {
   return (
     <button
@@ -32,6 +33,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick} // The function to execute when the button is clicked
       disabled={disabled} // Disables the button if true
       style={style}
+      title={title}
     >
       {children}
       {text} {/* The text or icon to display on the button */}

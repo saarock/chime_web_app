@@ -76,8 +76,8 @@ export default function NepalFlagVersion({
                     <div
                       key={angle}
                       className={`absolute w-0.5 h-2 top-0 left-1/2 origin-bottom ${index % 2 === 0
-                          ? "bg-gradient-to-t from-yellow-400 to-yellow-200"
-                          : "bg-gradient-to-t from-orange-400 to-yellow-300"
+                        ? "bg-gradient-to-t from-yellow-400 to-yellow-200"
+                        : "bg-gradient-to-t from-orange-400 to-yellow-300"
                         }`}
                       style={{
                         transform: `translateX(-50%) rotate(${angle}deg)`,
@@ -146,3 +146,6 @@ export default function NepalFlagVersion({
     </div>
   )
 }
+
+
+

@@ -44,6 +44,12 @@ const VideoCallPage = React.lazy(() =>
   })),
 );
 
+const NotFound = React.lazy(() =>
+  import("./pages/FallBackIndex").then((module) => ({
+    default: module.default.NotFound,
+  })),
+);
+
 const App = () => {
   return (
     <Routes>
@@ -73,15 +79,19 @@ const App = () => {
             </NonProtectedPageProtector>
           }
         />
+
+        <Route
+          path="*"
+          element={
+            <ProtectedPageProtector>
+              <NotFound />
+            </ProtectedPageProtector>
+
+          }
+        />
+
+
           // Protected page
-        {/* <Route
-            path="/chats"
-            element={
-              <ProtectedPageProtector>
-                <ChatsPage />
-              </ProtectedPageProtector>
-            }
-          /> */}
         <Route
           path="/video-calls"
           element={

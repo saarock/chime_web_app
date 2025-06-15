@@ -1,11 +1,16 @@
+// Import all the necessary dependencies here
 import React from 'react';
 import Button from '../Button/Button';
+import { VideoSuccessToastProps } from '../../types';
 
-export interface VideoSuccessToastProps {
-    successMessage: string | null;
-    setSuccessMessage: (msg: string | null) => void;
-}
 
+
+/**
+ * 
+ * @param {string} param0.successMessage - SuccessMessage reveived from the server while conneting, partner found or connected and so on.
+ * @param {Function} param0.setSuccessMessage - Function to clean the current successMessge state or remove the toast / message
+ * @returns {React.FC}
+ */
 const VideoSuccessToast: React.FC<VideoSuccessToastProps> = (
     {
         successMessage,

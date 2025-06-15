@@ -5,6 +5,10 @@ import useChatSocket from "./useChatSocket";
 import useVideoSocket from "./useVideoSocket";
 import useWebRTC from "./useWebRTC";
 import useWebRTCHelper from "./useWebRTCHelper";
+import useErrorHandlerAtPageAndComponentLevel from "./useErrorHandlerAtPageAndComponentLevel";
+import useLoading from "./useLoading";
+import useError from "./useError";
+import { useNotificationSounds } from "./useNotificationSounds";
 
 // export hooks
 export {
@@ -13,5 +17,9 @@ export {
   useChatSocket,
   useVideoSocket,
   useWebRTC,
-  useWebRTCHelper
+  useWebRTCHelper,
+  useErrorHandlerAtPageAndComponentLevel,
+  useLoading,
+  useError,
+  useNotificationSounds
 };

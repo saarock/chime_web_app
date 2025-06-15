@@ -23,10 +23,14 @@ class AuthEndPoint {
     return response;
   }
 
-  static async refreshTokens(refreshToken: string) {
+
+  /**
+   * This method is responsible to get and set the new cookies or tokens [Access and refresh tokens]
+   * @returns {Axios Response}
+   */
+  static async refreshTokens() {
     const response = await axiosClient.post(
       "/refresh-tokens",
-      { refreshToken },
       {
         headers: {
           skipAuthRefresh: "true", // custom header
@@ -36,6 +40,12 @@ class AuthEndPoint {
     return response;
   }
 
+
+  /**
+   * 
+   * @param {string} param0.userId - Id of the user
+   * @returns {Axios response}
+   */
   static async logoutUser(userId: string) {
     const response = await axiosClient.post("/logout-user", { userId });
     return response;

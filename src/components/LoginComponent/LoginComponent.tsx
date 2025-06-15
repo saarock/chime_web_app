@@ -13,9 +13,6 @@ const LoginComponent: React.ComponentType = (): JSX.Element => {
     <div className="chime-login-container">
       <ComponentForLoginAndResgisterComponentForTop
         title="Sign In To Your Account"
-        secondTitle="Don't have Account?   "
-        path="/register"
-        name="register"
         LoginWithGoogleComponent={LoginWithGoogleComponent}
       />
     </div>

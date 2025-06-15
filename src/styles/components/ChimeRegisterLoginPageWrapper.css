@@ -17,6 +17,20 @@
   width: 100%;
   height: 100%;
   position: relative;
-  top: 2rem;
-  transform: scale(1.2);
+  transform: scale(1.1);
+}
+
+
+/* Responsive */
+
+@media screen and (max-width: 980px) {
+  .chime-entry-page-entry-image {
+    display: none;
+}
+  .chime-entry-page {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
 }

@@ -22,7 +22,6 @@ import FallBackComponent from "./FallBackComponent/FallBackComponent";
 import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 import HeroSection from "./HeroSection/HeroSection";
 import FeatureSection from "./FeatureSection/FeatureSection";
-import CallToAction from "./CallToAction/CallToAction";
 import HowItWorks from "./HowItWork/HowItWork";
 import ChimiSectionsHowHeader from "./ChimeSectionsHowHeader/ChimiSectionsHowHeader";
 import { TVStatic } from "./TVStatic/TVStatic";
@@ -35,7 +34,8 @@ import VideoFilters from "./VideoFilters/VideoFilters";
 import ChimeUserInfoModal from "./ChimeUserInfoModal/ChimeUserInfoModal";
 import NepalFlagVersion from "./NepalFlagVersion/NepalFlagVersion";
 import { ChimeTalkLogo3D, ChimeTalkLogo, ChimeTalkLogoLoader } from "./ChimeTalkLogo/ChimiTalkLogo";
-
+import ErrorSound from "./SoundsComponent/ErrorSound";
+import SuccessSound from "./SoundsComponent/SuccessSound";
 
 // Export all the dependencies here
 export {
@@ -60,7 +60,6 @@ export {
   FallBackComponent,
   ErrorBoundary,
   ChimiSectionsHowHeader,
-  CallToAction,
   HeroSection,
   FeatureSection,
   HowItWorks,
@@ -76,4 +75,6 @@ export {
   ChimeTalkLogo3D,
   ChimeTalkLogo,
   ChimeTalkLogoLoader,
+  ErrorSound,
+  SuccessSound,
 };

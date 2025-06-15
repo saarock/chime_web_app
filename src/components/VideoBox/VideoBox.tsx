@@ -1,20 +1,44 @@
 // Imports: React, state management, icons, styles, and types
 import {
   Fullscreen,
-  MicOff,
-  VideoOff,
-  Star,
 } from 'lucide-react';
 
 import { useState, useEffect } from "react";
-import { TVStatic } from "../TVStatic/TVStatic";
 import "../../styles/components/VideoBox.css";
 import { VideoBoxProps } from "../../types";
 import Button from "../Button/Button";
 import { connectingMessages } from './message';
+import Video from './Video';
+import CameraOffState from './CameraOffState';
+import MiceOffState from './MiceOffState';
+import VideoStaticContainer from './VideoStaticContainer';
+import VideoFloatingAnimationParticlces from './VideoFloatingAnimationParticlces';
+import VideoSpinner from './VideoSpinner';
+import VideoConnectingMessages from './VideoConnectingMessages';
+import VideoProgressDots from './VideoProgressDots';
+import VideoLable from './VideoLable';
 
 
-
+/**
+ * Renders a video container box for displaying a user's video stream
+ * in a video call UI, including optional states like connection, mute, zoom, etc.
+ *
+ * @param {object} props - The properties for the VideoBox component.
+ * @param {React.RefObject<HTMLDivElement>} props.refObject - A React ref for accessing the video container DOM element.
+ * @param {string} props.label - Label shown on the video box (e.g., username or "You").
+ * @param {boolean} props.isActive - Indicates whether this video box is the currently active speaker or selected user.
+ * @param {boolean} [props.isLocalAudioEnabled=true] - Determines if the local user's microphone is on.
+ * @param {boolean} [props.isConnecting=false] - Whether the user is still connecting (e.g., spinner should be shown).
+ * @param {boolean} [props.isInCall=false] - Indicates if the user is currently in a call (vs. disconnected).
+ * @param {boolean} [props.isLocalVideoEnabled=true] - Determines if the local video stream is enabled.
+ * @param {number} [props.zoomLevel] - Optional zoom level for the video box (used for layout control or focus).
+ * @param {'side-by-side' | 'focus-mode'} props.layout - Defines the layout style for the video grid;
+ * @param {() => void} props.onFullscreen - Function called when user clicks to toggle fullscreen mode.
+ * @param {MediaStream | null} props.stream - The actual media stream to be rendered in the video element.
+ * @param {string} [props.connectedTo] - Optional ID or label showing whom the user is connected to.
+ *
+ * @returns {JSX.Element} VideoBox component rendering the video stream with labels and states.
+ */
 function VideoBox({
   refObject,
   label,
@@ -30,11 +54,13 @@ function VideoBox({
   connectedTo,
 }: VideoBoxProps) {
 
-  // Index for the rotating connecting message
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
 
   // State to hold floating particle effects while connecting
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; delay: number }>>([]);
+
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
 
 
   /**
@@ -49,6 +75,8 @@ function VideoBox({
       return () => clearInterval(interval);
     }
   }, [isConnecting]);
+
+
 
   /**
    * Generate animated particle effects randomly across the screen while connecting.
@@ -69,6 +97,7 @@ function VideoBox({
   // Dynamic classnames based on user role and states
   const disabledClass = !isLocalVideoEnabled ? "chime-video-box-video-disabled" : "";
   const noCallClass = !isInCall && label === "Remote User" ? "chime-video-box-no-call" : "";
+  // Index for the rotating connecting message
   const currentMessage = connectingMessages[currentMessageIndex];
   const IconComponent = currentMessage.icon;
 
@@ -80,89 +109,38 @@ function VideoBox({
 
       {/* Show video stream if available */}
       {stream && (
-        <video
-          ref={refObject}
-          autoPlay
-          playsInline
-          className="chime-video-element"
-        />
+        <Video ref={refObject} />
       )}
 
       {/* Camera off state for local user */}
       {!isLocalVideoEnabled && label === "You" && (
-        <div className="chime-video-disabled-overlay">
-          <div className="chime-video-disabled-icon">
-            <VideoOff size={48} />
-          </div>
-          <p className="chime-video-disabled-text">Camera is off</p>
-        </div>
+        <CameraOffState />
       )}
 
       {/* Audio muted icon for local user */}
       {label === "You" && !isLocalAudioEnabled && (
-        <div className="chime-audio-disabled-indicator">
-          <MicOff size={16} />
-        </div>
+        <MiceOffState />
       )}
 
       {/* Static and hint message when remote user is not in call */}
       {label === "Remote User" && !isInCall && !isConnecting && (
-        <div className="chime-static-container">
-          <TVStatic />
-          <div className="chime-no-call-message">
-            <div className="chime-message-box">
-              <div className="chime-waiting-icon">
-                <Star className="chime-star-icon" />
-              </div>
-              <p className="chime-waiting-text">Ready for your next connection?</p>
-              <div className="chime-pulse-ring"></div>
-            </div>
-          </div>
-        </div>
+        <VideoStaticContainer />
       )}
 
       {/* Fun and animated connecting UI */}
       {isConnecting && (
         <div className="chime-connecting-overlay">
           {/* Floating animated particles */}
-          <div className="chime-particles-container">
-            {particles.map((particle) => (
-              <div
-                key={particle.id}
-                className="chime-particle"
-                style={{
-                  left: `${particle.x}%`,
-                  top: `${particle.y}%`,
-                  animationDelay: `${particle.delay}s`,
-                }}
-              />
-            ))}
-          </div>
+
+          <VideoFloatingAnimationParticlces particles={particles} />
 
           {/* Rotating icon and message while searching */}
           <div className="chime-connecting-content">
-            <div className="chime-connecting-spinner-container">
-              <div className="chime-spinner-ring"></div>
-              <div className="chime-spinner-ring chime-spinner-ring-2"></div>
-              <IconComponent className="chime-connecting-icon" size={32} />
-            </div>
-            <div className="chime-connecting-message">
-              <p className="chime-message-text">{currentMessage.text}</p>
-              <h2 className="chime-overlay-title">
-                <span className="chime-overlay-username">{connectedTo}</span>
-              </h2>
-            </div>
+            <VideoSpinner IconComponent={IconComponent} />
+            <VideoConnectingMessages currentMessage={currentMessage.text} connectedTo={connectedTo ? connectedTo : 'Connected to unknown'} />
 
             {/* Progress dots animation */}
-            <div className="chime-progress-dots">
-              {[0, 1, 2, 3].map((dot) => (
-                <div
-                  key={dot}
-                  className="chime-progress-dot"
-                  style={{ animationDelay: `${dot * 0.2}s` }}
-                />
-              ))}
-            </div>
+            <VideoProgressDots />
           </div>
 
           {/* Background animated waves for aesthetic */}
@@ -175,7 +153,7 @@ function VideoBox({
       )}
 
       {/* Name label below each video box */}
-      <div className="chime-video-label">{label}</div>
+      <VideoLable label={label} />
       {/* <VideoLabel label={label} isLocalStreamIsOn={label === "You" && stream ? true : false} /> */}
 
       {/* Fullscreen toggle button */}
@@ -186,6 +164,7 @@ function VideoBox({
       >
         <Fullscreen size={16} />
       </Button>
+
     </div>
   );
 }

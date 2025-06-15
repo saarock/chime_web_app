@@ -1,66 +1,41 @@
-// Import all the necessary dependencies here
 import { isAxiosError } from "axios";
-import AuthUtil from "./authUtil";
+import { ApiError } from "./ApiError";
 
 /**
- * Error handler method to handle all types of errors
- * @param error
- * 
+ * General error handler function to process all errors consistently.
+ * @param error - The error object caught in a try/catch or promise rejection.
+ * @throws ApiError or Error after logging and possible logout.
  */
 const errorhandler = (error: unknown): never => {
   if (isAxiosError(error)) {
-    // if the error is axios error;
     if (error.response) {
-      const data = error.response?.data;
-
-      if (
-        (error.response.status === 401 &&
-          error.response.data?.errorCode === "token_expired") ||
-        (error.response.status === 403 &&
-          error.response.data?.errorCode === "token_expired")
-      ) {
-        // logout the user if the status code is 401 or 403
-        alert("logout because the error comes 401 or 403")
-
-        AuthUtil.clientSideLogout();
-      }
-
-      if (!data) {
-        AuthUtil.clientSideLogout();
-      }
-
-      if (typeof data === "string") {
-        console.error(data);
-        throw new Error(data);
-      } else if (data && typeof data === "object" && "message" in data) {
-        const message = (data as { message: string }).message;
-        console.error(message);
-        throw new Error(message);
-      } else {
-        console.error(error.message);
-        throw new Error(error.message);
-      }
+      const { status, data } = error.response;
+      // Throw the error from the axios response
+      throw new ApiError(data.message, status);
     } else if (error.request) {
-      console.error(error.message);
-      throw new Error(
-        error.message || "Something wrong while sending request to the server.",
+      // Request was made but no response received
+      console.error("No response received from server:", error.message);
+      throw new ApiError(
+        error.message || "No response received from server.",
+        503,
       );
     } else {
-      const fallback =
-        error.message ||
-        "Please refresh your page because some internal errors occurred.";
-      console.error(fallback);
-      throw new Error(fallback);
+      // Something else happened while setting up the request
+      console.error("Axios error without request/response:", error.message);
+      throw new ApiError(
+        error.message || "Internal error setting up request.",
+        500,
+      );
     }
   }
-  // if the error is not axios error
-  console.error(
-    error instanceof Error ? error.message : "An unexpected error occurred.",
-  );
-  throw new Error(
-    error instanceof Error ? error.message : "An unexpected error occurred.",
-  );
+
+  // Non-Axios errors fallback
+  const fallbackMessage =
+    error instanceof Error
+      ? error.message
+      : "An unexpected error occurred.";
+  console.error(fallbackMessage);
+  throw new Error(fallbackMessage);
 };
 
-// Exports
 export default errorhandler;

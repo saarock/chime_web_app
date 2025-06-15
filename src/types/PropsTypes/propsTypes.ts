@@ -9,7 +9,7 @@ export interface SocketProviderProps {
 
 // PageProtector props defind here
 export interface PageProtectorProps {
-  children: JSX.Element;
+  children: JSX.Element; // React JsxElement
 }
 
 //PageWrapper component prpos
@@ -34,7 +34,8 @@ export interface ButtonProps {
   disabled?: boolean;
   children?: ReactNode; // specially for icons
   className?: string;
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
+  title?: string;
 }
 
 // input props
@@ -54,9 +55,6 @@ export interface InputProps {
 
 //ComponentForLoginAndResgisterComponentForTop component props
 export interface ComponentForLoginAndResgisterComponentForTopProps {
-  title: string;
-  secondTitle: string;
-  path: string;
-  name: string;
-  LoginWithGoogleComponent: React.ComponentType;
+  title: string; // Title for the chime login page like - Eg : Sigin, Signup 
+  LoginWithGoogleComponent: React.ComponentType; // Login with google stand-alone component
 }

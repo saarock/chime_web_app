@@ -12,11 +12,13 @@ import React from "react";
 import "../../styles/components/VideoControllerPanel.css";
 import { VideoControllerPanelProps } from "../../types";
 import Button from "../Button/Button";
+import { useError } from "../../hooks";
+
 
 // VideoControllerPanel displays control buttons for mic, camera, call, and random match.
 // It uses icons from lucide-react and accepts various props to handle UI logic.
 
-const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
+const VideoControllerPanel: React.FC<VideoControllerPanelProps> = ({
   toggleAudio,         // Toggles the microphone on/off
   isAudioEnabled,      // Current state of microphone (true = unmuted)
   isVideoEnabled,      // Current state of video (true = enabled)
@@ -26,7 +28,10 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
   isConnecting,        // Whether the app is currently trying to connect
   isRemoteStream,      // Whether a remote stream is active (i.e., in a call)
   isSocketIsConnected, // Whether a socket is connected
+  isVideoSocketConnected,   // Helps to check the socket is connected to the server or not for the saftey
+
 }) => {
+  const { isError } = useError(); // Check is there any error during the auth 
   return (
     <div className="chime-controls-panel">
       {/* Toggle Microphone Button */}
@@ -63,9 +68,10 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
       {/* Start Random Call Button (disabled while connecting) */}
       <Button
         onClick={handleRandomCall}
-        disabled={isConnecting || !isSocketIsConnected}
+        disabled={isConnecting || !isSocketIsConnected || isError || !isVideoSocketConnected}
         className={`chime-control-button chime-call-button ${isConnecting ? "connecting" : ""}`}
         aria-label="Start random call"
+
       >
         {isConnecting ? (
           <>
@@ -79,6 +85,7 @@ const VideoControllerPanel: React.ComponentType<VideoControllerPanelProps> = ({
           </>
         )}
       </Button>
+
     </div>
   );
 };

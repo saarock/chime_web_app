@@ -1,4 +1,3 @@
-
 // Import all the necessary dependencies here
 import React, { useCallback, useEffect, useReducer, useRef } from "react";
 import {
@@ -10,20 +9,22 @@ import {
   VideoTitle,
 } from "../../../components";
 import "../../../styles/pages/VideoCallPage.css";
-import { useAuth, useWebRTC } from "../../../hooks";
+import { useAuth, useNotificationSounds, useWebRTC } from "../../../hooks";
 import { CallReducer } from "../../../reducers";
 import { videoInitialState } from "../../../types";
 
-
 /**
- * VideoCallPage
- * Main page component for random video chatting.
- * - Sets up local/remote video streams
- * - Manages call state via reducer
- * - Renders video panels and control panels
+ * VideoCallPage Component
+ *
+ * The main UI and logic controller for random video chat.
+ * Responsibilities:
+ * - Manage video/audio streams using WebRTC
+ * - Handle UI states using a reducer
+ * - React to lifecycle events (partner disconnect, stream readiness, etc.)
+ * - Provide responsive control over video, audio, zoom, and layout
  */
 export default function VideoCallPage() {
-  // Retrieve WebRTC streams and call controls from custom hook
+  // Custom WebRTC hook: Handles media streams, socket events, dispatching, etc.
   const {
     localStream,
     remoteStream,
@@ -35,153 +36,197 @@ export default function VideoCallPage() {
     onlineUsersCount,
     isVideoSocketConnected,
     webTRCDispatch,
+    videoSocket,
   } = useWebRTC();
 
-  // Check the user is login or not from the userAuth hook
+  // Authentication state hook
   const { isAuthenticated, user } = useAuth();
 
-  // Refs for attaching streams to <video> elements
+  // Refs for attaching media streams to <video> elements
   const localVideoRef = useRef<HTMLVideoElement>(null!);
   const remoteVideoRef = useRef<HTMLVideoElement>(null!);
 
-  // Combine multiple UI flags into a single state via reducer
+  // Notification sounds hook
+  const { playError, playSuccess, resetSounds } = useNotificationSounds();
+
+
+  // Timer ref
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // UI state management for call behavior, layout, toggles
   const [state, dispatch] = useReducer(CallReducer, videoInitialState);
 
+  const {
+    isAudioEnabled,
+    isConnecting,
+    isInCall,
+    isMaximized,
+    isRemoteAudioEnable,
+    isRemoteVideoEnable,
+    isVideoEnabled,
+    layout,
+    zoomLevel,
+  } = state;
+
   // ─────────────────────────────────────────────────────────────────────────────
-  // Sync local media stream with <video> element and flag availability
+  // Media Stream Effects
   // ─────────────────────────────────────────────────────────────────────────────
+
+  // Attach local stream to local <video> element
   useEffect(() => {
     if (localVideoRef.current && localStream) {
       localVideoRef.current.srcObject = localStream;
     }
   }, [localStream]);
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Sync remote media stream with <video> element and update call flags
-  // ─────────────────────────────────────────────────────────────────────────────
+  // Attach remote stream to remote <video> element and update call status
   useEffect(() => {
     const videoElement = remoteVideoRef.current;
 
     if (videoElement && remoteStream) {
-      // Attach the remote stream to the video element
       videoElement.srcObject = remoteStream;
-
-      // Delay marking the call as active to ensure stream is fully loaded
       const timeoutId = setTimeout(() => {
         dispatch({ type: "SET_IN_CALL", payload: true });
         dispatch({ type: "SET_CONNECTING", payload: false });
+        resetSounds(); // Stop the both success and error sounds
       }, 1500);
 
-      // Cleanup timeout if the component unmounts early
       return () => clearTimeout(timeoutId);
     } else {
-      // No stream means call has ended or failed
       dispatch({ type: "SET_IN_CALL", payload: false });
     }
   }, [remoteStream]);
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Handle partner hang-up: show connecting state again
-  // ─────────────────────────────────────────────────────────────────────────────
+  // Handle when remote partner ends the call
   useEffect(() => {
     if (isPartnerCallEnded) {
-      // When partner ends, transition back to searching state
       dispatch({ type: "SET_IN_CALL", payload: false });
       dispatch({ type: "SET_CONNECTING", payload: true });
     }
   }, [isPartnerCallEnded]);
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Clean up browser unload to prevent accidental loss of interaction
-  // ─────────────────────────────────────────────────────────────────────────────
+  // Warn user before leaving page during active call
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const msg =
         "If you leave this page, your active video chat will be disconnected.";
-      console.log("Page is reloading...");
-
       e.preventDefault();
       e.returnValue = msg;
       return e;
     };
+
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [endCall]);
 
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // Call control callbacks
+  // Automatically end the "searching for random partner" state after 10 seconds
+  // If no new user is found and call hasn't started, end the call and suggest retry
+  // ─────────────────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    // Only start timer if currently connecting and NOT in a call yet
+    if (isConnecting && !isInCall) {
+      // Start 10-second timeout to auto-end call/search
+      timerRef.current = setTimeout(() => {
+        endRandomCall(); // End the call/search after timeout
+        setSuccessMessage("Pleased try again call ended automatically in 10 second if no partner found");
+      }, 10000);
+    }
+
+    // Cleanup: Clear timeout if component unmounts or dependencies change
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [isInCall, isConnecting, endCall]);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Sound's handler
+  // ─────────────────────────────────────────────────────────────────────────────
+  const soundHandler = useCallback((isErrorMessage: boolean) => {
+    if (isErrorMessage) {
+      playError();
+    } else {
+      playSuccess();
+    }
+  }, [errorMessage, successMessage]);
+
+  useEffect(() => {
+    if (errorMessage && errorMessage.trim() != "") {
+      soundHandler(true); // Error sound 
+    } else if (successMessage && successMessage.trim() != "") {
+      soundHandler(false) // Success sound
+    }
+  }, [errorMessage, successMessage]);
+
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Control Handlers
   // ─────────────────────────────────────────────────────────────────────────────
 
-  // Initiates or retries random call search
+  // Start or retry a random call
   const handleRandomCall = useCallback(() => {
-    // Before starting the call first cleanup the success and errorMessages
-
     webTRCDispatch({ type: "RESET_ERROR_AND_SUCCESS_MESSAGE" });
-
     dispatch({ type: "SET_CONNECTING", payload: true });
     randomCall();
   }, [randomCall]);
 
-  // Ends current call and resets flags
+  // End an ongoing call
   const endRandomCall = useCallback(() => {
     endCall();
     dispatch({ type: "SET_IN_CALL", payload: false });
     dispatch({ type: "SET_CONNECTING", payload: false });
+    reSetSuccessMessage(); // Reset the success message
+    reSetErrorMessage(); // Reset the error message
   }, [endCall]);
 
-  // Toggle local video tracks
+  // Toggle local video track
   const toggleVideo = useCallback(() => {
     if (localStream) {
-      localStream
-        .getVideoTracks()
-        .forEach((t) => (t.enabled = !state.isVideoEnabled));
+      localStream.getVideoTracks().forEach((t) => (t.enabled = !isVideoEnabled));
       dispatch({ type: "TOGGLE_VIDEO" });
     }
-  }, [localStream, state.isVideoEnabled]);
+  }, [localStream, isVideoEnabled]);
 
-  // Toggle local audio tracks
+  // Toggle local audio track
   const toggleAudio = useCallback(() => {
     if (localStream) {
-      console.log("trun off audio");
-
-      localStream
-        .getAudioTracks()
-        .forEach((t) => (t.enabled = !state.isAudioEnabled));
+      localStream.getAudioTracks().forEach((t) => (t.enabled = !isAudioEnabled));
       dispatch({ type: "TOGGLE_AUDIO" });
     }
-  }, [localStream, state.isAudioEnabled]);
+  }, [localStream, isAudioEnabled]);
 
-  // Toggle browser fullscreen mode for entire page
+  // Toggle fullscreen for entire page
   const toggleMaximize = useCallback(() => {
     dispatch({ type: "TOGGLE_MAXIMIZED" });
     const elem = document.documentElement;
-    if (!state.isMaximized) elem.requestFullscreen?.();
+    if (!isMaximized) elem.requestFullscreen?.();
     else document.exitFullscreen?.();
-  }, [state.isMaximized]);
+  }, [isMaximized]);
 
-  // Zoom controls for video panels
+  // Zoom controls
   const increaseZoom = useCallback(
-    () => dispatch({ type: "SET_ZOOM", payload: state.zoomLevel + 0.1 }),
-    [state.zoomLevel],
+    () => dispatch({ type: "SET_ZOOM", payload: zoomLevel + 0.1 }),
+    [zoomLevel],
   );
   const decreaseZoom = useCallback(
-    () => dispatch({ type: "SET_ZOOM", payload: state.zoomLevel - 0.1 }),
-    [state.zoomLevel],
+    () => dispatch({ type: "SET_ZOOM", payload: zoomLevel - 0.1 }),
+    [zoomLevel],
   );
 
-  // Cycle between side-by-side and focus-remote layouts
+  // Toggle layout between different view styles
   const cycleLayout = useCallback(
     () =>
       dispatch({
         type: "SET_LAYOUT",
-        payload:
-          state.layout === "side-by-side" ? "focus-remote" : "side-by-side",
+        payload: layout === "side-by-side" ? "focus-remote" : "side-by-side",
       }),
-    [state.layout],
+    [layout],
   );
 
-  // Fullscreen for individual video elements
+  // Fullscreen a specific video element
   const toggleFullScreenElem = useCallback(
     (ref: React.RefObject<HTMLVideoElement>) => {
       if (!ref.current) return;
@@ -190,101 +235,113 @@ export default function VideoCallPage() {
     [],
   );
 
-
   // ─────────────────────────────────────────────────────────────────────────────
-  // Reset: reset function for error and success message
+  // Message Set and Reset Handlers
   // ─────────────────────────────────────────────────────────────────────────────
 
   const reSetErrorMessage = useCallback(() => {
     webTRCDispatch({ type: "SET_ERROR_MESSAGE", payload: null });
   }, []);
 
-
-
   const reSetSuccessMessage = useCallback(() => {
     webTRCDispatch({ type: "SET_SUCCESS_MESSAGE", payload: null });
+  }, []);
 
+  const setSuccessMessage = useCallback((message: string) => {
+    webTRCDispatch({ type: "SET_SUCCESS_MESSAGE", payload: message });
   }, []);
 
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // Render: show placeholder while checking the user-tokens
+  // Render Logic
   // ─────────────────────────────────────────────────────────────────────────────
+
+  // Block page rendering if user is not authenticated
   if (!isAuthenticated || !user) {
     return <LoadingComponent />;
   }
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // Render: show placeholder until local stream is ready
-  // ─────────────────────────────────────────────────────────────────────────────
+  // Warn user if local stream is not available
   if (!localStream) {
-    return (
-      <StreamWarnComponent /> // Component that warn the user and make notify to open the local stream. 
-    );
+    return <StreamWarnComponent />;
   }
 
   return (
-    <div className={`chime-video-call-page ${state.isMaximized ? "maximized" : ""}`}>
+    <div className={`chime-video-call-page ${isMaximized ? "maximized" : ""}`}>
       <div className="chime-video-call-container">
+        {/* Top panel showing status and user info */}
         <VideoTitle
           errorMessage={errorMessage}
           successMessage={successMessage}
           setErrorMessage={reSetErrorMessage}
           setSuccessMessage={reSetSuccessMessage}
           onlineUsersCount={onlineUsersCount}
+          isInCall={isInCall}
+          userId={user._id}
         />
-        <div className={`chime-video-grid layout-${state.layout}`}>
+
+        {/* Main video grid: Local + Remote */}
+        <div className={`chime-video-grid layout-${layout}`}>
+          {/* Local Video Stream Box */}
           <VideoBox
-            stream={localStream}
-            refObject={localVideoRef}
-            label="You"
-            isActive={true}
-            isLocalVideoEnabled={state.isVideoEnabled}
-            isLocalAudioEnabled={state.isAudioEnabled}
-            isConnecting={false}
-            isInCall={state.isInCall}
-            zoomLevel={state.zoomLevel}
-            layout={state.layout}
-            onFullscreen={() => toggleFullScreenElem(localVideoRef)}
-          />
-          <VideoBox
-            isRemoteAudioEnable={state.isRemoteAudioEnable}
-            isRemoteVideoEnable={state.isRemoteVideoEnable}
-            stream={remoteStream}
-            refObject={remoteVideoRef}
-            label="Remote User"
-            isActive={true}
-            isLocalVideoEnabled={state.isVideoEnabled}
-            isConnecting={state.isConnecting}
-            isInCall={state.isInCall}
-            zoomLevel={state.zoomLevel}
-            layout={state.layout}
-            onFullscreen={() => toggleFullScreenElem(remoteVideoRef)}
-            connectedTo={successMessage ? successMessage : undefined}
-          />
-        </div>
-        <div
-          className={`chime-controls-container ${state.isMaximized ? `chime-controls-container-${state.layout}` : ""}`}
-        >
-          <VideoControllerPanel
-            isRemoteStream={remoteStream ? true : false}
-            toggleAudio={toggleAudio}
-            toggleVideo={toggleVideo}
-            isVideoEnabled={state.isVideoEnabled}
-            isAudioEnabled={state.isAudioEnabled}
-            endRandomCall={endRandomCall}
-            handleRandomCall={handleRandomCall}
-            isConnecting={state.isConnecting}
-            isSocketIsConnected={isVideoSocketConnected}
+            stream={localStream}                          // Local user's MediaStream
+            refObject={localVideoRef}                     // Ref to bind to video element
+            label="You"                                   // Label to show on the video
+            isActive={true}                               // Always active for local
+            isLocalVideoEnabled={isVideoEnabled}          // Show/hide video track icon
+            isLocalAudioEnabled={isAudioEnabled}          // Show/hide audio track icon
+            isConnecting={false}                          // Local is never "connecting"
+            isInCall={isInCall}                           // Flag: is in active call
+            zoomLevel={zoomLevel}                         // Zoom level for display
+            layout={layout}                               // Layout type
+            onFullscreen={() => toggleFullScreenElem(localVideoRef)} // Toggle fullscreen
           />
 
+          {/* Remote Video Stream Box */}
+          <VideoBox
+            stream={remoteStream}                         // Remote peer's MediaStream
+            refObject={remoteVideoRef}                    // Ref for remote video element
+            label="Remote User"                           // Display label
+            isActive={true}                               // If stream is live
+            isRemoteAudioEnable={isRemoteAudioEnable}     // Audio status from remote
+            isRemoteVideoEnable={isRemoteVideoEnable}     // Video status from remote
+            isLocalVideoEnabled={isVideoEnabled}          // For video layout symmetry
+            isConnecting={isConnecting}                   // If still connecting to remote
+            isInCall={isInCall}                           // If call is active
+            zoomLevel={zoomLevel}                         // Zoom level for remote
+            layout={layout}                               // Layout styling
+            onFullscreen={() => toggleFullScreenElem(remoteVideoRef)} // Toggle fullscreen
+            connectedTo={successMessage ?? undefined}     // Optional: Show connected user
+          />
+        </div>
+
+        {/* Control panels */}
+        <div
+          className={`chime-controls-container ${isMaximized ? `chime-controls-container-${layout}` : ""
+            }`}
+        >
+          {/* Primary Controls: Mic, Camera, Call, Retry */}
+          <VideoControllerPanel
+            isRemoteStream={!!remoteStream}               // Only show if remote exists
+            toggleAudio={toggleAudio}                     // Toggle local mic
+            toggleVideo={toggleVideo}                     // Toggle local camera
+            isVideoEnabled={isVideoEnabled}               // Current video state
+            isAudioEnabled={isAudioEnabled}               // Current audio state
+            endRandomCall={endRandomCall}                 // End current call
+            handleRandomCall={handleRandomCall}           // Retry or start new call
+            isConnecting={isConnecting}                   // If searching for user
+            isSocketIsConnected={isVideoSocketConnected}  // Custom logic socket state
+            isVideoSocketConnected={!!videoSocket?.connected} // True socket state
+          />
+
+          {/* Advanced Controls: Maximize, Zoom, Layout */}
           <VideoAdvanceController
-            toggleMaximize={toggleMaximize}
-            isMaximized={state.isMaximized}
-            increaseZoom={increaseZoom}
-            decreaseZoom={decreaseZoom}
-            cycleLayout={cycleLayout}
-            layout={state.layout}
+            toggleMaximize={toggleMaximize}               // Fullscreen the page
+            isMaximized={isMaximized}                     // Fullscreen flag
+            increaseZoom={increaseZoom}                   // Zoom in
+            decreaseZoom={decreaseZoom}                   // Zoom out
+            cycleLayout={cycleLayout}                     // Toggle layout view
+            layout={layout}                               // Current layout
           />
         </div>
       </div>

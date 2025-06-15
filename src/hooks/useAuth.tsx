@@ -26,7 +26,7 @@ const useAuth = () => {
     }
   }, [auth.isAuthenticated, auth.user]);
 
-  return { isAuthenticated, user };
+  return { isAuthenticated, user, isLoading: auth.isLoading };
 };
 
 export default useAuth;

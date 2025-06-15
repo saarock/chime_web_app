@@ -1,20 +1,13 @@
 import { getVideoSocket } from "../../config/socketManager";
-import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
 import { refreshTokens } from "../../manager";
-import {  AuthUtil, cookieUtil } from "../../utils";
 
 export const initVideoSocketEvents = () => {
   const videoSocket = getVideoSocket();
 
   if (!videoSocket) return;
 
-  const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
-  videoSocket.auth = { accessToken };
-
   // self connection
   videoSocket.connect();
-
-  
 
   // handel error;
   videoSocket.on("connect_error", (err) => {
@@ -22,9 +15,7 @@ export const initVideoSocketEvents = () => {
       try {
         // IIFI function
         (async () => {
-          const newAccessoken = await refreshTokens();
-          cookieUtil.set(ACCESS_TOKEN_KEY_NAME, newAccessoken);
-          videoSocket.auth = { accessToken: newAccessoken };
+          await refreshTokens(); // wait for the new access token 
           videoSocket.connect();
         })();
       } catch (error) {

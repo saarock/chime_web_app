@@ -39,21 +39,3 @@ const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<
   };
 
 export default ComponentForLoginAndResgisterComponentForTop;
-
-
-
-/**
- * For the future
- */
-
-{/* <div className="chime-login-register-top-component-second-title">
-        <span>{secondTitle}</span>{" "}
-        <span>
-          <NavLink to={path} className="chime-link">
-            {name}
-          </NavLink>
-        </span>
-      </div> */}
-
-
-

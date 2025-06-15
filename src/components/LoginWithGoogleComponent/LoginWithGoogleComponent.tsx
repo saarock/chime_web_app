@@ -4,8 +4,9 @@ import { useDispatch } from "react-redux";
 import { serverLoginWithGoogle } from "../../apps";
 import { AppDispatch } from "../../apps/store";
 import "../../styles/components/LoginWithGoogle.css";
-import React, { JSX, useState } from "react";
+import React, { JSX } from "react";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
+import { useErrorHandlerAtPageAndComponentLevel, useLoading } from "../../hooks";
 import { toast } from "react-toastify";
 
 /**
@@ -14,8 +15,10 @@ import { toast } from "react-toastify";
  */
 const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
   // All the hooks goes here
-  const [loading, setLoading] = useState<boolean>(false);
+  const { isLoading } = useLoading();
   const dispatch = useDispatch<AppDispatch>();
+  const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
+
 
   /**
    *
@@ -23,16 +26,12 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
    * @returns {void}
    */
   const loginWithGoogle = async (credentialsResponse: CredentialResponse) => {
-    setLoading(true);
     // check the credentials propery if not fount then show one message and return
     if (!credentialsResponse.credential || !credentialsResponse.clientId) {
-      alert("No credentials found");
+      toast.info("No credentials found, Pleased try again later!");
       return;
     }
     try {
-
-
-
       // after checking the credentials loginFromTheGoogle
       await dispatch(
         serverLoginWithGoogle({
@@ -44,22 +43,22 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       // if user login successfully navigate to the chats
       window.location.replace("/video-calls"); // dont show the prev history before login and after login to the user
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Login failed");
+      setErrorMessageFallBack(error);
       console.error(
         "Dispatch error",
         error instanceof Error ? error.message : error,
       );
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <div className="chime-login-with-google-container">
       <div className="chime-login-with-google-child-container">
-        {loading ? (
+        {isLoading ? (
+          // Show the loading component if the isLoading is true
           <LoadingComponent />
         ) : (
+          // Other-wise render the googleLogin component
           <GoogleLogin
             useOneTap={true}
             onSuccess={(e) => loginWithGoogle(e)}
