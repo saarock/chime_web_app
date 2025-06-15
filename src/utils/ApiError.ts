@@ -1,3 +1,7 @@
+
+/**
+ * This class is responsible to handle the errors specially api error
+ */
 class ApiError extends Error {
   public statusCode: number;
   public details?: any;

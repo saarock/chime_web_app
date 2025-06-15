@@ -3,17 +3,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   AuthResponseData,
   ErrorState,
-  UserAuthState,
   UserImpDetails,
   UserLoginWithGoogleDetials,
 } from "../../types"; // Import the necessary types for user data
 import { AuthService, userService } from "../../services"; // Import services for authentication and user data
-import { ApiError, AuthUtil, cookieUtil, localStorageUtil } from "../../utils"; // Utility functions for handling cookies, local storage, and errors
+import { ApiError, AuthUtil, localStorageUtil } from "../../utils"; // Utility functions for handling cookies, local storage, and errors
 import {
-  ACCESS_TOKEN_KEY_NAME,
   LOCAL_STORAGE_USER_DATA_KEY,
-  REFRESH_TOKEN_KEY_NAME,
 } from "../../constant"; // Constant keys for local storage and cookies
+import { authInitialState } from "./initialState";
 
 
 // Create an asyncThunk for handling user login asynchronously
@@ -24,12 +22,14 @@ export const serverLoginWithGoogle = createAsyncThunk(
       // Call the login API with Google details
       const userData: AuthResponseData = await AuthService.loginWithGoogle(userDetails);
 
-      // Save the user data to local storage
-      localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, userData.data);
+      // Check the userDetails are there or not
+      if (!userData.data) {
+        // If the user-details are missing then send the new ApiError with the status code 500 because server is sending the worng response
+        throw new ApiError("User details are not found", 500);
+      }
 
-      // Set access and refresh tokens in cookies
-      // cookieUtil.set(ACCESS_TOKEN_KEY_NAME, userData.data.accessToken);
-      // cookieUtil.set(REFRESH_TOKEN_KEY_NAME, userData.data.refreshToken);
+      // Save the user data to local storage for caching
+      localStorageUtil.setItems(LOCAL_STORAGE_USER_DATA_KEY, userData.data);
 
       // Return user data on successful login
       return userData.data.userData;
@@ -80,7 +80,7 @@ export const verifyUserFromTheServer = createAsyncThunk(
 
     } catch (error) {
       console.log(error);
-      
+
       // Handle errors similarly as before
       if (error instanceof ApiError) {
         return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });
@@ -114,18 +114,12 @@ export const addImportantDetails = createAsyncThunk(
   }
 );
 
-// Define the initial state structure for user authentication
-const initialState: UserAuthState = {
-  user: null, // User data starts as null (not authenticated)
-  isAuthenticated: false, // Authentication status initially false
-  error: null, // No errors initially
-  isLoading: false, // No loading initially
-};
+
 
 // Create a Redux slice to handle user authentication actions and state updates
 const userSlice = createSlice({
   name: "auth", // Slice name
-  initialState, // Initial state
+  initialState: authInitialState, // Initial state
   reducers: {
     // Reducer to handle login action (sets user data and authentication state)
     login: (state, action) => {
@@ -206,7 +200,7 @@ const userSlice = createSlice({
     }).addCase(addImportantDetails.rejected, (state, action) => {
       if (action.payload) {
         state.error = action.payload as ErrorState; // Set the error as ErrorState
-      } else { 
+      } else {
         state.error = { message: action.error.message || "Unknown error" }; // Generic error message
       }
     });

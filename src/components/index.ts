@@ -34,7 +34,8 @@ import VideoFilters from "./VideoFilters/VideoFilters";
 import ChimeUserInfoModal from "./ChimeUserInfoModal/ChimeUserInfoModal";
 import NepalFlagVersion from "./NepalFlagVersion/NepalFlagVersion";
 import { ChimeTalkLogo3D, ChimeTalkLogo, ChimeTalkLogoLoader } from "./ChimeTalkLogo/ChimiTalkLogo";
-
+import ErrorSound from "./SoundsComponent/ErrorSound";
+import SuccessSound from "./SoundsComponent/SuccessSound";
 
 // Export all the dependencies here
 export {
@@ -74,4 +75,6 @@ export {
   ChimeTalkLogo3D,
   ChimeTalkLogo,
   ChimeTalkLogoLoader,
+  ErrorSound,
+  SuccessSound,
 };

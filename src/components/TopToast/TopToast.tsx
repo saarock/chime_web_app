@@ -17,9 +17,6 @@ const TopToast = () => {
   const dispatch = useDispatch() // Redux dispatcher to clear the error
   const { isAuthenticated, isLoading } = useAuth() // Authentication state
 
-  // Log error for debugging (you might want to remove this in production)
-  console.log(error)
-
   // Side effect to handle the visibility and animation of the toast when there's an error
   useEffect(() => {
     if (error) {

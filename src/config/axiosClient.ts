@@ -1,67 +1,76 @@
-// Import All the necessary dependencies
+// Import necessary dependencies from axios and local token management
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
-
 import { refreshTokens } from "../manager";
 
+// Interface representing a queued request during token refresh
 interface FailedRequest {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
   config: InternalAxiosRequestConfig;
 }
 
-let isRefreshing = false;
-let failedQueue: FailedRequest[] = [];
+// Flags and queue to manage concurrent token refreshes
+let isRefreshing = false; // Indicates whether a refreshTokens() call is already in progress
+let failedQueue: FailedRequest[] = []; // Queue to store requests waiting for a new token
 
+// Axios configuration object for global defaults
 const axiosDefaults = {
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-  withCredentials: true,
-  timeout: 15000, // 15sec
+  baseURL: import.meta.env.VITE_API_BASE_URL, // Base API URL, usually from .env
+  withCredentials: true, // Send cookies (tokens) with cross-origin requests
+  timeout: 15000, // 15-second timeout for all requests
 };
-// Creating axios instance
+
+// Creating a pre-configured axios instance
 const axiosClient = axios.create(axiosDefaults);
 
-// axios request interceptor
+// Interceptor to modify requests before they are sent
 axiosClient.interceptors.request.use(
   function (config) {
+    // Optionally modify request config (e.g., attach token)
     return config;
   },
-
   function (error) {
+    // Handle request setup errors
     return Promise.reject(error);
   },
 );
 
+// Custom error response interface to match backend structure
 interface ErrorResponse {
-  errorCode: string;
+  errorCode: string; // e.g., "token_expired"
   data: null;
-  statusCode: number;
-  message: string;
+  statusCode: number; // HTTP status code (e.g., 401)
+  message: string; // Human-readable error message
 }
 
-// Response interceptor to handle 401 and refresh the access token
+// Interceptor to globally handle responses and retry unauthorized requests
 axiosClient.interceptors.response.use(
-  (response) => response, // Return the response if everything is fine
+  (response) => response, // If the response is successful, return it directly
   async (error: AxiosError<ErrorResponse>) => {
+    // Cast the request config to allow tracking of retry status
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
 
-    if (originalRequest?.headers?.["skipAuthRefresh"])
+    // Bypass token refresh for requests explicitly marked to skip
+    if (originalRequest?.headers?.["skipAuthRefresh"]) {
       return Promise.reject(error);
+    }
 
+    // Conditions to attempt token refresh:
+    // - Response status is 401 (unauthorized)
+    // - Error code from server is "token_expired"
+    // - Request has not already been retried
     const shouldRefresh =
       error.response &&
       error.response.status === 401 &&
-      !originalRequest._retry &&
-      error.response.data &&
-      error.response.data.errorCode === "token_expired" &&
+      error.response.data?.errorCode === "token_expired" &&
       !originalRequest._retry;
 
     if (shouldRefresh) {
-      if (!originalRequest._retry) {
-        originalRequest._retry = true; // Set the request as retried true to avoid the infinite loops;
-      }
+      originalRequest._retry = true; // Prevent infinite retry loops
 
+      // If a refresh is already in progress, queue this request
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject, config: originalRequest });
@@ -71,25 +80,32 @@ axiosClient.interceptors.response.use(
       isRefreshing = true;
 
       try {
+        // Attempt to refresh the token
         await refreshTokens();
+
+        // Retry all requests that were queued during refresh
         const queue = [...failedQueue];
         failedQueue = [];
-
         for (const { resolve, config } of queue) {
           resolve(axiosClient(config));
         }
-        
+
+        // Retry the original failed request
         return axiosClient(originalRequest);
       } catch (refreshError) {
+        // If refresh fails, clear the queue and reject all waiting requests
         failedQueue = [];
         return Promise.reject(refreshError);
       } finally {
+        // Ensure the refreshing flag is reset regardless of outcome
         isRefreshing = false;
       }
     }
 
-    return Promise.reject(error); // Propagate the error if refresh fails
+    // If it's not a token-related error, propagate the error
+    return Promise.reject(error);
   },
 );
 
+// Export the configured axios instance for use across the application
 export default axiosClient;

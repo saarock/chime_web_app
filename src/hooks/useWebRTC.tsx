@@ -45,7 +45,6 @@ const useWebRTC = () => {
   // Setup socket connection based on local stream availability
   const { videoSocket } = useVideoSocket({ isLocalStreamIsOn: !!localStream, isUserVerify: isAuthenticated });
 
-
   // ─────────────────────────────────────────────────────────────────────────────
   // 2) CAPTURE LOCAL MEDIA
   // ─────────────────────────────────────────────────────────────────────────────

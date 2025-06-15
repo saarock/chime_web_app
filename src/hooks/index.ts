@@ -8,6 +8,7 @@ import useWebRTCHelper from "./useWebRTCHelper";
 import useErrorHandlerAtPageAndComponentLevel from "./useErrorHandlerAtPageAndComponentLevel";
 import useLoading from "./useLoading";
 import useError from "./useError";
+import { useNotificationSounds } from "./useNotificationSounds";
 
 // export hooks
 export {
@@ -20,4 +21,5 @@ export {
   useErrorHandlerAtPageAndComponentLevel,
   useLoading,
   useError,
+  useNotificationSounds
 };

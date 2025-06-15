@@ -19,7 +19,8 @@ class AuthService {
       const data = await response.data;
       return data;
     } catch (error) {
-      throw errorhandler(error);
+      console.error(error);
+      throw errorhandler(error); // Handle the error
     }
   }
 
@@ -28,13 +29,12 @@ class AuthService {
    */
   static async verifyTokenOnEveryPageAndGetUserData(): Promise<AuthResponseData> {
     try {
-      const response = await AuthEndPoint.verifyTokenAndGetUserData();      
+      const response = await AuthEndPoint.verifyTokenAndGetUserData();
       const data = await response.data;
       return data;
     } catch (error) {
-      console.log(error);
-      
-      throw errorhandler(error);
+      console.error(error);
+      throw errorhandler(error); // handle the error
     }
   }
 
@@ -48,9 +48,8 @@ class AuthService {
 
       return axiosResponseData;
     } catch (error) {
-      console.log(error);
-      
-      throw errorhandler(error);
+      console.error(error);
+      throw errorhandler(error); // handle the error 
     }
   }
 
@@ -62,7 +61,8 @@ class AuthService {
     try {
       await AuthEndPoint.logoutUser(userId);
     } catch (error) {
-      throw errorhandler(error);
+      console.error(error);
+      throw errorhandler(error); // handle the error
     }
   }
 }
