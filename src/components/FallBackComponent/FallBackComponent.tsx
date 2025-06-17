@@ -1,6 +1,5 @@
 // Import all the necessary dependencies here
 import { Component } from "react";
-import { AuthUtil } from "../../utils";
 import { CustomErrorFallbackProps } from "../../types";
 import "../../styles/components/FallBackComponent.css";
 import Button from "../Button/Button";
@@ -16,12 +15,6 @@ class FallBackComponent extends Component<CustomErrorFallbackProps> {
     window.location.reload();
   };
 
-  /**
-   * Function within the callBackhook [Gives option to the user to logout if any error arrives during the server-request]
-   */
-  handleLogout = () => {
-    AuthUtil.clientSideLogout();
-  };
 
   render() {
     const { error, errorInfo } = this.props;
@@ -41,12 +34,6 @@ class FallBackComponent extends Component<CustomErrorFallbackProps> {
               className="chime-error-btn px-6 py-2 bg-blue-600 text-white font-semibold rounded hover:bg-blue-700 transition"
             >
               🔄 Refresh
-            </Button>
-            <Button
-              onClick={this.handleLogout}
-              className="chime-error-btn px-6 py-2 bg-gray-800 text-white font-semibold rounded hover:bg-gray-900 transition"
-            >
-              🚪 Logout
             </Button>
           </div>
         </div>

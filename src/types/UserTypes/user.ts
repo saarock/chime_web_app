@@ -79,4 +79,5 @@ export interface UserImpDetails {
   country: string;
   gender: string;
   userId: string;
+  phoneNumber: string | null;
 }

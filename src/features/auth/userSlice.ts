@@ -25,7 +25,7 @@ export const serverLoginWithGoogle = createAsyncThunk(
       // Check the userDetails are there or not
       if (!userData.data) {
         // If the user-details are missing then send the new ApiError with the status code 500 because server is sending the worng response
-        throw new ApiError("User details are not found", 500);
+        throw new Error("User details are not found");
       }
 
       // Save the user data to local storage for caching
@@ -79,8 +79,7 @@ export const verifyUserFromTheServer = createAsyncThunk(
       return axiosResponseData.data.userData;
 
     } catch (error) {
-      console.log(error);
-
+      console.error(error);
       // Handle errors similarly as before
       if (error instanceof ApiError) {
         return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });
@@ -105,6 +104,7 @@ export const addImportantDetails = createAsyncThunk(
 
       return userImportantData.data; // Return the added data
     } catch (error) {
+      console.error(error);
       // Handle errors
       if (error instanceof ApiError) {
         return thunkAPI.rejectWithValue({ message: error.message, statusCode: error.statusCode });
@@ -196,6 +196,11 @@ const userSlice = createSlice({
         state.user.country = action.payload.country; // set the country when user change the imp details
         state.user.gender = action.payload.gender; // set the gender when user change the imp details
         state.user.age = Number(action.payload.age); // set the age when user change the imp details
+        if (action.payload.phoneNumber) {
+          // set the phone-number only if available
+          state.user.phoneNumber = action.payload.phoneNumber;
+        }
+
       }
     }).addCase(addImportantDetails.rejected, (state, action) => {
       if (action.payload) {

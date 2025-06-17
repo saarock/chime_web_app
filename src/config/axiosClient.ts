@@ -2,6 +2,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { refreshTokens } from "../manager";
 
+
 // Interface representing a queued request during token refresh
 interface FailedRequest {
   resolve: (value?: any) => void;
@@ -47,6 +48,7 @@ interface ErrorResponse {
 axiosClient.interceptors.response.use(
   (response) => response, // If the response is successful, return it directly
   async (error: AxiosError<ErrorResponse>) => {
+
     // Cast the request config to allow tracking of retry status
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
@@ -66,6 +68,7 @@ axiosClient.interceptors.response.use(
       error.response.status === 401 &&
       error.response.data?.errorCode === "token_expired" &&
       !originalRequest._retry;
+
 
     if (shouldRefresh) {
       originalRequest._retry = true; // Prevent infinite retry loops
@@ -95,7 +98,7 @@ axiosClient.interceptors.response.use(
       } catch (refreshError) {
         // If refresh fails, clear the queue and reject all waiting requests
         failedQueue = [];
-        return Promise.reject(refreshError);
+        return await Promise.reject(refreshError);
       } finally {
         // Ensure the refreshing flag is reset regardless of outcome
         isRefreshing = false;
@@ -103,7 +106,7 @@ axiosClient.interceptors.response.use(
     }
 
     // If it's not a token-related error, propagate the error
-    return Promise.reject(error);
+    return await Promise.reject(error);
   },
 );
 
