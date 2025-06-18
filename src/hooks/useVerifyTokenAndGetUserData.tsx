@@ -1,6 +1,6 @@
 // Import all the necessary dependencies here
 import { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ApiError } from "../utils";
 import { useDispatch } from "react-redux";
 import { setError, verifyUserFromTheServer } from "../features/auth/userSlice";
@@ -25,6 +25,8 @@ const useVerifyTokenAndGetUserData = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
+  const navigate = useNavigate();
+  
 
   /**
    * Verifies the token and fetches user data when a protected page is loaded.
@@ -66,7 +68,7 @@ const useVerifyTokenAndGetUserData = () => {
         setIsLoading(false);
       }
     })();
-  }, [location.pathname]);
+  }, [location.pathname, navigate]);
 
   return { isLoading, };
 };

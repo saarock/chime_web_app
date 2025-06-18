@@ -3,7 +3,6 @@ import { Link } from "react-router"
 import { ArrowLeft, Home } from "lucide-react"
 import { Button } from "../../components"
 import "../../styles/pages/NotFound.css";
-import { Variant } from "../../types";
 
 
 export default function NotFound() {

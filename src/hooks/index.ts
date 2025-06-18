@@ -9,6 +9,7 @@ import useErrorHandlerAtPageAndComponentLevel from "./useErrorHandlerAtPageAndCo
 import useLoading from "./useLoading";
 import useError from "./useError";
 import { useNotificationSounds } from "./useNotificationSounds";
+import useCheckUserIsLoginOrNot from "./useCheckUserIsLoginOrNot";
 
 // export hooks
 export {
@@ -21,5 +22,6 @@ export {
   useErrorHandlerAtPageAndComponentLevel,
   useLoading,
   useError,
-  useNotificationSounds
+  useNotificationSounds,
+  useCheckUserIsLoginOrNot,
 };

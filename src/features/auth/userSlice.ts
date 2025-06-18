@@ -200,6 +200,10 @@ const userSlice = createSlice({
           // set the phone-number only if available
           state.user.phoneNumber = action.payload.phoneNumber;
         }
+        
+        if (action.payload.relationshipStatus) {
+          state.user.relationShipStatus = action.payload.relationshipStatus;
+        }
 
       }
     }).addCase(addImportantDetails.rejected, (state, action) => {

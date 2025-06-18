@@ -101,9 +101,7 @@ export const ChimeProfileComponent = (): JSX.Element => {
                   <tr>
                     <td><strong>Relationship Status:</strong></td>
                     <td>
-                      {user.relationShipStatus
-                        ? "In a relationship"
-                        : "Not specified"}
+                      {user.relationShipStatus ? user.relationShipStatus : "Not-Specified"}
                     </td>
                   </tr>
                   <tr>
