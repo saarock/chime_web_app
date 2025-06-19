@@ -137,7 +137,7 @@ function VideoBox({
           {/* Rotating icon and message while searching */}
           <div className="chime-connecting-content">
             <VideoSpinner IconComponent={IconComponent} />
-            <VideoConnectingMessages currentMessage={currentMessage.text} connectedTo={connectedTo ? connectedTo : 'Connected to unknown'} />
+            <VideoConnectingMessages currentMessage={currentMessage.text} connectedTo={connectedTo ? connectedTo : isInCall ? 'Connected to unknown' : ""} />
 
             {/* Progress dots animation */}
             <VideoProgressDots />

@@ -193,7 +193,7 @@ export default function ChimeUserInfoModal({
                 >
                   <option value="">Select gender</option>
                   {genders.map((gender) => (
-                    <option key={gender} value={gender}>
+                    <option key={gender.toLowerCase()} value={gender}>
                       {gender}
                     </option>
                   ))}
