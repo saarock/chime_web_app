@@ -1,6 +1,9 @@
-import React, { JSX } from "react";
+
+// Import all the necessary dependencies here
+import type React from "react"
+import type { JSX } from "react"
 import "../../styles/components/SplashScreen.css";
-import Logo from "../Logo/Logo";
+import Logo from "../Logo/Logo"
 
 /**
  * Beautiful Splash screen for Chime
@@ -9,12 +12,19 @@ import Logo from "../Logo/Logo";
 const SplashScreen: React.ComponentType = (): JSX.Element => {
   return (
     <div className="chime-splash-screen">
-      <div className="chime-splash-logo-container">
-        <Logo/>
-        <h1 className="chime-splash-text">Powered by <span>Saarock</span></h1>
+      <div className="chime-splash-container">
+        <div className="chime-splash-logo-wrapper">
+          <Logo />
+        </div>
+        <div className="chime-splash-content">
+          <h1 className="chime-splash-title">Chime talk</h1>
+          <p className="chime-splash-subtitle">
+            Powered by <span className="chime-splash-brand">Saarock</span>
+          </p>
+        </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SplashScreen;
+export default SplashScreen

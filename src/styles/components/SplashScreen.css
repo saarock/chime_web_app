@@ -1,73 +1,141 @@
+:root {
+  --primary-btn-background-color: #1b84fc;
+  --secondary-btn-background-color: #df007e;
+  --primary-btn-background-hover-color: #1e7fef;
+  --primary-background-color: #191833;
+  --secondary-background-color: #212137;
+  --secondary-text-color: #dae9f0;
+  --primary-text-color: #f0f2f5;
+  --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --little-color: #51516a;
+  --primary-hover-color: #7a8084;
+  --social-hover-glow: #df007e;
+  --second-little-color: rgba(128, 128, 128, 0.055);
+}
+
 .chime-splash-screen {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  left: 0;
-  top: 0;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
+  background: var(--primary-background-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  animation: fadeIn 0.1s ease-in-out;
-  z-index: 1000000000000;
+  z-index: 9999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
 }
 
-.chime-splash-logo-container {
-  position: relative;
+.chime-splash-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-}
-
-.chime-splash-logo-glow {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #38bdf8, #0ea5e9, #0284c7);
-  animation: pulse 2s infinite ease-in-out;
-  box-shadow: 0 0 40px rgba(14, 165, 233, 0.6);
-}
-
-.chime-splash-text {
-  font-size: 2rem;
-  color: white;
-  font-weight: 600;
-  margin-top: 1rem;
+  justify-content: center;
   text-align: center;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  letter-spacing: 1px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
 }
 
-.chime-splash-text span {
-  color: #38bdf8;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+.chime-splash-logo-wrapper {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--secondary-background-color);
+  border-radius: 50%;
+  border: 2px solid var(--little-color);
+  box-shadow: var(--box-shadow-for-btn);
+  position: relative;
 }
 
-/* Animations */
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.8;
+.chime-splash-logo-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--primary-btn-background-color), var(--secondary-btn-background-color));
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+.chime-splash-content {
+  color: var(--primary-text-color);
+}
+
+.chime-splash-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.02em;
+  color: var(--primary-text-color);
+  text-shadow: 0 2px 8px rgba(27, 132, 252, 0.3);
+}
+
+.chime-splash-subtitle {
+  font-size: 1.125rem;
+  font-weight: 400;
+  margin: 0;
+  color: var(--secondary-text-color);
+  letter-spacing: 0.01em;
+}
+
+.chime-splash-brand {
+  font-weight: 600;
+  color: var(--secondary-btn-background-color);
+  text-shadow: 0 0 10px var(--social-hover-glow);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .chime-splash-container {
+    padding: 1.5rem;
   }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
+
+  .chime-splash-title {
+    font-size: 2.5rem;
   }
-  100% {
-    transform: scale(0.95);
-    opacity: 0.8;
+
+  .chime-splash-subtitle {
+    font-size: 1rem;
+  }
+
+  .chime-splash-logo-wrapper {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
+@media (max-width: 480px) {
+  .chime-splash-container {
+    padding: 1rem;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  .chime-splash-title {
+    font-size: 2rem;
   }
+
+  .chime-splash-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .chime-splash-logo-wrapper {
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* Optional: Add subtle accent elements */
+.chime-splash-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, var(--second-little-color) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, var(--second-little-color) 0%, transparent 50%);
+  pointer-events: none;
 }
