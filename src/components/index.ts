@@ -36,6 +36,7 @@ import NepalFlagVersion from "./NepalFlagVersion/NepalFlagVersion";
 import { ChimeTalkLogo3D, ChimeTalkLogo, ChimeTalkLogoLoader } from "./ChimeTalkLogo/ChimiTalkLogo";
 import ErrorSound from "./SoundsComponent/ErrorSound";
 import SuccessSound from "./SoundsComponent/SuccessSound";
+import Logo from "./Logo/Logo";
 
 // Export all the dependencies here
 export {
@@ -77,4 +78,5 @@ export {
   ChimeTalkLogoLoader,
   ErrorSound,
   SuccessSound,
+  Logo,
 };

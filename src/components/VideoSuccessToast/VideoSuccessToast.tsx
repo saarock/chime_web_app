@@ -1,7 +1,7 @@
 // Import all the necessary dependencies here
 import React from 'react';
 import Button from '../Button/Button';
-import { VideoSuccessToastProps } from '../../types';
+import { Variant, VideoSuccessToastProps } from '../../types';
 
 
 
@@ -27,6 +27,7 @@ const VideoSuccessToast: React.FC<VideoSuccessToastProps> = (
                         onClick={() => setSuccessMessage(null)}
                         className="chime-alert-remove"
                         aria-label="Dismiss success message"
+                        variant={Variant.danger}
                     >
                         ×
                     </Button>

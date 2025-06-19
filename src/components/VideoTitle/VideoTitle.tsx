@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import "../../styles/components/VideoTitle.css";
 import Button from "../Button/Button";
 import { Variant, type VideoTitleProps } from "../../types";
-import { ChevronDown, MessageSquare } from "lucide-react";
+import { ChevronDown, Cross, Menu, MessageSquare, XCircle } from "lucide-react";
 import VideoFilters from "../VideoFilters/VideoFilters";
 import { useAuth } from "../../hooks";
 import ChimeUserInfoModal from "../ChimeUserInfoModal/ChimeUserInfoModal";
@@ -22,19 +22,19 @@ import ReportUser from "../ReportUser/ReportUser";
 
 // Functional component to render the video chat title section with filters, feedback, and user info modals
 const VideoTitle: React.FC<VideoTitleProps> = ({
-  errorMessage,
-  successMessage,
-  setErrorMessage,
-  setSuccessMessage,
-  onlineUsersCount,
-  isInCall,
+  errorMessage, // ErrorMessage that can occured during the video-calls
+  successMessage, // SuccessMessage to show the user
+  setErrorMessage, // useState setError method to allow the user,  cancel and clear error message
+  setSuccessMessage, // useState setSucces method to allow the user,  cancle and clear the success message
+  onlineUsersCount, // It tell the how many user are online in number [like 0, 1, 2..]
+  isInCall, // It tell that the user is now on call or not [boolean => true or false]
 }) => {
   const [showFilters, setShowFilters] = useState(false); // Controls visibility of filter dropdown
   const { user } = useAuth(); // Custom hook to get authenticated user
   const [isHaveToFillDetails, setIsHaveToFillDetails] = useState<boolean>(false); // Show modal if required user info is missing
   const dispatch = useDispatch<AppDispatch>(); // Redux dispatcher
   const [isUserWantToGiveFeedBack, setIsUserWantToGiveFeedBack] = useState<boolean>(false); // Toggle feedback form
-
+  const [showTitle, setShowTitle] = useState<boolean>(true);
   /**
    * Handles filter toggle visibility.
    * Checks if the user has completed mandatory info (age, gender, country).
@@ -48,30 +48,6 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
     setShowFilters((prev) => !prev);
   }, [user]);
 
-  /**
-   * Handles submission of important user details (age, gender, country).
-   * Uses IP-based country fetch and dispatches Redux action.
-   */
-  const handleSubmitAndAddImpDetails = useCallback(async (data: any) => {
-    if (!user || !user?._id) {
-      throw new Error("User id is required pleased refresh your page.");
-    }
-
-    const country = await getCountry.scanAndGet();
-    if (!country) return;
-
-    try {
-      await dispatch(addImportantDetails({
-        age: data.age,
-        country: country,
-        gender: data.gender,
-        userId: user._id
-      })).unwrap();
-      toast.success("Details added successfully.");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : String(error));
-    }
-  }, [user?._id]);
 
   /**
    * Cancels feedback form display.
@@ -102,13 +78,23 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   }, [user]);
 
   return (
-    <div className="chime-video-title-wrapper">
+    <div className={`chime-video-title-wrapper`}>
+      {/* Toggle btn button */}
+      <Button 
+      variant={Variant.danger}
+      title="toggle title"
+      className="chime-toggle-btn"
+      onClick={() => setShowTitle((prev) => !prev)}
+      >
+       {showTitle ? <XCircle /> : <Menu />}
+      </Button>
+
       {/* Modal to collect user info if not filled */}
       {isHaveToFillDetails && (
         <ChimeUserInfoModal
           isOpen={isHaveToFillDetails}
           onClose={() => setIsHaveToFillDetails(false)}
-          onSubmit={handleSubmitAndAddImpDetails}
+
           key={"a"}
         />
       )}
@@ -122,7 +108,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
       )}
 
       {/* Main video chat title section */}
-      <div className="chime-video-title-container">
+      <div className={`chime-video-title-container ${!showTitle && 'chime-show-title-little-bit'}`}>
 
         {/* Display error messages (left-aligned) */}
         <VideoErrorToast errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
@@ -156,7 +142,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
               <MessageSquare size={16} />
             </Button>
 
-            { isInCall && <ReportUser onReport={() => { }} username="" />}
+            {isInCall && <ReportUser onReport={() => { }} username="" />}
           </div>
         </div>
 

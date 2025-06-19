@@ -1,7 +1,16 @@
 /* Main Container */
 .chime-video-title-wrapper {
   width: 100%;
+  position: relative;
 }
+
+.chime-toggle-btn {
+  position: absolute;
+  right: 0.3rem;
+  top: 0.3rem;
+  z-index: 1;
+}
+
 
 .chime-video-title-container {
   display: flex;
@@ -15,6 +24,10 @@
   position: relative;
   border: 1px solid var(--little-color);
 }
+.chime-show-title-little-bit {
+  display: none;
+}
+
 
 /* Title Content */
 .chime-video-title-content {

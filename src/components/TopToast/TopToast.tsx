@@ -2,10 +2,8 @@
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { Variant, type RootState } from "../../types";
-import { X, RefreshCw, LogOut, EyeOff, AlertTriangle } from "lucide-react";
+import { X, RefreshCw, EyeOff, AlertTriangle, LogIn } from "lucide-react";
 import { clearError } from "../../features/auth/userSlice";
-import { AuthUtil } from "../../utils";
-import { useAuth } from "../../hooks";
 import "../../styles/components/TopToast.css";
 import Button from "../Button/Button"
 
@@ -15,7 +13,6 @@ const TopToast = () => {
   const [visible, setVisible] = useState(false) // Tracks whether the toast is visible
   const [isAnimating, setIsAnimating] = useState(false) // Tracks if the toast is animating
   const dispatch = useDispatch() // Redux dispatcher to clear the error
-  const { isAuthenticated, isLoading } = useAuth() // Authentication state
 
   // Side effect to handle the visibility and animation of the toast when there's an error
   useEffect(() => {
@@ -42,12 +39,7 @@ const TopToast = () => {
     window.location.reload() // Refresh the page to try to resolve the error
   }, [])
 
-  // Handle logging the user out, typically triggered when authentication fails
-  const handleLogout = useCallback(() => {
-    setTimeout(() => {
-      AuthUtil.clientSideLogout() // Call the logout utility function
-    }, 300) // Wait 300ms for the toast animation to finish
-  }, [handleClearError])
+
 
   // Ignore the error and dismiss the toast
   const handleIgnore = useCallback(() => {
@@ -66,8 +58,6 @@ const TopToast = () => {
         aria-live="assertive" // Set to "assertive" for immediate announcement
         aria-atomic="true" // Ensure the alert is treated as a whole by screen readers
       >
-        {/* Progress bar, useful for asynchronous actions or loading states */}
-        <div className="chime-toast-progress"></div>
 
         {/* Close button to dismiss the error toast */}
         <button onClick={handleClearError} className="chime-toast-close" aria-label="Close error notification">
@@ -111,17 +101,6 @@ const TopToast = () => {
           </Button>
 
           <Button
-            variant={Variant.danger} // Use "danger" variant for logout (indicates a risky action)
-            onClick={handleLogout}
-            aria-label="Logout"
-            title="Logout"
-            disabled={!isAuthenticated && !isLoading} // Disable logout if  not authenticated
-          >
-            <LogOut className="chime-toast-button-icon" />
-            <span>Logout</span>
-          </Button>
-
-          <Button
             onClick={handleIgnore}
             variant={Variant.danger} // Similar to logout, ignoring error is a potentially important action
             aria-label="Ignore error"
@@ -130,6 +109,19 @@ const TopToast = () => {
             <EyeOff className="chime-toast-button-icon" />
             <span>Ignore</span>
           </Button>
+
+          {
+            error.statusCode == 401 &&
+            <Button
+              onClick={() => location.href = '/login'}
+              variant={Variant.secondary} // Similar to logout, ignoring error is a potentially important action
+              aria-label="Ignore error"
+              title="Ignore Error"
+            >
+              <LogIn className="chime-toast-button-icon" />
+              <span>Login</span>
+            </Button>
+          }
         </div>
       </div>
     </div>

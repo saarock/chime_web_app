@@ -6,8 +6,10 @@ import Layout from "./Layout";
 import {
   NonProtectedPageProtector,
   ProtectedPageProtector,
+  SplashScreen,
 } from "./components";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "./hooks";
 
 // Lazy load non-protected page
 const HomePage = React.lazy(() =>
@@ -51,6 +53,7 @@ const NotFound = React.lazy(() =>
 );
 
 const App = () => {
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

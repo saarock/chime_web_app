@@ -1,4 +1,5 @@
 // Import dependencies
+import { isAxiosError } from "axios";
 import { AuthEndPoint } from "../apis";
 import { AuthResponseData, UserLoginWithGoogleDetials } from "../types";
 import { errorhandler } from "../utils";
@@ -45,10 +46,9 @@ class AuthService {
     try {
       const response = await AuthEndPoint.refreshTokens();
       const axiosResponseData = await response.data;
-
       return axiosResponseData;
+
     } catch (error) {
-      console.error(error);
       throw errorhandler(error); // handle the error 
     }
   }

@@ -1,7 +1,8 @@
 // Import all the necessary dependencies here
 import React, { JSX, lazy, Suspense } from "react";
 import { PageProtectorProps } from "../../types";
-import { useVerifyTokenAndGetUserData } from "../../hooks";
+import { useSplashScreen, useVerifyTokenAndGetUserData } from "../../hooks";
+import SplashScreen from "../SplashScreen/SplashScreen";
 
 // lazy imports
 const LoadingComponent = lazy(
@@ -21,8 +22,15 @@ const ProtectedPageProtector: React.FC<PageProtectorProps> = ({
 }: PageProtectorProps): JSX.Element => {
   // All the hooks goes here
   useVerifyTokenAndGetUserData(); // This is the hook helps to chech the current user valid or not
+  const { showSplash } = useSplashScreen()
   // Initilize the chat socket on whole page
   // useChatSocket(); // Keep for the future
+
+
+  // Show splash only if unauthenticated and splash time hasn't passed
+  if (showSplash) {
+    return <SplashScreen />;
+  }
 
 
   // Otherwise, render the protected content.

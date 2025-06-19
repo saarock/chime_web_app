@@ -89,7 +89,7 @@ export default function VideoCallPage() {
         dispatch({ type: "SET_IN_CALL", payload: true });
         dispatch({ type: "SET_CONNECTING", payload: false });
         resetSounds(); // Stop the both success and error sounds
-      }, 1500);
+      }, 10);
 
       return () => clearTimeout(timeoutId);
     } else {
@@ -150,7 +150,7 @@ export default function VideoCallPage() {
     if (isErrorMessage) {
       playError();
     } else {
-      playSuccess();
+      // playSuccess();
     }
   }, [errorMessage, successMessage]);
 

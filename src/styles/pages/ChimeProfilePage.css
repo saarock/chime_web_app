@@ -22,6 +22,14 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  position: relative;
+}
+
+.chime-edit-btn {
+  position: absolute;
+  top: 3rem;
+  right: 2rem;
+  z-index: 100;
 }
 
 /* Profile Container */

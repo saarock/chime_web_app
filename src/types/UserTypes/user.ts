@@ -8,7 +8,7 @@ export interface User {
   profilePicture?: string;
   age?: number;
   gender?: string;
-  relationShipStatus?: boolean;
+  relationShipStatus?: string;
   active: boolean;
   country?: string;
   role: ["admin", "user"];
@@ -79,4 +79,6 @@ export interface UserImpDetails {
   country: string;
   gender: string;
   userId: string;
+  phoneNumber: string | null;
+   relationshipStatus: string | null;
 }

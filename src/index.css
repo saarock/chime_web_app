@@ -47,4 +47,7 @@ body {
 .active {
   color: var(--primary-btn-background-color);
 }
+.chime-imp-details {
+  color: rgb(241, 101, 101);
+}
 

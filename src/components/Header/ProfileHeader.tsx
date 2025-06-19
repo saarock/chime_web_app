@@ -4,6 +4,7 @@ import { FaUser } from "react-icons/fa";
 import LogoutComponent from "../LogoutComponent/LogoutComponent";
 import { useNavigate } from "react-router-dom";
 import { JSX } from "react";
+import { useAuth } from "../../hooks";
 
 /**
  * Chime profile nav container with many navs like -Profile -Setting -and Logout
@@ -12,14 +13,11 @@ import { JSX } from "react";
 const ProfileHeader: React.ComponentType = (): JSX.Element => {
   // hooks goes here
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
 
   // chime container navs
   const navItems = [
-    // {
-    //   name: "Setting",
-    //   icon: <FaCog />,
-    //   classSuffix: "setting",
-    // },
     {
       name: "Profile",
       icon: <FaUser />,
@@ -41,7 +39,8 @@ const ProfileHeader: React.ComponentType = (): JSX.Element => {
           </li>
         ))}
         {/* Chime container logout nav independenet nav to logout the user from the both the server side and client side */}
-        <LogoutComponent />
+        {/* Only load the logout component when user get verified */}
+        {isAuthenticated && <LogoutComponent />}
       </ul>
     </div>
   );
