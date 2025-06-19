@@ -1,7 +1,7 @@
 
 // Import all the necessary dependencies here
 import type React from "react"
-import type { JSX } from "react"
+import { useEffect, type JSX } from "react"
 import "../../styles/components/SplashScreen.css";
 import Logo from "../Logo/Logo"
 
@@ -10,6 +10,16 @@ import Logo from "../Logo/Logo"
  * @returns {JSX.Element}
  */
 const SplashScreen: React.ComponentType = (): JSX.Element => {
+
+  // Hide the scroll bar while showing the splash screen
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden"; // Hide scroll
+
+    return () => {
+      document.body.style.overflow = originalOverflow; // Restore scroll on unmount
+    };
+  }, []);
   return (
     <div className="chime-splash-screen">
       <div className="chime-splash-container">
