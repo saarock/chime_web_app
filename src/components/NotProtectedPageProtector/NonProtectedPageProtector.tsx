@@ -5,7 +5,8 @@ import React, { JSX, Suspense, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PageProtectorProps } from "../../types";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
-import { useAuth, useCheckUserIsLoginOrNot, useLoading } from "../../hooks";
+import { useAuth, useCheckUserIsLoginOrNot, useLoading, useSplashScreen } from "../../hooks";
+import SplashScreen from "../SplashScreen/SplashScreen";
 
 /**
  * 🧩 NonProtectedPageProtector
@@ -52,6 +53,10 @@ const NonProtectedPageProtector: React.FC<React.PropsWithChildren<PageProtectorP
       navigate("/video-calls", { replace: true });
     }
   }, [isAuthenticated, isLoading, location.pathname, navigate]);
+
+  // Initilize the chat socket on whole page
+  // useChatSocket(); // Keep for the future
+
 
   // If the state is in the loading 
   if (isLoading) return <LoadingComponent />

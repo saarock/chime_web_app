@@ -10,6 +10,7 @@ import useLoading from "./useLoading";
 import useError from "./useError";
 import { useNotificationSounds } from "./useNotificationSounds";
 import useCheckUserIsLoginOrNot from "./useCheckUserIsLoginOrNot";
+import useSplashScreen from "./useSplashScreen";
 
 // export hooks
 export {
@@ -24,4 +25,5 @@ export {
   useError,
   useNotificationSounds,
   useCheckUserIsLoginOrNot,
+  useSplashScreen,
 };

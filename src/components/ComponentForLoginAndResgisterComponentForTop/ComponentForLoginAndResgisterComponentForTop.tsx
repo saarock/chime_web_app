@@ -1,8 +1,8 @@
 // Import all the dependencies here
 import React, { JSX } from "react";
 import { ComponentForLoginAndResgisterComponentForTopProps } from "../../types";
-import logo from "../../assets/images/logo.png";
 import "../../styles/components/ComponentForLoginAndResgisterComponentForTop.css";
+import Logo from "../Logo/Logo";
 
 /**
  * This component sits on top of the login and register form and shows dynamic content.
@@ -22,13 +22,7 @@ const ComponentForLoginAndResgisterComponentForTop: React.ComponentType<
 }): JSX.Element => {
     return (
       <div className="chime-login-register-top-component">
-        <div className="chime-login-register-top-component-logo-container">
-          <img
-            src={logo}
-            alt="logo"
-            className="chime-login-register-top-component-logo"
-          />
-        </div>
+        <Logo />
         <div className="chime-login-register-top-component-title-wrapper">
           <h1>{title}</h1>
         </div>

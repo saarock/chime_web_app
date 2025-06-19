@@ -7,6 +7,7 @@ import gsap from "gsap";
 import "../../styles/components/HeroSection.css";
 import Button from "../Button/Button";
 import { Variant } from "../../types";
+import { useAuth } from "../../hooks";
 
 /**
  * Chime Hero Section component.
@@ -16,6 +17,8 @@ import { Variant } from "../../types";
  * @returns {JSX.Element} - The JSX code that renders the hero section of the app.
  */
 const HeroSection: React.ComponentType = (): JSX.Element => {
+  // All the hook goes here
+  const {isAuthenticated} = useAuth();
   useEffect(() => {
     // GSAP Animation: Fade In and Slide Title and Description
     gsap.from(".chime-hero-title", {
@@ -132,7 +135,13 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
                 variant={Variant.primary}
                 onClick={() => {
                   // Navigate to the video call page
-                  location.href = "/video-calls";
+                  if (isAuthenticated) {
+                    // If user is authenticated then re-direct to the video-call page
+                    location.href = "/video-calls";
+                  } else {
+                    // Other wise redirect to the login page
+                    location.href = "/login";
+                  }
                 }}
                 className="chime-start-btn"
               >

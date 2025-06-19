@@ -39,33 +39,6 @@
   66% { transform: translate(-5px, 5px) rotate(-1deg); }
 }
 
-/* Logo Container */
-.chime-login-register-top-component-logo-container {
-  margin-bottom: 1.5rem;
-  position: relative;
-  z-index: 2;
-}
-
-.chime-login-register-top-component-logo {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
-  object-fit: cover;
-  box-shadow: 0 8px 32px rgba(27, 132, 252, 0.3);
-  border: 3px solid var(--primary-btn-background-color);
-  transition: all 0.4s ease;
-  animation: logoGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes logoGlow {
-  0% { box-shadow: 0 8px 32px rgba(27, 132, 252, 0.3); }
-  100% { box-shadow: 0 12px 40px rgba(27, 132, 252, 0.5); }
-}
-
-.chime-login-register-top-component-logo:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 16px 48px rgba(27, 132, 252, 0.6);
-}
 
 /* Title Wrapper */
 .chime-login-register-top-component-title-wrapper {

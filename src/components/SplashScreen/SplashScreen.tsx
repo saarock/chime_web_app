@@ -1,14 +1,18 @@
 import React, { JSX } from "react";
 import "../../styles/components/SplashScreen.css";
+import Logo from "../Logo/Logo";
 
 /**
- * Splash screen for chime
+ * Beautiful Splash screen for Chime
  * @returns {JSX.Element}
  */
 const SplashScreen: React.ComponentType = (): JSX.Element => {
   return (
-    <div className="chime-splash-screen-container">
-      <h1>Powered by saarock</h1>
+    <div className="chime-splash-screen">
+      <div className="chime-splash-logo-container">
+        <Logo/>
+        <h1 className="chime-splash-text">Powered by <span>Saarock</span></h1>
+      </div>
     </div>
   );
 };

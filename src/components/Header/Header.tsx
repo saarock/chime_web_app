@@ -25,6 +25,8 @@ import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import NepalFlagVersion from "../NepalFlagVersion/NepalFlagVersion";
 import { ChimeTalkLogo } from "../ChimeTalkLogo/ChimiTalkLogo";
 import LoadingBar from "react-top-loading-bar"; // ✅ Import LoadingBar
+import SplashScreen from "../SplashScreen/SplashScreen";
+import Logo from "../Logo/Logo";
 
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
 
@@ -50,11 +52,7 @@ const Header: React.ComponentType = (): JSX.Element => {
     return () => clearTimeout(timeout);
   }, [location.pathname]);
 
-  // Check if user data is cached locally
-  const localStorageUtilCacheUserData = useMemo(
-    () => localStorageUtil.checkItem(LOCAL_STORAGE_USER_DATA_KEY),
-    [location.pathname, navigate],
-  );
+
 
   /**
    * Toggle tab dropdown (e.g., profile menu)
@@ -97,28 +95,28 @@ const Header: React.ComponentType = (): JSX.Element => {
       path: "/",
       name: "Home",
       icon: <FaHome />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      isProtected: !isAuthenticated,
       className: "chime-just-link",
     },
     {
       path: "/contact",
       name: "Contact",
       icon: <FaPhoneAlt />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      isProtected: !isAuthenticated,
       className: "chime-just-link",
     },
     {
       path: "/login",
       name: "Login",
       icon: <FaUserPlus />,
-      isProtected: !isAuthenticated && !localStorageUtilCacheUserData,
+      isProtected: !isAuthenticated,
       className: "chime-btn chime-btn-secondary-link",
     },
     {
       path: "/video-calls",
       name: "Video",
       icon: <FaVideo />,
-      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      isProtected: isAuthenticated,
       className: "chime-just-link",
     },
   ];
@@ -129,7 +127,7 @@ const Header: React.ComponentType = (): JSX.Element => {
       path: "/profile",
       name: "Profile",
       imageURL: isAuthenticated ? user?.profilePicture : "",
-      isProtected: isAuthenticated || localStorageUtilCacheUserData,
+      isProtected: isAuthenticated,
       className: "",
     },
   ];
@@ -144,7 +142,7 @@ const Header: React.ComponentType = (): JSX.Element => {
           <NavLink to="/">
             <ul className="chime-header-navbar-logos">
               <li className="chime-header-navbar-logo">
-                <ChimeTalkLogo size="md" />
+                <Logo/>
               </li>
             </ul>
           </NavLink>
@@ -169,7 +167,7 @@ const Header: React.ComponentType = (): JSX.Element => {
             {/* Profile tab with image */}
             {navsWithImage.map((nav) => {
               const safeImageURL = nav.imageURL?.trim();
-              if ((isAuthenticated && user) || localStorageUtilCacheUserData) {
+              if ((isAuthenticated && user)) {
                 return (
                   <li
                     key={nav.name}
