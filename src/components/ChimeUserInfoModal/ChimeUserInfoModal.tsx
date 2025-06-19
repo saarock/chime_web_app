@@ -1,3 +1,4 @@
+// Import all the necessary dependencies here
 import { useForm } from "react-hook-form";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
@@ -11,7 +12,9 @@ import { addImportantDetails } from "../../features/auth/userSlice";
 import { toast } from "react-toastify";
 import { AppDispatch } from "../../apps/store";
 import ChimeCountry from "../ChimeCountry/ChimeCountry";
+import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
+// Type definition for form fields
 interface ChimeUserInfoFormData {
   country: string;
   age: string;
@@ -20,31 +23,53 @@ interface ChimeUserInfoFormData {
   relationshipStatus: string | null;
 }
 
+// Props received from parent component
 interface ChimeUserInfoModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+// Static select options
 const genders = ["Male", "Female", "Other"];
-const relationshipStatuses = ["Single", "In a relationship", "Married", "Prefer not to say"];
+const relationshipStatuses = [
+  "Single",
+  "In a relationship",
+  "Married",
+  "Prefer not to say",
+];
 
 export default function ChimeUserInfoModal({
   isOpen,
   onClose,
 }: ChimeUserInfoModalProps) {
+  const { isAuthenticated, user } = useAuth(); // Custom hook to get auth state
+  const dispatch = useDispatch<AppDispatch>(); // Typed Redux dispatch
+  const [country, setCountry] = useState<string | null>(user?.country || null); // Local state for selected country
+
+  /**
+   * Initialize React Hook Form with default values from user data.
+   * This ensures form inputs are prefilled but not controlled unless user changes them.
+   */
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<ChimeUserInfoFormData>();
-
-  const dispatch = useDispatch<AppDispatch>();
-  const { user } = useAuth();
-  const [country, setCountry] = useState<string | null>(null);
+  } = useForm<ChimeUserInfoFormData>({
+    defaultValues: {
+      age: user?.age?.toString() || "",
+      gender: user?.gender || "",
+      country: user?.country || "",
+      phoneNumber: user?.phoneNumber || "",
+      relationshipStatus: user?.relationShipStatus || "",
+    },
+  });
 
   /**
-   * Handles profile form submission and dispatches Redux action to save details.
+   * Handles form submission:
+   * - Validates presence of `user._id` and selected country
+   * - Dispatches Redux action to update user profile
+   * - Shows success or error toast notifications
    */
   const handleFormSubmit = useCallback(
     async (data: ChimeUserInfoFormData) => {
@@ -71,8 +96,8 @@ export default function ChimeUserInfoModal({
         ).unwrap();
 
         toast.success("Profile information saved successfully.");
-        reset();
-        onClose();
+        reset(); // Optional: resets the form after submission
+        onClose(); // Close modal
       } catch (error) {
         toast.error(error instanceof Error ? error.message : String(error));
       }
@@ -80,7 +105,9 @@ export default function ChimeUserInfoModal({
     [dispatch, user?._id, country, onClose, reset]
   );
 
-  if (!isOpen) return null;
+  // Show loading state if user is not yet authenticated
+  if (!isAuthenticated) return <LoadingComponent />;
+  if (!isOpen) return null; // Don't render modal if `isOpen` is false
 
   return (
     <div className="chime-modal-overlay">
@@ -101,12 +128,10 @@ export default function ChimeUserInfoModal({
               Please provide the following information to complete your profile setup.
             </p>
 
-            {/* Form */}
-            <form
-              onSubmit={handleSubmit(handleFormSubmit)}
-              className="chime-form"
-            >
-              {/* Age */}
+            {/* Form starts */}
+            <form onSubmit={handleSubmit(handleFormSubmit)} className="chime-form">
+
+              {/* Age Field */}
               <div className="chime-form-group">
                 <label htmlFor="age" className="chime-form-label">
                   Age <strong className="chime-imp-details">required</strong>
@@ -122,13 +147,11 @@ export default function ChimeUserInfoModal({
                   })}
                 />
                 {errors.age && (
-                  <span className="chime-error-message">
-                    {errors.age.message}
-                  </span>
+                  <span className="chime-error-message">{errors.age.message}</span>
                 )}
               </div>
 
-              {/* Phone Number */}
+              {/* Phone Number Field (Optional) */}
               <div className="chime-form-group">
                 <label htmlFor="phoneNumber" className="chime-form-label">
                   Phone Number <strong className="chime-imp-details">optional</strong>
@@ -149,18 +172,16 @@ export default function ChimeUserInfoModal({
                   })}
                 />
                 {errors.phoneNumber && (
-                  <span className="chime-error-message">
-                    {errors.phoneNumber.message}
-                  </span>
+                  <span className="chime-error-message">{errors.phoneNumber.message}</span>
                 )}
               </div>
 
-              {/* Country */}
+              {/* Country Picker (from custom component) */}
               <div className="chime-form-group">
                 <ChimeCountry onCountryChange={setCountry} />
               </div>
 
-              {/* Gender */}
+              {/* Gender Select */}
               <div className="chime-form-group">
                 <label htmlFor="gender" className="chime-form-label">
                   Gender <strong className="chime-imp-details">required</strong>
@@ -178,13 +199,11 @@ export default function ChimeUserInfoModal({
                   ))}
                 </select>
                 {errors.gender && (
-                  <span className="chime-error-message">
-                    {errors.gender.message}
-                  </span>
+                  <span className="chime-error-message">{errors.gender.message}</span>
                 )}
               </div>
 
-              {/* Relationship Status */}
+              {/* Relationship Status Select */}
               <div className="chime-form-group">
                 <label htmlFor="relationshipStatus" className="chime-form-label">
                   Relationship Status <strong className="chime-imp-details">optional</strong>
@@ -203,7 +222,7 @@ export default function ChimeUserInfoModal({
                 </select>
               </div>
 
-              {/* Actions */}
+              {/* Action Buttons */}
               <div className="chime-form-actions">
                 <Button
                   type="button"
@@ -222,6 +241,7 @@ export default function ChimeUserInfoModal({
                 </Button>
               </div>
             </form>
+            {/* Form ends */}
           </div>
         </div>
       </div>
