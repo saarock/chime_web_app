@@ -7,7 +7,7 @@ import { login } from "../features/auth/userSlice";
 
 
 /**
- * 🪝 useCheckUserIsLoginOrNot
+ * 🪝 useCheckUserIsLoginOrNot [ Runs on First reload on the non-protected page ]
  *
  * This hook runs once on mount to:
  * - Check if the user is already logged in via token/cookie

@@ -38,6 +38,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
   id,
   ...rest
 }, ref): JSX.Element => {
+
+
   return (
     <input
       id={id}

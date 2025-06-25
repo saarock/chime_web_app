@@ -1,4 +1,5 @@
 //  User interface type to user details
+type userRole = "admin" | "user"
 export interface User {
   _id: string;
   fullName: string;
@@ -11,7 +12,7 @@ export interface User {
   relationShipStatus?: string;
   active: boolean;
   country?: string;
-  role: ["admin", "user"];
+  role: userRole;
   __v?: number;
 }
 
@@ -35,7 +36,7 @@ export interface UserAuthState {
   user: User | null;
   isAuthenticated: boolean;
   error: ErrorState | null;
-  isLoading? : boolean;
+  isLoading?: boolean;
 }
 
 // User response interface
@@ -75,10 +76,10 @@ export interface UserData {
 
 
 export interface UserImpDetails {
-  age: number;
-  country: string;
-  gender: string;
-  userId: string;
-  phoneNumber: string | null;
-   relationshipStatus: string | null;
+  age?: number;
+  country?: string;
+  gender?: string;
+  phoneNumber?: string | null;
+  relationshipStatus?: string | null;
+  userName?: string;
 }

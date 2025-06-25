@@ -3,15 +3,12 @@ import React, { useCallback, useState } from "react";
 import "../../styles/components/VideoTitle.css";
 import Button from "../Button/Button";
 import { Variant, type VideoTitleProps } from "../../types";
-import { ChevronDown, Cross, Menu, MessageSquare, XCircle } from "lucide-react";
+import { Menu, MessageSquare, XCircle } from "lucide-react";
 import VideoFilters from "../VideoFilters/VideoFilters";
 import { useAuth } from "../../hooks";
 import ChimeUserInfoModal from "../ChimeUserInfoModal/ChimeUserInfoModal";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../apps/store";
-import { addImportantDetails } from "../../features/auth/userSlice";
-import { getCountry } from "../../utils";
-import { toast } from "react-toastify";
 import { FeedbackForm, FeedbackFormData } from "../FeedBackForm/FeedBackForm";
 import { feedBackService } from "../../services";
 import VideoErrorToast from "../VideoErrorToast/VideoErrorToast";
@@ -80,13 +77,13 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   return (
     <div className={`chime-video-title-wrapper`}>
       {/* Toggle btn button */}
-      <Button 
-      variant={Variant.danger}
-      title="toggle title"
-      className="chime-toggle-btn"
-      onClick={() => setShowTitle((prev) => !prev)}
+      <Button
+        variant={Variant.danger}
+        title="toggle title"
+        className="chime-toggle-btn"
+        onClick={() => setShowTitle((prev) => !prev)}
       >
-       {showTitle ? <XCircle /> : <Menu />}
+        {showTitle ? <XCircle /> : <Menu />}
       </Button>
 
       {/* Modal to collect user info if not filled */}
@@ -121,7 +118,9 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
 
             <VideoOnline onlineUsersCount={onlineUsersCount} />
 
-            <Button
+
+            {/* Caching for the future */}
+            {/* <Button
               className='secondary'
               variant={Variant.secondary}
               onClick={() => handleToggleFilter()}
@@ -131,7 +130,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
                 className={`chime-chevron ${showFilters ? "chime-chevron-up" : ""}`}
                 size={16}
               />
-            </Button>
+            </Button> */}
 
             <Button
               className='secondary'

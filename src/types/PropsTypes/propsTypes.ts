@@ -51,6 +51,7 @@ export interface InputProps {
   value?: string;
   className?: string;
   id: string;
+  defaultValue?:string;
 }
 
 //ComponentForLoginAndResgisterComponentForTop component props

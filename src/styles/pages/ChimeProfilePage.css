@@ -1,19 +1,4 @@
 /* CSS Variables - Your existing color scheme */
-:root {
-  --primary-btn-background-color: #1b84fc;
-  --secondary-btn-background-color: #df007e;
-  --primary-btn-background-hover-color: #1e7fef;
-  --primary-background-color: #191833;
-  --secondary-background-color: #212137;
-  --secondary-text-color: #dae9f0;
-  --primary-text-color: #f0f2f5;
-  --box-shadow-for-btn: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  --little-color: #51516a;
-  --primary-hover-color: #7a8084;
-  --social-hover-glow: #df007e;
-  --second-little-color: rgba(128, 128, 128, 0.055);
-}
-
 /* Profile Section Base */
 .chime-profile-section {
   background-color: var(--primary-background-color);
@@ -30,6 +15,12 @@
   top: 3rem;
   right: 2rem;
   z-index: 100;
+}
+.chime-user-name {
+  color: rgb(187, 58, 58);
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
 }
 
 /* Profile Container */

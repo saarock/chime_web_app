@@ -5,13 +5,10 @@ import React, {
   Suspense,
   useCallback,
   useEffect,
-  useMemo,
   useReducer,
   useRef,
 } from "react";
 import { useAuth } from "../../hooks";
-import { localStorageUtil } from "../../utils";
-import { LOCAL_STORAGE_USER_DATA_KEY } from "../../constant";
 import {
   FaHome,
   FaPhoneAlt,
@@ -23,9 +20,7 @@ import { tabInitialState, tabReducer } from "../../reducers";
 import "../../styles/components/Header.css";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import NepalFlagVersion from "../NepalFlagVersion/NepalFlagVersion";
-import { ChimeTalkLogo } from "../ChimeTalkLogo/ChimiTalkLogo";
 import LoadingBar from "react-top-loading-bar"; // ✅ Import LoadingBar
-import SplashScreen from "../SplashScreen/SplashScreen";
 import Logo from "../Logo/Logo";
 
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
@@ -142,7 +137,7 @@ const Header: React.ComponentType = (): JSX.Element => {
           <NavLink to="/">
             <ul className="chime-header-navbar-logos">
               <li className="chime-header-navbar-logo">
-                <Logo/>
+                <Logo />
               </li>
             </ul>
           </NavLink>

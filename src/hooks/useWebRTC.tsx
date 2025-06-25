@@ -130,7 +130,6 @@ const useWebRTC = () => {
     // When remote tracks arrive, show them
     pc.ontrack = (e) => {
       webTRCDispatch({ type: "SET_REMOTE_STREAM", payload: e.streams[0] });
-
     };
 
     // Watch ICE connection state (checking → connected → disconnected, etc.)
@@ -387,7 +386,12 @@ const useWebRTC = () => {
     cleanupPeerConnection();
     webTRCDispatch({ type: "UPDATE_VIDEO_CONNECTED_ERROR_MESSAGE_AND_ONLINE_USER", payload: { isVideoSocketConnected: false, errorMessage: message, onlineUsersCount: 0 } });
     partnerIdRef.current = null;
-  }, []);
+    //Trun off the video and audio 
+    localStream?.getTracks().forEach((track) => {
+      track.stop();
+    });
+
+  }, [localStream]);
 
 
 
@@ -400,7 +404,7 @@ const useWebRTC = () => {
 
   useEffect(() => {
     if (!videoSocket) return;
-    webTRCDispatch({type: "SET_VIDEO_SOCKET_CONNECTED", payload: true});
+    webTRCDispatch({ type: "SET_VIDEO_SOCKET_CONNECTED", payload: true });
     videoSocket.emit("onlineUsersCount");
 
     return () => {
@@ -416,7 +420,7 @@ const useWebRTC = () => {
  */
 
   const handleGlobalSuccessMessage = useCallback(({ message }: { message: string }) => {
-    webTRCDispatch({type: "SET_SUCCESS_MESSAGE", payload: message});
+    webTRCDispatch({ type: "SET_SUCCESS_MESSAGE", payload: message });
   }, []);
 
 
@@ -495,7 +499,7 @@ const useWebRTC = () => {
       return;
     }
 
-    webTRCDispatch({type: "SET_SUCCESS_MESSAGE", payload: "Searching partner..."})
+    webTRCDispatch({ type: "SET_SUCCESS_MESSAGE", payload: "Searching partner..." })
 
     // If already in a call, ask to end and retry
     if (partnerIdRef.current && remoteStream) {

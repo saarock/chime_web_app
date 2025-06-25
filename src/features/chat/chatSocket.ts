@@ -8,8 +8,6 @@ export const initChatSocketEvents = () => {
 
   if (!chatSocket) return;
 
-  const accessToken = cookieUtil.get(ACCESS_TOKEN_KEY_NAME);
-  chatSocket.auth = { accessToken };
 
   chatSocket.connect();
 
@@ -19,9 +17,7 @@ export const initChatSocketEvents = () => {
       try {
         // IIFI function
         (async () => {
-          const newAccessoken = await refreshTokens();
-          cookieUtil.set(ACCESS_TOKEN_KEY_NAME, newAccessoken);
-          chatSocket.auth = { accessToken: newAccessoken };
+          await refreshTokens();
           chatSocket.connect();
         })();
       } catch (error) {

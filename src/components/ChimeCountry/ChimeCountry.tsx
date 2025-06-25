@@ -26,7 +26,7 @@ const ChimeCountry: React.FC<ChimeCountryProps> = ({ onCountryChange }) => {
   return (
     <div>
       <label htmlFor="country" style={{ display: 'block', marginBottom: '8px' }}>
-        Select Country:  <strong className="chime-imp-details">required</strong>
+        Select Country
       </label>
       <select
         id="country"
