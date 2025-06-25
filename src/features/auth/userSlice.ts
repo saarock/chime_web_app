@@ -196,6 +196,7 @@ const userSlice = createSlice({
         state.user.country = action.payload.country; // set the country when user change the imp details
         state.user.gender = action.payload.gender; // set the gender when user change the imp details
         state.user.age = Number(action.payload.age); // set the age when user change the imp details
+        state.user.userName = action.payload.userName;
         if (action.payload.phoneNumber) {
           // set the phone-number only if available
           state.user.phoneNumber = action.payload.phoneNumber;

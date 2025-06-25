@@ -5,6 +5,7 @@ import LogoutComponent from "../LogoutComponent/LogoutComponent";
 import { useNavigate } from "react-router-dom";
 import { JSX } from "react";
 import { useAuth } from "../../hooks";
+import { ShieldCheck } from "lucide-react";
 
 /**
  * Chime profile nav container with many navs like -Profile -Setting -and Logout
@@ -13,15 +14,26 @@ import { useAuth } from "../../hooks";
 const ProfileHeader: React.ComponentType = (): JSX.Element => {
   // hooks goes here
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
 
   // chime container navs
   const navItems = [
     {
+      path: "profile",
       name: "Profile",
       icon: <FaUser />,
       classSuffix: "profile",
+      canIShow: true,
+      redirectToAnotherWeb: false
+    },
+    {
+      path: "http://localhost:8000/admin/dashboard",
+      name: "admin Dashboard",
+      icon: <ShieldCheck />,
+      canIShow: isAuthenticated && user?.role == "admin",
+      classSuffix: "profile",
+      redirectToAnotherWeb: true,
     },
   ];
 
@@ -29,10 +41,16 @@ const ProfileHeader: React.ComponentType = (): JSX.Element => {
     <div className="chime-profile-header-container">
       <ul className="chime-profile-header-navs">
         {navItems.map((item) => (
-          <li
+          item.canIShow && <li
             key={item.name}
             className={`chime-profile-header-navs-item chime-${item.classSuffix}`}
-            onClick={() => navigate(item.name.toLowerCase())}
+            onClick={() => {
+              if (item.redirectToAnotherWeb) {
+                window.location.href = item.path;
+              } else {
+                navigate(item.path)
+              }
+            }}
           >
             <span className="chime-profile-header-navs-icon">{item.icon}</span>
             <span className="chime-profile-header-navs-text">{item.name}</span>

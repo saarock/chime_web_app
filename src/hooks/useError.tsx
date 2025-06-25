@@ -11,7 +11,7 @@ import { RootState } from "../types"
 const useError = () => {
     const error = useSelector((state: RootState) => state.auth.error);
 
-    return {error, isError: error? true : false}
+    return { error, isError: error && String(error).trim() !== "" ? true : false }
 }
 
 export default useError

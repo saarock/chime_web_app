@@ -65,6 +65,7 @@ export const ChimeProfileComponent = (): JSX.Element => {
                 className="chime-profile-image"
               />
               <h2 className="chime-profile-name">{user.fullName}</h2>
+              <p className="chime-user-name">@{user?.userName || "Unknown"}</p>
 
               {/* Active status label */}
               <span
