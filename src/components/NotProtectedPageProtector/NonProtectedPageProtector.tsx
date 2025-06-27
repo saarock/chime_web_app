@@ -32,6 +32,9 @@ const NonProtectedPageProtector: React.FC<React.PropsWithChildren<PageProtectorP
   const navigate = useNavigate();
   const location = useLocation();
 
+  // splash screen hook
+  const { showSplash } = useSplashScreen();
+
   // 🌐 Check if user is logged in (reactively via Redux)
   const { isAuthenticated } = useAuth();
 
@@ -57,6 +60,10 @@ const NonProtectedPageProtector: React.FC<React.PropsWithChildren<PageProtectorP
   // Initilize the chat socket on whole page
   // useChatSocket(); // Keep for the future
 
+  if (showSplash) {
+    // If user state is not authenticated then show the spash screen
+    return <SplashScreen />
+  }
 
   // If the state is in the loading 
   if (isLoading) return <LoadingComponent />

@@ -8,6 +8,8 @@ import React, { JSX } from "react";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import { useErrorHandlerAtPageAndComponentLevel, useLoading } from "../../hooks";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
+
 
 /**
  *
@@ -18,7 +20,7 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
   const { isLoading } = useLoading();
   const dispatch = useDispatch<AppDispatch>();
   const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
-
+  const navigate = useNavigate();
 
   /**
    *
@@ -41,7 +43,7 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       ).unwrap();
 
       // if user login successfully navigate to the chats
-      window.location.replace("/video-calls"); // dont show the prev history before login and after login to the user
+      navigate("/video-calls", { replace: true });     // dont show the prev history before login and after login to the user
     } catch (error) {
       setErrorMessageFallBack(error);
       console.error(

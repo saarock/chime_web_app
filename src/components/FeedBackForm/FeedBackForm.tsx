@@ -174,7 +174,7 @@ export function FeedbackForm({ onSubmit, variant = "full", theme = "dark", onCan
     return (
         <div className={`chime-feedback-form ${variant} ${theme}`}>
             <Button
-                variant={Variant.secondary}
+                variant={Variant.danger}
                 className="fixed top-4 right-4 z-50"
                 onClick={onCancel}
 

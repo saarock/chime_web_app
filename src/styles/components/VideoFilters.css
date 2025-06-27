@@ -1,10 +1,6 @@
-.chime-comming-soon {
+.chime-filter-form-child {
     display: flex;
     justify-content: center;
-    align-items: center ;
-    text-align: center;
-}
-
-.chime-comming-soon strong {
-    font-size: 1rem;
+    align-items: center;
+    gap: 2rem;
 }

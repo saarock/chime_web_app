@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import "../../styles/components/VideoTitle.css";
 import Button from "../Button/Button";
 import { Variant, type VideoTitleProps } from "../../types";
-import { Menu, MessageSquare, XCircle } from "lucide-react";
+import { ChevronDown, Menu, MessageSquare, XCircle } from "lucide-react";
 import VideoFilters from "../VideoFilters/VideoFilters";
 import { useAuth } from "../../hooks";
 import ChimeUserInfoModal from "../ChimeUserInfoModal/ChimeUserInfoModal";
@@ -91,7 +91,6 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
         <ChimeUserInfoModal
           isOpen={isHaveToFillDetails}
           onClose={() => setIsHaveToFillDetails(false)}
-
           key={"a"}
         />
       )}
@@ -120,7 +119,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
 
 
             {/* Caching for the future */}
-            {/* <Button
+            <Button
               className='secondary'
               variant={Variant.secondary}
               onClick={() => handleToggleFilter()}
@@ -130,7 +129,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
                 className={`chime-chevron ${showFilters ? "chime-chevron-up" : ""}`}
                 size={16}
               />
-            </Button> */}
+            </Button>
 
             <Button
               className='secondary'

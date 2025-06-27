@@ -8,6 +8,7 @@ import "../../styles/components/HeroSection.css";
 import Button from "../Button/Button";
 import { Variant } from "../../types";
 import { useAuth } from "../../hooks";
+import { useNavigate } from "react-router";
 
 /**
  * Chime Hero Section component.
@@ -19,6 +20,8 @@ import { useAuth } from "../../hooks";
 const HeroSection: React.ComponentType = (): JSX.Element => {
   // All the hook goes here
   const {isAuthenticated} = useAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
     // GSAP Animation: Fade In and Slide Title and Description
     gsap.from(".chime-hero-title", {
@@ -137,10 +140,10 @@ const HeroSection: React.ComponentType = (): JSX.Element => {
                   // Navigate to the video call page
                   if (isAuthenticated) {
                     // If user is authenticated then re-direct to the video-call page
-                    location.href = "/video-calls";
+                    navigate("/video-calls", {replace: true});
                   } else {
                     // Other wise redirect to the login page
-                    location.href = "/login";
+                    navigate("/login")
                   }
                 }}
                 className="chime-start-btn"

@@ -3,42 +3,50 @@ import { useEffect, useState } from 'react';
 import useAuth from './useAuth';
 
 /**
- * Custom hook to control splash screen visibility based on authentication state.
+ * Custom hook to manage splash screen visibility based on user authentication status.
  * 
- * This hook is primarily responsible for:
- * - Showing the splash screen only if the user is not authenticated.
- * - Automatically hiding the splash screen after a 2-second delay.
+ * Behavior:
+ * - When the user is NOT authenticated:
+ *   - Show the splash screen immediately.
+ *   - Automatically hide the splash screen after 3 seconds.
+ * - When the user IS authenticated:
+ *   - Hide the splash screen immediately.
  * 
- * This improves user experience by giving a branded entry point and allowing time 
- * for app initialization or background tasks before showing the actual content.
+ * This enhances UX by showing a branded entry while the app initializes or handles auth.
  *
- * @returns {Object} - `showSplash`: boolean that indicates whether to show the splash screen.
+ * @returns {Object} An object with `showSplash` boolean indicating splash screen visibility.
  */
 const useSplashScreen = () => {
-  // Retrieve authentication status (custom hook)
+  // Retrieve current authentication state using a custom auth hook
   const { isAuthenticated } = useAuth();
 
   /**
-   * Local state to manage splash screen visibility.
-   * - Initially true if the user is not authenticated.
-   * - Will auto-false after timeout.
+   * Local state controlling the splash screen visibility:
+   * - Initialized to true if user is NOT authenticated, false otherwise.
+   * - Updates based on authentication status changes.
    */
   const [showSplash, setShowSplash] = useState(!isAuthenticated);
 
   useEffect(() => {
-    /**
-     * Always trigger splash effect for 2 seconds regardless of current state.
-     * This allows smoother transition especially during page refresh or cold starts.
-     */
-    const timeout = setTimeout(() => {
-      setShowSplash(false); // Hide splash after delay
-    }, 2000); // 2 seconds
+    if (!isAuthenticated) {
+      // User is not authenticated, so show splash immediately
+      setShowSplash(true);
 
-    // Cleanup timeout if component unmounts early or dependency changes
-    return () => clearTimeout(timeout);
+      // Start a timer to hide splash screen after 3 seconds,
+      // allowing time for any initial loading or transitions
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+      }, 3000);
+
+      // Cleanup function to clear timer if auth status changes or component unmounts
+      return () => clearTimeout(timer);
+    } else {
+      // User is authenticated, so hide splash screen immediately
+      setShowSplash(false);
+    }
   }, [isAuthenticated]);
 
-  // Return the splash visibility status
+  // Return current splash screen visibility status
   return { showSplash };
 };
 
