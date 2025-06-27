@@ -175,6 +175,7 @@ export default function ChimeUserInfoModal({
                 </label>
                 <select
                   id="country"
+                  className="chime-select"
                   {...register("country")}
                   style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
                 >
@@ -185,6 +186,7 @@ export default function ChimeUserInfoModal({
                     </option>
                   ))}
                 </select>
+                {errors.country && <span className="chime-error-message">{errors.country.message}</span>}
               </div>
 
               {/* Gender Selection */}
