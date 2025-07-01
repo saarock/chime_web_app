@@ -51,7 +51,7 @@ const HowItWorks: React.ComponentType = (): JSX.Element => {
             icon={<FiUsers />}
             iconType="secondary"
             title="Fill the important details"
-            description="After login you have to full-fill the importnat details like gender, age and country for better experience."
+            description="After login you have to full-fill the important details like gender, age and country for better experience."
           />
 
           <StepCard
