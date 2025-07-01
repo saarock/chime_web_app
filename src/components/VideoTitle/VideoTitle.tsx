@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import "../../styles/components/VideoTitle.css";
 import Button from "../Button/Button";
 import { Variant, type VideoTitleProps } from "../../types";
-import { Menu, MessageSquare, XCircle } from "lucide-react";
+import { ChevronDown, Menu, MessageSquare, XCircle } from "lucide-react";
 import VideoFilters from "../VideoFilters/VideoFilters";
 import { useAuth } from "../../hooks";
 import ChimeUserInfoModal from "../ChimeUserInfoModal/ChimeUserInfoModal";
@@ -25,6 +25,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   setSuccessMessage, // useState setSucces method to allow the user,  cancle and clear the success message
   onlineUsersCount, // It tell the how many user are online in number [like 0, 1, 2..]
   isInCall, // It tell that the user is now on call or not [boolean => true or false]
+  partnerId, // It is the current-partner id currenly connected to the video-call
 }) => {
   const [showFilters, setShowFilters] = useState(false); // Controls visibility of filter dropdown
   const { user } = useAuth(); // Custom hook to get authenticated user
@@ -91,7 +92,6 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
         <ChimeUserInfoModal
           isOpen={isHaveToFillDetails}
           onClose={() => setIsHaveToFillDetails(false)}
-
           key={"a"}
         />
       )}
@@ -120,7 +120,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
 
 
             {/* Caching for the future */}
-            {/* <Button
+            <Button
               className='secondary'
               variant={Variant.secondary}
               onClick={() => handleToggleFilter()}
@@ -130,7 +130,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
                 className={`chime-chevron ${showFilters ? "chime-chevron-up" : ""}`}
                 size={16}
               />
-            </Button> */}
+            </Button>
 
             <Button
               className='secondary'
@@ -141,7 +141,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
               <MessageSquare size={16} />
             </Button>
 
-            {isInCall && <ReportUser onReport={() => { }} username="" />}
+            {isInCall && partnerId && <ReportUser reportedUserId={partnerId}/>}
           </div>
         </div>
 

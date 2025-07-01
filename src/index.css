@@ -48,6 +48,8 @@ body {
   color: var(--primary-btn-background-color);
 }
 .chime-imp-details {
-  color: rgb(241, 101, 101);
+  background-color: #4740fc;
+  padding: 0.3rem;
+  border-radius: 2rem;
+  border: 0.1px dashed white;
 }
-

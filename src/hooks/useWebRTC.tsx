@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import useAuth from "./useAuth";
 import useWebRTCHelper from "./useWebRTCHelper";
 import { initialState, webRTCReducer } from "../reducers/useWebRTCReducer";
+import { useSelector } from "react-redux";
+import { RootState } from "../types";
 /**
  * This hooks is responsible for handle rtc peer connection sockets and send the response to the page level 
  * @returns {wertc-hooks}
@@ -40,6 +42,10 @@ const useWebRTC = () => {
 
 
   const { isAuthenticated, user } = useAuth();
+
+  // Filter states
+  const filters = useSelector((state: RootState) => state.videoFilters);
+
 
 
   // Setup socket connection based on local stream availability
@@ -322,7 +328,29 @@ const useWebRTC = () => {
           getOrCreatePeerConnection(); // Create new peer connection
           if (partnerIdRef.current) {
             videoSocket.emit("start:random-video-call", {
-              userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
+              userDetails: {
+                // Use filters.age if defined and not "any"; 
+                // else fallback to user.age if defined; 
+                // else fallback to "any" as string (or empty string)
+                age: (filters.age && filters.age !== "any")
+                  ? filters.age
+                  : (user?.age ?? "any"),
+
+                // Use filters.gender if defined and not empty string or "any"; 
+                // else fallback to user.gender if defined; 
+                // else fallback to empty string
+                gender: (filters.gender && filters.gender !== "any")
+                  ? filters.gender
+                  : (user?.gender ?? ""),
+
+                // Use filters.country if defined and not empty string or "any"; 
+                // else fallback to user.country if defined; 
+                // else fallback to empty string
+                country: (filters.country && filters.country !== "any")
+                  ? filters.country
+                  : (user?.country ?? ""),
+              }
+
             });
           }
         } {
@@ -334,7 +362,7 @@ const useWebRTC = () => {
         sendError("Failed to end the call try again or refresh the page.")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, sendError],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, sendError, filters],
   );
 
   // Delay call back hook helps to prevent some time from the race-condition
@@ -359,14 +387,36 @@ const useWebRTC = () => {
 
         getOrCreatePeerConnection(); // get New peer connection
         videoSocket?.emit("start:random-video-call", {
-          userDetails: { age: user?.age || "any", gender: user?.gender || "any", country: user?.country || "any" },
+          userDetails: {
+            // Use filters.age if defined and not "any"; 
+            // else fallback to user.age if defined; 
+            // else fallback to "any" as string (or empty string)
+            age: (filters.age && filters.age !== "any")
+              ? filters.age
+              : (user?.age ?? "any"),
+
+            // Use filters.gender if defined and not empty string or "any"; 
+            // else fallback to user.gender if defined; 
+            // else fallback to empty string
+            gender: (filters.gender && filters.gender !== "any")
+              ? filters.gender
+              : (user?.gender ?? ""),
+
+            // Use filters.country if defined and not empty string or "any"; 
+            // else fallback to user.country if defined; 
+            // else fallback to empty string
+            country: (filters.country && filters.country !== "any")
+              ? filters.country
+              : (user?.country ?? ""),
+          }
+
         });
       } catch (error) {
         console.error(error);
         sendError("Failed while trying for next call.")
       }
     },
-    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, sendError],
+    [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, sendError, filters],
   );
 
 
@@ -516,10 +566,32 @@ const useWebRTC = () => {
       getOrCreatePeerConnection();
       // alert("I am starting the random call")
       videoSocket.emit("start:random-video-call", {
-        userDetails: { age: user?.age || "", gender: user?.gender || "", country: user?.country || "" },
+        userDetails: {
+          // Use filters.age if defined and not "any"; 
+          // else fallback to user.age if defined; 
+          // else fallback to "any" as string (or empty string)
+          age: (filters.age && filters.age !== "any")
+            ? filters.age
+            : (user?.age ?? "any"),
+
+          // Use filters.gender if defined and not empty string or "any"; 
+          // else fallback to user.gender if defined; 
+          // else fallback to empty string
+          gender: (filters.gender && filters.gender !== "any")
+            ? filters.gender
+            : (user?.gender ?? ""),
+
+          // Use filters.country if defined and not empty string or "any"; 
+          // else fallback to user.country if defined; 
+          // else fallback to empty string
+          country: (filters.country && filters.country !== "any")
+            ? filters.country
+            : (user?.country ?? ""),
+        }
+
       });
     }
-  }, [videoSocket, getOrCreatePeerConnection, remoteStream, user]);
+  }, [videoSocket, getOrCreatePeerConnection, remoteStream, user, filters]);
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 7) return states on Video page
@@ -530,13 +602,13 @@ const useWebRTC = () => {
     randomCall,
     endCall,
     isPartnerCallEnded,
-    partnerIdRef,
     errorMessage,
     successMessage,
     webTRCDispatch,
     onlineUsersCount,
     isVideoSocketConnected,
     videoSocket,
+    partnerId: partnerIdRef.current
   };
 };
 

@@ -1,7 +1,5 @@
 // Import all the necessary dependencies here
 import { useEffect, useState } from "react";
-import { cookieUtil } from "../utils";
-import { ACCESS_TOKEN_KEY_NAME, REFRESH_TOKEN_KEY_NAME } from "../constant";
 import {
   disconnectVideoSocket,
   getVideoSocket,
