@@ -22,6 +22,7 @@ import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import NepalFlagVersion from "../NepalFlagVersion/NepalFlagVersion";
 import LoadingBar from "react-top-loading-bar"; // ✅ Import LoadingBar
 import Logo from "../Logo/Logo";
+import useSetting from "../../hooks/useSetting";
 
 const ProfileHeader = lazy(() => import("./ProfileHeader"));
 
@@ -29,13 +30,16 @@ const ProfileHeader = lazy(() => import("./ProfileHeader"));
  * Chime main header component to show all the important navs
  * @returns {JSX.Element}
  */
-const Header: React.ComponentType = (): JSX.Element => {
+const Header: React.ComponentType = (): JSX.Element | null => {
   // Hooks goes here
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const [state, dispatch] = useReducer(tabReducer, tabInitialState);
   const loadingBarRef = useRef<any>(null); // ✅ ref for loading bar
+  // Setting hook
+  const {isShowNavBar} = useSetting();
+
 
   // Track if route changes to start and complete loading
   useEffect(() => {
@@ -83,6 +87,10 @@ const Header: React.ComponentType = (): JSX.Element => {
     document.body.addEventListener("click", handleClick);
     return () => document.body.removeEventListener("click", handleClick);
   }, []);
+
+  if (!isShowNavBar) {
+    return null;
+  }
 
   // Chime navs
   const navs = [
