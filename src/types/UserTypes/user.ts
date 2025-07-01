@@ -83,3 +83,10 @@ export interface UserImpDetails {
   relationshipStatus?: string | null;
   userName?: string;
 }
+
+// Like dislike user report type
+export type ReportTypes = "like" | "dislike"
+export interface Report {
+  reportedUserId: string;
+  type: ReportTypes
+};

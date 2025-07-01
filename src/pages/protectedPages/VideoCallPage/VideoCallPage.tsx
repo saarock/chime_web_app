@@ -37,6 +37,7 @@ export default function VideoCallPage() {
     isVideoSocketConnected,
     webTRCDispatch,
     videoSocket,
+    partnerId
   } = useWebRTC();
 
   // Authentication state hook
@@ -47,7 +48,7 @@ export default function VideoCallPage() {
   const remoteVideoRef = useRef<HTMLVideoElement>(null!);
 
   // Notification sounds hook
-  const { playError, playSuccess, resetSounds } = useNotificationSounds();
+  const { playError, resetSounds } = useNotificationSounds();
 
 
   // Timer ref
@@ -130,8 +131,8 @@ export default function VideoCallPage() {
       // Start 10-second timeout to auto-end call/search
       timerRef.current = setTimeout(() => {
         endRandomCall(); // End the call/search after timeout
-        setSuccessMessage("Pleased try again call ended automatically in 10 second if no partner found");
-      }, 10000);
+        setSuccessMessage("Pleased try again call ended automatically in 6 second if no partner found");
+      }, 6000);
     }
 
     // Cleanup: Clear timeout if component unmounts or dependencies change
@@ -278,6 +279,7 @@ export default function VideoCallPage() {
           onlineUsersCount={onlineUsersCount}
           isInCall={isInCall}
           userId={user._id}
+          partnerId={partnerId}
         />
 
         {/* Main video grid: Local + Remote */}

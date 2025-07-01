@@ -1,77 +1,80 @@
-"use client"
 
-import { useState } from "react"
-import { Flag } from "lucide-react"
-import ReportModal from "./ReportModal"
-import ReportSuccess from "./ReportSuccess"
-import { Variant } from "../../types"
+// Import all the necessary dependencies here
+import { useCallback, useEffect, useState } from "react"
+import { ThumbsUp, ThumbsDown } from "lucide-react"
 import Button from "../Button/Button"
-import { reportReasons } from "./ReportReason"
+import { Report, Variant } from "../../types"
+import { toast } from "react-toastify"
+import { useErrorHandlerAtPageAndComponentLevel } from "../../hooks"
+import { userService } from "../../services"
 
-interface ReportUserProps {
-  onReport: (reason: string, details?: string) => void
-  username: string
-}
-
-const ReportUser = ({ onReport, username }: ReportUserProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selectedReason, setSelectedReason] = useState("")
-  const [details, setDetails] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+const ReportUser = (
+  {
+    reportedUserId
+  }: { reportedUserId: string }
+) => {
+  // Fall  back errror handler
+  const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
+  // Helps to track the loading state
+  const [loading, setLoading] = useState<boolean>(false);
 
 
 
-  const handleSubmit = async () => {
-    if (!selectedReason) return
-    setIsSubmitting(true)
-    await new Promise((res) => setTimeout(res, 1500))
-    onReport(selectedReason, details)
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setTimeout(() => {
-      setIsOpen(false)
-      setIsSubmitted(false)
-      setSelectedReason("")
-      setDetails("")
-    }, 2000)
-  }
+  /**
+   * Handles click events for Like or Dislike buttons.
+   * Uses useCallback to memoize the function for performance.
+   */
+  const handleClick = useCallback(async (type: "like" | "dislike") => {
+    try {
+      setLoading(true);
+      if (!reportedUserId) {
+        toast.error("There is some-thing bug. Pleased while starting another call reload the app and start the random-call");
+        return;
+      }
+      if (!type) {
+        toast.info("like or dislike required");
+        return;
+      }
+      const reportInfo: Report = {
+        reportedUserId: reportedUserId,
+        type
+      }
+      const data = await userService.reportUser(reportInfo);
+      toast.success(data.data.message);
+
+    } catch (err) {
+      setErrorMessageFallBack(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [ reportedUserId])
+
+
 
   return (
-    <>
-      {/* Trigger Button */}
+    <div className="flex gap-2 items-center">
+      {/* Like Button */}
       <Button
-        variant={Variant.ternary}
-        onClick={() => setIsOpen(true)}
-        className="group flex items-center gap-2 px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-600 hover:text-red-700 text-xs font-medium rounded-full border border-red-500/20 hover:border-red-500/30 transition-all"
+        onClick={() => handleClick("like")}
+        disabled={loading}
+        style={{ cursor: loading ? "not-allowed" : "pointer" }}
+
       >
-        <Flag className="w-3 h-3" />
-        <span className="hidden sm:inline">Report</span>
+        <ThumbsUp className="w-4 h-4" />
+        Like
       </Button>
 
-      {isOpen && (
-        isSubmitted ? (
-          <ReportSuccess />
-        ) : (
-          <ReportModal
-            username={username}
-            reportReasons={reportReasons}
-            selectedReason={selectedReason}
-            setSelectedReason={setSelectedReason}
-            details={details}
-            setDetails={setDetails}
-            onCancel={() => {
-              setIsOpen(false)
-              setSelectedReason("")
-              setDetails("")
-              setIsSubmitted(false)
-            }}
-            onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-          />
-        )
-      )}
-    </>
+      {/* Dislike Button */}
+      <Button
+        variant={Variant.danger}
+        onClick={() => handleClick("dislike")}
+        disabled={loading}
+        style={{ cursor: loading ? "not-allowed" : "pointer" }}
+      >
+        <ThumbsDown className="w-4 h-4" />
+        Dislike
+      </Button>
+    </div>
   )
 }
 

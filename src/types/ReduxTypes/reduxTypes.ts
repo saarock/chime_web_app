@@ -5,5 +5,5 @@ import { VideoCallState } from "../VideoCallPageTypes/videoCallPageTypes";
 export interface RootState {
   auth: UserAuthState;
   videoCall: VideoCallState;
-  userVideoFilters: UserVideoFilter;
+  videoFilters: UserVideoFilter;
 }

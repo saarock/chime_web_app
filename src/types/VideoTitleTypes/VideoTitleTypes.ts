@@ -6,6 +6,7 @@ export interface VideoTitleProps {
   onlineUsersCount: number;
   isInCall: boolean;
   userId: string;
+  partnerId: string | null
 }
 
 

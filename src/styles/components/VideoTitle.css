@@ -61,8 +61,10 @@
 .chime-title-actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   margin-top: 4px;
+  min-width: 50rem;
 }
 
 /* Online Indicator */

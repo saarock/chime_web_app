@@ -3,6 +3,7 @@ import { UserVideoFilter } from "../../types";
 
 
 
+
 const initialState: UserVideoFilter = {
     age: "any",
     country: "any",
@@ -21,6 +22,15 @@ const videoFilterSlice = createSlice({
             state.gender = action.payload.gender;
             state.isStrict = action.payload.isStrict;
         },
+        addAge: (state, action) => {
+            state.age = action.payload;
+        },
+        addCountry: (state, action) => {
+            state.country = action.payload;
+        },
+        addGender: (state, action) => {
+            state.gender = action.payload;
+        },
 
         resetFilters: (state) => {
             state.age = "any";
@@ -32,7 +42,7 @@ const videoFilterSlice = createSlice({
 });
 
 
-const { applyFilters, resetFilters } = videoFilterSlice.actions;
+const { applyFilters, resetFilters, addAge, addCountry, addGender } = videoFilterSlice.actions;
 const videoFilterReducer = videoFilterSlice.reducer;
 export default videoFilterReducer;
-export { applyFilters, resetFilters }
+export { applyFilters, resetFilters, addAge, addCountry, addGender }

@@ -25,6 +25,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   setSuccessMessage, // useState setSucces method to allow the user,  cancle and clear the success message
   onlineUsersCount, // It tell the how many user are online in number [like 0, 1, 2..]
   isInCall, // It tell that the user is now on call or not [boolean => true or false]
+  partnerId, // It is the current-partner id currenly connected to the video-call
 }) => {
   const [showFilters, setShowFilters] = useState(false); // Controls visibility of filter dropdown
   const { user } = useAuth(); // Custom hook to get authenticated user
@@ -140,7 +141,7 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
               <MessageSquare size={16} />
             </Button>
 
-            {isInCall && <ReportUser onReport={() => { }} username="" />}
+            {isInCall && partnerId && <ReportUser reportedUserId={partnerId}/>}
           </div>
         </div>
 

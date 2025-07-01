@@ -20,3 +20,4 @@ export * from "./VideoAdvanceControllerTypes/VideoAdvanceControllerTypes";
 export * from "./VideoErrorToastTypes/VideoErrorToastTypes";
 export *  from "./VideoSuccessToastTypes/VideoSuccessToastTypes";
 export * from "./ChimeUserInfoModalTypes/ChimeUserInfoModalTypes";
+export * from "./ChimeFilterTypes/ChimeFilterTypes";
