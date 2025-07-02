@@ -335,6 +335,7 @@ export default function VideoCallPage() {
           {/* Primary Controls: Mic, Camera, Call, Retry */}
           <VideoControllerPanel
             isRemoteStream={!!remoteStream}               // Only show if remote exists
+            isInCall={isInCall}                           // True when user is in the call other-wise false
             toggleAudio={toggleAudio}                     // Toggle local mic
             toggleVideo={toggleVideo}                     // Toggle local camera
             isVideoEnabled={isVideoEnabled}               // Current video state
