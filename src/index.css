@@ -48,8 +48,6 @@ body {
   color: var(--primary-btn-background-color);
 }
 .chime-imp-details {
-  background-color: #4740fc;
   padding: 0.3rem;
-  border-radius: 2rem;
-  border: 0.1px dashed white;
+  text-decoration: underline;
 }

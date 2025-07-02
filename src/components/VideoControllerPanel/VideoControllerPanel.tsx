@@ -29,8 +29,11 @@ const VideoControllerPanel: React.FC<VideoControllerPanelProps> = ({
   isRemoteStream,      // Whether a remote stream is active (i.e., in a call)
   isSocketIsConnected, // Whether a socket is connected
   isVideoSocketConnected,   // Helps to check the socket is connected to the server or not for the saftey
+  isInCall,                      // True when user is in the call other-wise false
+
 
 }) => {
+
   const { isError } = useError(); // Check is there any error during the auth 
   return (
     <div className="chime-controls-panel">
@@ -57,9 +60,12 @@ const VideoControllerPanel: React.FC<VideoControllerPanelProps> = ({
         onClick={endRandomCall}
         className="chime-control-button chime-end-call"
         aria-label="End call"
-        disabled={!(isRemoteStream && !isConnecting)} // If remoteStream found and isConnecting is false then only enable the end-call buttin otherwise disable. Donot allow to user random cut
+        /**   Button is disabled only if the user is neither currently in a call nor in the process of connecting;
+         *    otherwise, the button is enabled to allow ending or cancelling the call.
+         */
+        disabled={!isInCall && !isConnecting}
         style={{
-          cursor: isRemoteStream || isConnecting ? "pointer" : "not-allowed",
+          cursor: isInCall || isConnecting ? "pointer" : "not-allowed",
         }}
       >
         <PhoneOff size={24} />

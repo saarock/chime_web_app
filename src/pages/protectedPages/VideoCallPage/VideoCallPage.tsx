@@ -12,6 +12,7 @@ import "../../../styles/pages/VideoCallPage.css";
 import { useAuth, useNotificationSounds, useWebRTC } from "../../../hooks";
 import { CallReducer } from "../../../reducers";
 import { videoInitialState } from "../../../types";
+import useSetting from "../../../hooks/useSetting";
 
 /**
  * VideoCallPage Component
@@ -68,6 +69,10 @@ export default function VideoCallPage() {
     layout,
     zoomLevel,
   } = state;
+
+  // Setting hook
+  const { hideNav, showNav } = useSetting();
+
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Media Stream Effects
@@ -201,6 +206,11 @@ export default function VideoCallPage() {
 
   // Toggle fullscreen for entire page
   const toggleMaximize = useCallback(() => {
+    if (isMaximized) {
+      showNav();
+    } else {
+      hideNav()
+    }
     dispatch({ type: "TOGGLE_MAXIMIZED" });
     const elem = document.documentElement;
     if (!isMaximized) elem.requestFullscreen?.();
@@ -325,6 +335,7 @@ export default function VideoCallPage() {
           {/* Primary Controls: Mic, Camera, Call, Retry */}
           <VideoControllerPanel
             isRemoteStream={!!remoteStream}               // Only show if remote exists
+            isInCall={isInCall}                           // True when user is in the call other-wise false
             toggleAudio={toggleAudio}                     // Toggle local mic
             toggleVideo={toggleVideo}                     // Toggle local camera
             isVideoEnabled={isVideoEnabled}               // Current video state

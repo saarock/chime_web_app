@@ -34,6 +34,7 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       return;
     }
     try {
+      alert()
       // after checking the credentials loginFromTheGoogle
       await dispatch(
         serverLoginWithGoogle({
@@ -63,7 +64,7 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
           // Other-wise render the googleLogin component
           <GoogleLogin
             useOneTap={true}
-            onSuccess={(e) => loginWithGoogle(e)}
+            onSuccess={(credentialResponse) => loginWithGoogle(credentialResponse)}
             onError={() => {
               console.error("Login Failed");
             }}
