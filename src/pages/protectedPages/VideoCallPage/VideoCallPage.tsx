@@ -288,7 +288,7 @@ export default function VideoCallPage() {
           setSuccessMessage={reSetSuccessMessage}
           onlineUsersCount={onlineUsersCount}
           isInCall={isInCall}
-          userId={user._id}
+          userId={user?._id!}
           partnerId={partnerId}
         />
 

@@ -6,8 +6,8 @@ import { errorhandler } from "../utils";
 
 class FeedBackService {
     async saveFeedBack(userFeedBack: FeedbackFormData): Promise<{
-isFeedbackSaved: boolean
-}> {
+        isFeedbackSaved: boolean
+    }> {
         try {
             const response = await FeedBackEndPoint.saveFeedBack(userFeedBack);
             return response.data.data;

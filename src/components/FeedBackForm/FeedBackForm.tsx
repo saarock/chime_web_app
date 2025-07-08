@@ -9,7 +9,7 @@ import { Variant } from "../../types"
 import { toast } from "react-toastify"
 
 // Validation schema
-const feedbackSchema = z.object({
+export const feedbackSchema = z.object({
     rating: z.number().min(1, "Please select a rating").max(5, "Rating must be between 1 and 5"),
     category: z.string().min(1, "Please select a category"),
     feedback: z

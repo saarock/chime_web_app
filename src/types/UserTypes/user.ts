@@ -48,7 +48,13 @@ interface userDataWithRefreshAnAccessToken {
 
 // Interface for the data field inside the response
 export interface AuthResponseData {
+  user(user: any): unknown;
+  refreshToken(refreshToken: any): unknown;
+  accessToken(accessToken: any): unknown;
   data: userDataWithRefreshAnAccessToken;
+  statusCode: number;
+  message: string;
+
 }
 
 export interface UserVideoFilter {
