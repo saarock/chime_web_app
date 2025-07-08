@@ -360,6 +360,7 @@
   }
 
   .chime-alert {
+    display: none;
     max-width: 100%;
   }
 }

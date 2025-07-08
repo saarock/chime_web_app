@@ -1,5 +1,4 @@
-// Import dependencies
-import { isAxiosError } from "axios";
+// Import all the necessary dependencies here
 import { AuthEndPoint } from "../apis";
 import { AuthResponseData, UserLoginWithGoogleDetials } from "../types";
 import { errorhandler } from "../utils";

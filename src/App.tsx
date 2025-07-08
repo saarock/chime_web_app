@@ -7,48 +7,15 @@ import {
   NonProtectedPageProtector,
   ProtectedPageProtector,
 } from "./components";
-import React, {  } from "react";
-
-// Lazy load non-protected page
-const HomePage = React.lazy(() =>
-  import("./pages/nonProtectedIndex").then((module) => ({
-    default: module.default.Home,
-  })),
-);
-const LoginPage = React.lazy(() =>
-  import("./pages/nonProtectedIndex").then((module) => ({
-    default: module.default.LoginPage,
-  })),
-);
-
-const ContactPage = React.lazy(() =>
-  import("./pages/nonProtectedIndex").then((module) => ({
-    default: module.default.ContactPage,
-  })),
-);
-
-// Lazy loading protected page
-// const ChatsPage = React.lazy(() =>
-//   import("./pages/protectedIndex").then((module) => ({
-//     default: module.default.ChatsPage,
-//   })),
-// );
-const ChimeProfilePage = React.lazy(() =>
-  import("./pages/protectedIndex").then((module) => ({
-    default: module.default.ChimeProfilePage,
-  })),
-);
-const VideoCallPage = React.lazy(() =>
-  import("./pages/protectedIndex").then((module) => ({
-    default: module.default.VideoCallPage,
-  })),
-);
-
-const NotFound = React.lazy(() =>
-  import("./pages/FallBackIndex").then((module) => ({
-    default: module.default.NotFound,
-  })),
-);
+import {
+  ChimeProfilePage,
+  ContactPage,
+  HomePage,
+  LoginPage,
+  NotFound
+  ,
+  VideoCallPage
+} from "./lazyLoadingForPages";
 
 const App = () => {
 

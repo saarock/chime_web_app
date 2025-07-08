@@ -34,7 +34,6 @@ const LoginWithGoogleComponent: React.ComponentType = (): JSX.Element => {
       return;
     }
     try {
-      alert()
       // after checking the credentials loginFromTheGoogle
       await dispatch(
         serverLoginWithGoogle({
