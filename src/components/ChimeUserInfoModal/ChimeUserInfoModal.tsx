@@ -5,7 +5,14 @@ import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { X } from "lucide-react";
 import "../../styles/components/ChimeUserInfoModal.css";
-import { ChimeUserInfoFormData, ChimeUserInfoModalProps, countries, genders, relationshipStatuses, Variant } from "../../types";
+import {
+  ChimeUserInfoFormData,
+  ChimeUserInfoModalProps,
+  countries,
+  genders,
+  relationshipStatuses,
+  Variant,
+} from "../../types";
 import { useDispatch } from "react-redux";
 import { useAuth } from "../../hooks";
 import { useCallback, useEffect } from "react";
@@ -13,7 +20,6 @@ import { addImportantDetails } from "../../features/auth/userSlice";
 import { toast } from "react-toastify";
 import { AppDispatch } from "../../apps/store";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
-
 
 export default function ChimeUserInfoModal({
   isOpen,
@@ -63,7 +69,8 @@ export default function ChimeUserInfoModal({
       // Build an object of only the changed fields
       const updatedFields: Partial<ChimeUserInfoFormData> = {};
       for (const key in dirtyFields) {
-        updatedFields[key as keyof ChimeUserInfoFormData] = data[key as keyof ChimeUserInfoFormData];
+        updatedFields[key as keyof ChimeUserInfoFormData] =
+          data[key as keyof ChimeUserInfoFormData];
       }
 
       // If nothing changed, no need to send a request
@@ -107,10 +114,14 @@ export default function ChimeUserInfoModal({
 
           <div className="chime-modal-body">
             <p className="chime-modal-description">
-              Please provide the following information to complete your profile setup.
+              Please provide the following information to complete your profile
+              setup.
             </p>
 
-            <form onSubmit={handleSubmit(handleFormSubmit)} className="chime-form">
+            <form
+              onSubmit={handleSubmit(handleFormSubmit)}
+              className="chime-form"
+            >
               {/* Age Field */}
               <div className="chime-form-group">
                 <label htmlFor="age" className="chime-form-label">
@@ -125,7 +136,11 @@ export default function ChimeUserInfoModal({
                     max: { value: 100, message: "Too old to register" },
                   })}
                 />
-                {errors.age && <span className="chime-error-message">{errors.age.message}</span>}
+                {errors.age && (
+                  <span className="chime-error-message">
+                    {errors.age.message}
+                  </span>
+                )}
               </div>
 
               {/* Username Field (Alphanumeric only) */}
@@ -145,7 +160,9 @@ export default function ChimeUserInfoModal({
                   })}
                 />
                 {errors.userName && (
-                  <span className="chime-error-message">{errors.userName.message}</span>
+                  <span className="chime-error-message">
+                    {errors.userName.message}
+                  </span>
                 )}
               </div>
 
@@ -159,12 +176,20 @@ export default function ChimeUserInfoModal({
                   type="text"
                   placeholder="Enter your phone number"
                   {...register("phoneNumber", {
-                    minLength: { value: 7, message: "Phone number must be at least 7 digits" },
-                    maxLength: { value: 15, message: "Phone number must be under 15 digits" },
+                    minLength: {
+                      value: 7,
+                      message: "Phone number must be at least 7 digits",
+                    },
+                    maxLength: {
+                      value: 15,
+                      message: "Phone number must be under 15 digits",
+                    },
                   })}
                 />
                 {errors.phoneNumber && (
-                  <span className="chime-error-message">{errors.phoneNumber.message}</span>
+                  <span className="chime-error-message">
+                    {errors.phoneNumber.message}
+                  </span>
                 )}
               </div>
 
@@ -177,7 +202,11 @@ export default function ChimeUserInfoModal({
                   id="country"
                   className="chime-select"
                   {...register("country")}
-                  style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                  style={{
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                  }}
                 >
                   <option value="">-- Choose a country --</option>
                   {countries.map((country) => (
@@ -186,7 +215,11 @@ export default function ChimeUserInfoModal({
                     </option>
                   ))}
                 </select>
-                {errors.country && <span className="chime-error-message">{errors.country.message}</span>}
+                {errors.country && (
+                  <span className="chime-error-message">
+                    {errors.country.message}
+                  </span>
+                )}
               </div>
 
               {/* Gender Selection */}
@@ -194,7 +227,11 @@ export default function ChimeUserInfoModal({
                 <label htmlFor="gender" className="chime-form-label">
                   Gender
                 </label>
-                <select id="gender" className="chime-select" {...register("gender")}>
+                <select
+                  id="gender"
+                  className="chime-select"
+                  {...register("gender")}
+                >
                   <option value="">Select gender</option>
                   {genders.map((gender) => (
                     <option key={gender} value={gender}>
@@ -202,15 +239,26 @@ export default function ChimeUserInfoModal({
                     </option>
                   ))}
                 </select>
-                {errors.gender && <span className="chime-error-message">{errors.gender.message}</span>}
+                {errors.gender && (
+                  <span className="chime-error-message">
+                    {errors.gender.message}
+                  </span>
+                )}
               </div>
 
               {/* Relationship Status Selection */}
               <div className="chime-form-group">
-                <label htmlFor="relationshipStatus" className="chime-form-label">
+                <label
+                  htmlFor="relationshipStatus"
+                  className="chime-form-label"
+                >
                   Relationship Status
                 </label>
-                <select id="relationshipStatus" className="chime-select" {...register("relationshipStatus")}>
+                <select
+                  id="relationshipStatus"
+                  className="chime-select"
+                  {...register("relationshipStatus")}
+                >
                   <option value="">Select your relationship status</option>
                   {relationshipStatuses.map((status) => (
                     <option key={status} value={status}>

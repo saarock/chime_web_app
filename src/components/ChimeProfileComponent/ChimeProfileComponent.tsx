@@ -14,12 +14,12 @@ import { JSX, useState } from "react";
  * - If the user is still loading, it shows a loader.
  * - Once authenticated, it shows profile info like name, email, gender, etc.
  * - Includes a modal to update basic information (age, gender, country).
- * 
+ *
  * Future Enhancements:
  * - Allow editing all profile fields (name, email, phone, etc.)
  * - Profile picture upload feature
  * - Add social media links or bio
- * 
+ *
  * @returns {JSX.Element} The rendered profile UI for the logged-in user
  */
 export const ChimeProfileComponent = (): JSX.Element => {
@@ -35,12 +35,14 @@ export const ChimeProfileComponent = (): JSX.Element => {
 
   return (
     <>
-
       {/* If user is authenticated, render profile details */}
       {isAuthenticated && user && (
         <section className="chime-profile-section">
           {/* User info modal - shown conditionally via `isOpen` */}
-          <ChimeUserInfoModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
+          <ChimeUserInfoModal
+            isOpen={isOpen}
+            onClose={() => setIsOpen(false)}
+          />
 
           {/* Edit button to open modal */}
           <Button
@@ -80,44 +82,66 @@ export const ChimeProfileComponent = (): JSX.Element => {
               <table className="chime-profile-table">
                 <tbody>
                   <tr>
-                    <td><strong>Email:</strong></td>
+                    <td>
+                      <strong>Email:</strong>
+                    </td>
                     <td>{user.email}</td>
                   </tr>
                   <tr>
-                    <td><strong>Phone:</strong></td>
+                    <td>
+                      <strong>Phone:</strong>
+                    </td>
                     <td>{user.phoneNumber || "Not provided"}</td>
                   </tr>
                   <tr>
-                    <td><strong>Age:</strong></td>
+                    <td>
+                      <strong>Age:</strong>
+                    </td>
                     <td>{user.age || "Not specified"}</td>
                   </tr>
                   <tr>
-                    <td><strong>Gender:</strong></td>
+                    <td>
+                      <strong>Gender:</strong>
+                    </td>
                     <td>{user.gender || "Not specified"}</td>
                   </tr>
                   <tr>
-                    <td><strong>Country:</strong></td>
+                    <td>
+                      <strong>Country:</strong>
+                    </td>
                     <td>{user.country || "Not specified"}</td>
                   </tr>
                   <tr>
-                    <td><strong>Relationship Status:</strong></td>
                     <td>
-                      {user.relationShipStatus ? user.relationShipStatus : "Not-Specified"}
+                      <strong>Relationship Status:</strong>
+                    </td>
+                    <td>
+                      {user.relationShipStatus
+                        ? user.relationShipStatus
+                        : "Not-Specified"}
                     </td>
                   </tr>
                   <tr>
-                    <td><strong>Role:</strong></td>
+                    <td>
+                      <strong>Role:</strong>
+                    </td>
                     <td>{user.role || "User"}</td>
                   </tr>
+                  {user.role === "admin" && (
+                    <tr>
+                      <td>
+                        <strong>Password:</strong>
+                      </td>
+                      <td>{user.password || "For admin password is required!"}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
           </form>
-
         </section>
       )}
     </>
-
   );
 };
 

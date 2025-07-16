@@ -14,6 +14,7 @@ export interface User {
   country?: string;
   role: userRole;
   __v?: number;
+  password?: string;
 }
 
 // User interface for login

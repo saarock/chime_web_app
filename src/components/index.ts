@@ -37,6 +37,7 @@ import { ChimeTalkLogo3D, ChimeTalkLogo, ChimeTalkLogoLoader } from "./ChimeTalk
 import ErrorSound from "./SoundsComponent/ErrorSound";
 import SuccessSound from "./SoundsComponent/SuccessSound";
 import Logo from "./Logo/Logo";
+import Select from "./Select/Select";
 
 // Export all the dependencies here
 export {
@@ -79,4 +80,5 @@ export {
   ErrorSound,
   SuccessSound,
   Logo,
+  Select
 };
