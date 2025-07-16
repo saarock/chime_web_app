@@ -32,6 +32,9 @@
   border-radius: 16px;
   overflow: hidden;
   transition: height 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
 }
 
 /* Side-by-side layout: 2 equal columns */
@@ -59,6 +62,7 @@
   padding: 12px 24px;
   border-radius: 16px;
   transition: all 0.3s ease;
+  z-index: 99999;
 }
 
 /* Controls container variants for maximized + layout */

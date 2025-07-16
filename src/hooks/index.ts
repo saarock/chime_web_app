@@ -11,6 +11,7 @@ import useError from "./useError";
 import { useNotificationSounds } from "./useNotificationSounds";
 import useCheckUserIsLoginOrNot from "./useCheckUserIsLoginOrNot";
 import useSplashScreen from "./useSplashScreen";
+import useDelay from "./useDelay";
 
 // export hooks
 export {
@@ -26,4 +27,5 @@ export {
   useNotificationSounds,
   useCheckUserIsLoginOrNot,
   useSplashScreen,
+  useDelay
 };

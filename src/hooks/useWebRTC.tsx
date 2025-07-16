@@ -8,6 +8,7 @@ import useWebRTCHelper from "./useWebRTCHelper";
 import { initialState, webRTCReducer } from "../reducers/useWebRTCReducer";
 import { useSelector } from "react-redux";
 import { RootState } from "../types";
+import useDelay from "./useDelay";
 /**
  * This hooks is responsible for handle rtc peer connection sockets and send the response to the page level 
  * @returns {wertc-hooks}
@@ -50,6 +51,9 @@ const useWebRTC = () => {
 
   // Setup socket connection based on local stream availability
   const { videoSocket } = useVideoSocket({ isLocalStreamIsOn: !!localStream, isUserVerify: isAuthenticated });
+
+  // useDelay hook for delay
+  const {delay} = useDelay();
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 2) CAPTURE LOCAL MEDIA
@@ -365,8 +369,8 @@ const useWebRTC = () => {
     [cleanupPeerConnection, getOrCreatePeerConnection, videoSocket, user, sendError, filters],
   );
 
-  // Delay call back hook helps to prevent some time from the race-condition
-  const delay = useCallback(async (ms: number) => new Promise(resolve => setTimeout(resolve, ms)), []);
+
+
   /** Handler for retry event when both agreed to try someone else */
   const handleNextTry = useCallback(
     async ({ isEnder }: { isEnder: boolean }) => {
