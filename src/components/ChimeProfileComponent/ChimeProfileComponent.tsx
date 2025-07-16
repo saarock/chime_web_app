@@ -127,14 +127,6 @@ export const ChimeProfileComponent = (): JSX.Element => {
                     </td>
                     <td>{user.role || "User"}</td>
                   </tr>
-                  {user.role === "admin" && (
-                    <tr>
-                      <td>
-                        <strong>Password:</strong>
-                      </td>
-                      <td>{user.password || "For admin password is required!"}</td>
-                    </tr>
-                  )}
                 </tbody>
               </table>
             </div>

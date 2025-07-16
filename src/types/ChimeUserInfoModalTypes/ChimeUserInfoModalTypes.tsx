@@ -5,6 +5,7 @@ export interface ChimeUserInfoFormData {
   phoneNumber?: string;
   relationshipStatus?: string;
   userName?: string;
+  password? :string
 }
 
 export interface ChimeUserInfoModalProps {

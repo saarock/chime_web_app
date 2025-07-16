@@ -41,6 +41,7 @@ export default function ChimeUserInfoModal({
       phoneNumber: user?.phoneNumber || "",
       relationshipStatus: user?.relationShipStatus || "",
       userName: user?.userName || "",
+      password: user?.password || "",
     },
   });
 
@@ -54,6 +55,7 @@ export default function ChimeUserInfoModal({
         phoneNumber: user?.phoneNumber || "",
         relationshipStatus: user?.relationShipStatus || "",
         userName: user?.userName || "",
+        password: user?.password || "",
       });
     }
   }, [user, reset]);
@@ -266,6 +268,29 @@ export default function ChimeUserInfoModal({
                     </option>
                   ))}
                 </select>
+
+                {/* Password */}
+                <div className="chime-form-group">
+                  <label htmlFor="password" className="chime-form-label">
+                    Password
+                  </label>
+                  <Input
+                    id="password"
+                    type="text"
+                    placeholder="Enter your password only if you don't have password or want to change the password"
+                    {...register("password", {
+                      minLength: {
+                        value: 5,
+                        message: "Password must be at least 5 char",
+                      },
+                    })}
+                  />
+                  {errors.password && (
+                    <span className="chime-error-message">
+                      {errors.password.message}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* Action Buttons */}
