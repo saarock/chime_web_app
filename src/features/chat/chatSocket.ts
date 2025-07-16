@@ -1,6 +1,5 @@
 import { getChatSocket } from "../../config/socketManager";
-import { cookieUtil } from "../../utils";
-import { ACCESS_TOKEN_KEY_NAME } from "../../constant";
+import { AuthUtil } from "../../utils";
 import { refreshTokens } from "../../manager";
 
 export const initChatSocketEvents = () => {
@@ -21,10 +20,10 @@ export const initChatSocketEvents = () => {
           chatSocket.connect();
         })();
       } catch (error) {
-        // AuthUtil.clientSideLogout(); // logout the user if any error arrives
+        AuthUtil.clientSideLogout(); // logout the user if any error arrives
       }
     } else {
-      // AuthUtil.clientSideLogout(); // Logout the user from the client side
+      AuthUtil.clientSideLogout(); // Logout the user from the client side
     }
   });
 

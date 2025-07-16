@@ -1,5 +1,6 @@
 import { getVideoSocket } from "../../config/socketManager";
 import { refreshTokens } from "../../manager";
+import { AuthUtil } from "../../utils";
 
 export const initVideoSocketEvents = () => {
   const videoSocket = getVideoSocket();
@@ -19,10 +20,10 @@ export const initVideoSocketEvents = () => {
           videoSocket.connect();
         })();
       } catch (error) {
-        //AuthUtil.clientSideLogout(); // logout the user if any error arrives
+        AuthUtil.clientSideLogout(); // logout the user if any error arrives
       }
     } else {
-      // AuthUtil.clientSideLogout(); // Logout the user from the client side
+      AuthUtil.clientSideLogout(); // Logout the user from the client side
     }
   });
 };

@@ -63,9 +63,9 @@ const VideoControllerPanel: React.FC<VideoControllerPanelProps> = ({
         /**   Button is disabled only if the user is neither currently in a call nor in the process of connecting;
          *    otherwise, the button is enabled to allow ending or cancelling the call.
          */
-        disabled={!isInCall && !isConnecting}
+        disabled={!isInCall}
         style={{
-          cursor: isInCall || isConnecting ? "pointer" : "not-allowed",
+          cursor: isInCall ? "pointer" : "not-allowed",
         }}
       >
         <PhoneOff size={24} />

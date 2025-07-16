@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import Button from "./Button";
+import Button from "../../../src/components/Button/Button";
 import "@testing-library/jest-dom";
 import { describe, expect, it } from "vitest";
-import { Variant } from "../../types";
+import { Variant } from "../../../src/types";
 
 describe("Button component", () => {
   it("renders with the given text", () => {

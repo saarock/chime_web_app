@@ -17,6 +17,8 @@ const ReportUser = (
   const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
   // Helps to track the loading state
   const [loading, setLoading] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
+
 
 
 
@@ -25,6 +27,10 @@ const ReportUser = (
    * Uses useCallback to memoize the function for performance.
    */
   const handleClick = useCallback(async (type: "like" | "dislike") => {
+    if (isSuccess) {
+      toast.info("You already provided the feedback");
+      return;
+    }
     try {
       setLoading(true);
       if (!reportedUserId) {
@@ -41,13 +47,16 @@ const ReportUser = (
       }
       const data = await userService.reportUser(reportInfo);
       toast.success(data.data.message);
+      setIsSuccess(true);
 
     } catch (err) {
       setErrorMessageFallBack(err);
+      setIsSuccess(false); // If there is any error while reporting make the success false so user can try again
     } finally {
       setLoading(false);
     }
-  }, [ reportedUserId])
+  }, [ reportedUserId, isSuccess]);
+
 
 
 
@@ -56,8 +65,8 @@ const ReportUser = (
       {/* Like Button */}
       <Button
         onClick={() => handleClick("like")}
-        disabled={loading}
-        style={{ cursor: loading ? "not-allowed" : "pointer" }}
+        disabled={loading || isSuccess}
+        style={{ cursor: loading || isSuccess ? "not-allowed" : "pointer" }}
 
       >
         <ThumbsUp className="w-4 h-4" />
@@ -68,8 +77,8 @@ const ReportUser = (
       <Button
         variant={Variant.danger}
         onClick={() => handleClick("dislike")}
-        disabled={loading}
-        style={{ cursor: loading ? "not-allowed" : "pointer" }}
+        disabled={loading || isSuccess}
+        style={{ cursor: loading || isSuccess ? "not-allowed" : "pointer" }}
       >
         <ThumbsDown className="w-4 h-4" />
         Dislike
