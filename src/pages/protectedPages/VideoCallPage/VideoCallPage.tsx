@@ -38,7 +38,7 @@ export default function VideoCallPage() {
     isVideoSocketConnected,
     webTRCDispatch,
     videoSocket,
-    partnerId
+    partnerId,
   } = useWebRTC();
 
   // Authentication state hook
@@ -50,7 +50,6 @@ export default function VideoCallPage() {
 
   // Notification sounds hook
   const { playError, resetSounds } = useNotificationSounds();
-
 
   // Timer ref
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -71,8 +70,7 @@ export default function VideoCallPage() {
   } = state;
 
   // Setting hook
-  const { hideNav, showNav } = useSetting();
-
+  const { hideNav, showNav, hideChimeFooter, showChimeFooter } = useSetting();
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Media Stream Effects
@@ -125,7 +123,6 @@ export default function VideoCallPage() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [endCall]);
 
-
   // ─────────────────────────────────────────────────────────────────────────────
   // Automatically end the "searching for random partner" state after 10 seconds
   // If no new user is found and call hasn't started, end the call and suggest retry
@@ -136,7 +133,9 @@ export default function VideoCallPage() {
       // Start 10-second timeout to auto-end call/search
       timerRef.current = setTimeout(() => {
         endRandomCall(); // End the call/search after timeout
-        setSuccessMessage("Pleased try again call ended automatically in 6 second if no partner found");
+        setSuccessMessage(
+          "Pleased try again call ended automatically in 6 second if no partner found"
+        );
       }, 6000);
     }
 
@@ -152,19 +151,22 @@ export default function VideoCallPage() {
   // ─────────────────────────────────────────────────────────────────────────────
   // Sound's handler
   // ─────────────────────────────────────────────────────────────────────────────
-  const soundHandler = useCallback((isErrorMessage: boolean) => {
-    if (isErrorMessage) {
-      playError();
-    } else {
-      // playSuccess();
-    }
-  }, [errorMessage, successMessage]);
+  const soundHandler = useCallback(
+    (isErrorMessage: boolean) => {
+      if (isErrorMessage) {
+        playError();
+      } else {
+        // playSuccess();
+      }
+    },
+    [errorMessage, successMessage]
+  );
 
   useEffect(() => {
     if (errorMessage && errorMessage.trim() != "") {
-      soundHandler(true); // Error sound 
+      soundHandler(true); // Error sound
     } else if (successMessage && successMessage.trim() != "") {
-      soundHandler(false) // Success sound
+      soundHandler(false); // Success sound
     }
   }, [errorMessage, successMessage]);
 
@@ -191,7 +193,9 @@ export default function VideoCallPage() {
   // Toggle local video track
   const toggleVideo = useCallback(() => {
     if (localStream) {
-      localStream.getVideoTracks().forEach((t) => (t.enabled = !isVideoEnabled));
+      localStream
+        .getVideoTracks()
+        .forEach((t) => (t.enabled = !isVideoEnabled));
       dispatch({ type: "TOGGLE_VIDEO" });
     }
   }, [localStream, isVideoEnabled]);
@@ -199,7 +203,9 @@ export default function VideoCallPage() {
   // Toggle local audio track
   const toggleAudio = useCallback(() => {
     if (localStream) {
-      localStream.getAudioTracks().forEach((t) => (t.enabled = !isAudioEnabled));
+      localStream
+        .getAudioTracks()
+        .forEach((t) => (t.enabled = !isAudioEnabled));
       dispatch({ type: "TOGGLE_AUDIO" });
     }
   }, [localStream, isAudioEnabled]);
@@ -208,8 +214,10 @@ export default function VideoCallPage() {
   const toggleMaximize = useCallback(() => {
     if (isMaximized) {
       showNav();
+      showChimeFooter();
     } else {
-      hideNav()
+      hideNav();
+      hideChimeFooter();
     }
     dispatch({ type: "TOGGLE_MAXIMIZED" });
     const elem = document.documentElement;
@@ -220,11 +228,11 @@ export default function VideoCallPage() {
   // Zoom controls
   const increaseZoom = useCallback(
     () => dispatch({ type: "SET_ZOOM", payload: zoomLevel + 0.1 }),
-    [zoomLevel],
+    [zoomLevel]
   );
   const decreaseZoom = useCallback(
     () => dispatch({ type: "SET_ZOOM", payload: zoomLevel - 0.1 }),
-    [zoomLevel],
+    [zoomLevel]
   );
 
   // Toggle layout between different view styles
@@ -234,7 +242,7 @@ export default function VideoCallPage() {
         type: "SET_LAYOUT",
         payload: layout === "side-by-side" ? "focus-remote" : "side-by-side",
       }),
-    [layout],
+    [layout]
   );
 
   // Fullscreen a specific video element
@@ -243,7 +251,7 @@ export default function VideoCallPage() {
       if (!ref.current) return;
       ref.current.requestFullscreen?.();
     },
-    [],
+    []
   );
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -261,7 +269,6 @@ export default function VideoCallPage() {
   const setSuccessMessage = useCallback((message: string) => {
     webTRCDispatch({ type: "SET_SUCCESS_MESSAGE", payload: message });
   }, []);
-
 
   // ─────────────────────────────────────────────────────────────────────────────
   // Render Logic
@@ -296,65 +303,66 @@ export default function VideoCallPage() {
         <div className={`chime-video-grid layout-${layout}`}>
           {/* Local Video Stream Box */}
           <VideoBox
-            stream={localStream}                          // Local user's MediaStream
-            refObject={localVideoRef}                     // Ref to bind to video element
-            label="You"                                   // Label to show on the video
-            isActive={true}                               // Always active for local
-            isLocalVideoEnabled={isVideoEnabled}          // Show/hide video track icon
-            isLocalAudioEnabled={isAudioEnabled}          // Show/hide audio track icon
-            isConnecting={false}                          // Local is never "connecting"
-            isInCall={isInCall}                           // Flag: is in active call
-            zoomLevel={zoomLevel}                         // Zoom level for display
-            layout={layout}                               // Layout type
+            stream={localStream} // Local user's MediaStream
+            refObject={localVideoRef} // Ref to bind to video element
+            label="You" // Label to show on the video
+            isActive={true} // Always active for local
+            isLocalVideoEnabled={isVideoEnabled} // Show/hide video track icon
+            isLocalAudioEnabled={isAudioEnabled} // Show/hide audio track icon
+            isConnecting={false} // Local is never "connecting"
+            isInCall={isInCall} // Flag: is in active call
+            zoomLevel={zoomLevel} // Zoom level for display
+            layout={layout} // Layout type
             onFullscreen={() => toggleFullScreenElem(localVideoRef)} // Toggle fullscreen
           />
 
           {/* Remote Video Stream Box */}
           <VideoBox
-            stream={remoteStream}                         // Remote peer's MediaStream
-            refObject={remoteVideoRef}                    // Ref for remote video element
-            label="Remote User"                           // Display label
-            isActive={true}                               // If stream is live
-            isRemoteAudioEnable={isRemoteAudioEnable}     // Audio status from remote
-            isRemoteVideoEnable={isRemoteVideoEnable}     // Video status from remote
-            isLocalVideoEnabled={isVideoEnabled}          // For video layout symmetry
-            isConnecting={isConnecting}                   // If still connecting to remote
-            isInCall={isInCall}                           // If call is active
-            zoomLevel={zoomLevel}                         // Zoom level for remote
-            layout={layout}                               // Layout styling
+            stream={remoteStream} // Remote peer's MediaStream
+            refObject={remoteVideoRef} // Ref for remote video element
+            label="Remote User" // Display label
+            isActive={true} // If stream is live
+            isRemoteAudioEnable={isRemoteAudioEnable} // Audio status from remote
+            isRemoteVideoEnable={isRemoteVideoEnable} // Video status from remote
+            isLocalVideoEnabled={isVideoEnabled} // For video layout symmetry
+            isConnecting={isConnecting} // If still connecting to remote
+            isInCall={isInCall} // If call is active
+            zoomLevel={zoomLevel} // Zoom level for remote
+            layout={layout} // Layout styling
             onFullscreen={() => toggleFullScreenElem(remoteVideoRef)} // Toggle fullscreen
-            connectedTo={successMessage ?? undefined}     // Optional: Show connected user
+            connectedTo={successMessage ?? undefined} // Optional: Show connected user
           />
         </div>
 
         {/* Control panels */}
         <div
-          className={`chime-controls-container ${isMaximized ? `chime-controls-container-${layout}` : ""
-            }`}
+          className={`chime-controls-container ${
+            isMaximized ? `chime-controls-container-${layout}` : ""
+          }`}
         >
           {/* Primary Controls: Mic, Camera, Call, Retry */}
           <VideoControllerPanel
-            isRemoteStream={!!remoteStream}               // Only show if remote exists
-            isInCall={isInCall}                           // True when user is in the call other-wise false
-            toggleAudio={toggleAudio}                     // Toggle local mic
-            toggleVideo={toggleVideo}                     // Toggle local camera
-            isVideoEnabled={isVideoEnabled}               // Current video state
-            isAudioEnabled={isAudioEnabled}               // Current audio state
-            endRandomCall={endRandomCall}                 // End current call
-            handleRandomCall={handleRandomCall}           // Retry or start new call
-            isConnecting={isConnecting}                   // If searching for user
-            isSocketIsConnected={isVideoSocketConnected}  // Custom logic socket state
+            isRemoteStream={!!remoteStream} // Only show if remote exists
+            isInCall={isInCall} // True when user is in the call other-wise false
+            toggleAudio={toggleAudio} // Toggle local mic
+            toggleVideo={toggleVideo} // Toggle local camera
+            isVideoEnabled={isVideoEnabled} // Current video state
+            isAudioEnabled={isAudioEnabled} // Current audio state
+            endRandomCall={endRandomCall} // End current call
+            handleRandomCall={handleRandomCall} // Retry or start new call
+            isConnecting={isConnecting} // If searching for user
+            isSocketIsConnected={isVideoSocketConnected} // Custom logic socket state
             isVideoSocketConnected={!!videoSocket?.connected} // True socket state
           />
 
           {/* Advanced Controls: Maximize, Zoom, Layout */}
           <VideoAdvanceController
-            toggleMaximize={toggleMaximize}               // Fullscreen the page
-            isMaximized={isMaximized}                     // Fullscreen flag
-            increaseZoom={increaseZoom}                   // Zoom in
-            decreaseZoom={decreaseZoom}                   // Zoom out
-            cycleLayout={cycleLayout}                     // Toggle layout view
-            layout={layout}                               // Current layout
+            toggleMaximize={toggleMaximize} // Fullscreen the page
+            isMaximized={isMaximized} // Fullscreen flag
+            increaseZoom={increaseZoom} // Zoom in
+            decreaseZoom={decreaseZoom} // Zoom out
+            cycleLayout={cycleLayout} // Toggle layout view
+            layout={layout} // Current layout
           />
         </div>
       </div>
