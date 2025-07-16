@@ -7,7 +7,7 @@ class AuthUtil {
     // clear the localstorage data
     localStorageUtil.clear();
     // cookieUtil.clear();
-    location.pathname = "/login";
+    location.pathname = "/";
   }
 }
 

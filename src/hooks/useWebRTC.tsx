@@ -82,7 +82,6 @@ const useWebRTC = () => {
     })();
   }, []);
 
-
   // Run once on mount
   useEffect(() => {
     // Ensure prerequisites are met
@@ -162,11 +161,12 @@ const useWebRTC = () => {
 
   // On localStream ready, initialize peer and clean up on unmount
   useEffect(() => {
+    
     if (!localStream) return;
     cleanupPeerConnection();
     getOrCreatePeerConnection();
 
-    return () => {
+    return () => {      
       peerConnection.current?.close();
       peerConnection.current = null;
       webTRCDispatch({ type: "SET_REMOTE_STREAM", payload: null });
