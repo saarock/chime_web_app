@@ -7,7 +7,6 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   width: 220px;
   padding: 10px 0;
-  z-index: 999;
   transition: all 0.3s ease-in-out;
   background: linear-gradient(
     145deg,

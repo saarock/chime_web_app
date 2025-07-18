@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi, afterEach } from "vitest";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { useAuth } from "../../hooks";
-import ChimeProfileComponent from "../ChimeProfileComponent/ChimeProfileComponent";
+import { useAuth } from "../../../src/hooks";
+import ChimeProfileComponent from "../../../src/components/ChimeProfileComponent/ChimeProfileComponent";
 import { JSX } from "react";
 
 // 👇 Mock useAuth

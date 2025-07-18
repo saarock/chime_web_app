@@ -1,12 +1,6 @@
 // Import all the necessary dependencies here
 import React, { JSX } from "react";
-import {
-  FaTwitter,
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaGithub,
-} from "react-icons/fa";
+import { FaTwitter, FaLinkedinIn, FaGithub } from "react-icons/fa";
 import "../../styles/components/Footer.css";
 import { SimpleFooterProps } from "../../types";
 import useSetting from "../../hooks/useSetting";
@@ -25,30 +19,20 @@ const Footer: React.ComponentType<SimpleFooterProps> = ({
   socialLinks = [
     {
       name: "Twitter",
-      url: "https://twitter.com/saarock",
+      url: "https://x.com/saarock4646",
       icon: <FaTwitter />,
     },
     {
-      name: "Facebook",
-      url: "https://facebook.com/saarock",
-      icon: <FaFacebookF />,
-    },
-    {
-      name: "Instagram",
-      url: "https://instagram.com/saarock",
-      icon: <FaInstagram />,
-    },
-    {
       name: "LinkedIn",
-      url: "https://linkedin.com/company/saarock",
+      url: "https://www.linkedin.com/in/aayush-basnet-885ab9267/",
       icon: <FaLinkedinIn />,
     },
     { name: "GitHub", url: "https://github.com/saarock", icon: <FaGithub /> },
   ],
 }): JSX.Element => {
   const { isShowFooter } = useSetting();
-
   const currentYear = new Date().getFullYear();
+
   return (
     <>
       {isShowFooter && (
