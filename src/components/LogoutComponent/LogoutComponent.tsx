@@ -44,7 +44,7 @@ const LogoutComponent: React.ComponentType = (): JSX.Element => {
 
       
       // If user confrim then also Delay the logout give option to the user cancle logout for some second
-      await delay(2000);
+      // await delay(2000);
 
       // React-redux async action to logout the user from the server side and client side
       await dispatch(logoutUserFromServer(user._id)).unwrap();
