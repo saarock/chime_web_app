@@ -464,6 +464,7 @@ const useWebRTC = () => {
    */
   const handleOnlineUsersCount = useCallback(
     ({ count }: { count: number }) => {
+      alert(count)
       webTRCDispatch({ type: "SET_ONLINE_USERS_COUNT", payload: count });
     },
     [videoSocket]

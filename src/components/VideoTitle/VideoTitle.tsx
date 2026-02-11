@@ -7,8 +7,6 @@ import { ChevronDown, Menu, MessageSquare, XCircle } from "lucide-react";
 import VideoFilters from "../VideoFilters/VideoFilters";
 import { useAuth } from "../../hooks";
 import ChimeUserInfoModal from "../ChimeUserInfoModal/ChimeUserInfoModal";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../apps/store";
 import { FeedbackForm, FeedbackFormData } from "../FeedBackForm/FeedBackForm";
 import { feedBackService } from "../../services";
 import VideoErrorToast from "../VideoErrorToast/VideoErrorToast";
@@ -30,7 +28,6 @@ const VideoTitle: React.FC<VideoTitleProps> = ({
   const [showFilters, setShowFilters] = useState(false); // Controls visibility of filter dropdown
   const { user } = useAuth(); // Custom hook to get authenticated user
   const [isHaveToFillDetails, setIsHaveToFillDetails] = useState<boolean>(false); // Show modal if required user info is missing
-  const dispatch = useDispatch<AppDispatch>(); // Redux dispatcher
   const [isUserWantToGiveFeedBack, setIsUserWantToGiveFeedBack] = useState<boolean>(false); // Toggle feedback form
   const [showTitle, setShowTitle] = useState<boolean>(true);
   /**
