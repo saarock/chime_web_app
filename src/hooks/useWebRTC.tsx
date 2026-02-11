@@ -464,7 +464,6 @@ const useWebRTC = () => {
    */
   const handleOnlineUsersCount = useCallback(
     ({ count }: { count: number }) => {
-      alert(count)
       webTRCDispatch({ type: "SET_ONLINE_USERS_COUNT", payload: count });
     },
     [videoSocket]
@@ -602,6 +601,8 @@ const useWebRTC = () => {
       return;
     }
 
+
+
     webTRCDispatch({
       type: "SET_SUCCESS_MESSAGE",
       payload: "Searching partner...",
@@ -620,7 +621,7 @@ const useWebRTC = () => {
     } else {
       cleanupPeerConnection();
       getOrCreatePeerConnection();
-      // alert("I am starting the random call")
+      
       videoSocket.emit("start:random-video-call", {
         userDetails: {
           // Use filters.age if defined and not "any";

@@ -9,7 +9,7 @@ let videoSocket: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
  */
 export const initChatSocket = () => {
   if (!chatSocket) {
-    chatSocket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:8000/chat", {
+    chatSocket = io(`${import.meta.env.VITE_SOCKET_URL}/chat` || "http://localhost:8000/chat", {
       autoConnect: false,
       withCredentials: true,
     });
@@ -20,7 +20,7 @@ export const initChatSocket = () => {
 
 export const initVideoSocket = () => {
   if (!videoSocket) {
-    videoSocket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:8000/video", {
+    videoSocket = io(`${import.meta.env.VITE_SOCKET_URL}/video` || "http://localhost:8000/video", {
       autoConnect: false,
       withCredentials: true,
     });
