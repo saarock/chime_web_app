@@ -4,7 +4,6 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import {
   useAuth,
-  useDelay,
   useErrorHandlerAtPageAndComponentLevel,
 } from "../../hooks";
 import { logoutUserFromServer, setError } from "../../features/auth/userSlice";
@@ -21,7 +20,6 @@ const LogoutComponent: React.ComponentType = (): JSX.Element => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, isLoading } = useAuth();
   const { setErrorMessageFallBack } = useErrorHandlerAtPageAndComponentLevel();
-  const { delay } = useDelay();
 
   /**
    * async function to handel the logout from the cliet side

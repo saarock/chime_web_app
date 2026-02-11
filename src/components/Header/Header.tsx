@@ -15,7 +15,7 @@ import {
   FaUserPlus,
   FaVideo,
 } from "react-icons/fa";
-import { useLocation, NavLink, useNavigate } from "react-router-dom";
+import { useLocation, NavLink } from "react-router-dom";
 import { tabInitialState, tabReducer } from "../../reducers";
 import "../../styles/components/Header.css";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
@@ -33,7 +33,6 @@ const ProfileHeader = lazy(() => import("./ProfileHeader"));
 const Header: React.ComponentType = (): JSX.Element | null => {
   // Hooks goes here
   const location = useLocation();
-  const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const [state, dispatch] = useReducer(tabReducer, tabInitialState);
   const loadingBarRef = useRef<any>(null); // ✅ ref for loading bar

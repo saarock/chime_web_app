@@ -2,7 +2,7 @@ import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useState } from "react"
-import { Star, Send, MessageSquare, ThumbsUp, ThumbsDown, Heart, Zap, Camera, Users, Cross, CrossIcon, X } from "lucide-react"
+import { Star, Send, MessageSquare, ThumbsUp, ThumbsDown, Heart, Zap, Camera, Users, X} from "lucide-react"
 import "../../styles/components/FeedbackForm.css";
 import Button from "../Button/Button"
 import { Variant } from "../../types"

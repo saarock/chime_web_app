@@ -119,7 +119,7 @@ export function ChimeTalkLogo({
       // Draw random connection lines
       randomConnections.forEach((connection, index) => {
         const time = (Date.now() / 1000 + connection.delay) % connection.duration
-        const progress = time / connection.duration
+  
 
         // Calculate dynamic positions
         const x1 = connection.x1 + Math.sin(time * 2) * 10

@@ -26,7 +26,7 @@ const VideoControllerPanel: React.FC<VideoControllerPanelProps> = ({
   endRandomCall,       // Ends the current call
   handleRandomCall,    // Starts a new random call
   isConnecting,        // Whether the app is currently trying to connect
-  isRemoteStream,      // Whether a remote stream is active (i.e., in a call)
+        // Whether a remote stream is active (i.e., in a call)
   isSocketIsConnected, // Whether a socket is connected
   isVideoSocketConnected,   // Helps to check the socket is connected to the server or not for the saftey
   isInCall,                      // True when user is in the call other-wise false
