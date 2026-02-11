@@ -6,17 +6,17 @@ import { useAuth } from "../../../src/hooks";
 import ChimeProfileComponent from "../../../src/components/ChimeProfileComponent/ChimeProfileComponent";
 import { JSX } from "react";
 
-// 👇 Mock useAuth
+
 vi.mock("../../hooks", () => ({
   useAuth: vi.fn(),
 }));
 
-// 👇 Mock LoadingComponent
+
 vi.mock("../LoadingComponent/LoadingComponent", () => ({
   default: () => <div>Loading...</div>,
 }));
 
-// 👇 Mock components that likely use Redux (fixes Provider error)
+
 vi.mock("../ChimeUserInfoModal/ChimeUserInfoModal", () => ({
   default: () => <div>Mock Modal</div>,
 }));
@@ -27,7 +27,7 @@ vi.mock("../Button/Button", () => ({
   ),
 }));
 
-// ✅ Create mock Redux store with a no-op reducer
+
 const mockStore = configureStore({
   reducer: () => ({}),
 });
@@ -88,7 +88,7 @@ describe("This test helps to test the chimeProfile component", () => {
     });
 
     const { container } = renderWithProvider(<ChimeProfileComponent />);
-    // ✅ safer assertion for an empty DOM element
+    // safer assertion for an empty DOM element
     expect(container.innerHTML.trim()).toBe("");
   });
 });
